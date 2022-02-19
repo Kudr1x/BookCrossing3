@@ -12,7 +12,7 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="max51.com.vk.bookcrossing.ui.Fragment2"
+        android:name="max51.com.vk.bookcrossing.ui.f2.Fragment2"
         tools:layout="@layout/fragment_2" />
 
     <fragment
