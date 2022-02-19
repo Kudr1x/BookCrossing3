@@ -1,22 +1,362 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
     tools:context=".ui.f2.Fragment2">
 
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <SearchView
+                android:id="@+id/searchView"
+                android:layout_width="300dp"
+                android:layout_height="match_parent"
+                android:gravity="start"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+            </SearchView>
+
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@android:color/black"
+                android:drawableBottom="@drawable/ic_menu"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/searchView"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="SpeakableTextPresentCheck">
+
+            </Button>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_marginTop="60dp"
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-        </androidx.recyclerview.widget.RecyclerView>
-    </LinearLayout>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-</RelativeLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="10dp"
+                android:text="Обновления"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.048"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+
+           <GridLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:columnCount="2"
+               android:layout_margin="5dp"
+               android:layout_gravity="fill"
+               android:useDefaultMargins="true"
+               android:columnOrderPreserved="false">
+
+               <androidx.cardview.widget.CardView
+                   android:layout_width="180dp"
+                   android:layout_height="220dp"
+                   app:cardCornerRadius="15dp"
+                   app:cardElevation="5dp"
+                   android:layout_margin="10dp">
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:orientation="vertical"
+                       android:gravity="center">
+                       <ImageView
+                           android:layout_width="match_parent"
+                           android:layout_height="180dp"
+                           android:src="@color/teal_200">
+                       </ImageView>
+                       <TextView
+                           android:layout_marginStart="5dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="20dp"
+                           android:text="Продам гараж">
+                       </TextView>
+
+                       <TextView
+                           android:layout_marginStart="5dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="20dp"
+                           android:text="Уфа">
+                       </TextView>
+                   </LinearLayout>
+               </androidx.cardview.widget.CardView>
+
+               <androidx.cardview.widget.CardView
+                   android:layout_width="180dp"
+                   android:layout_height="220dp"
+                   app:cardCornerRadius="15dp"
+                   app:cardElevation="5dp"
+                   android:layout_margin="10dp">
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:orientation="vertical"
+                       android:gravity="center">
+                       <ImageView
+                           android:layout_width="match_parent"
+                           android:layout_height="180dp"
+                           android:src="@color/teal_200">
+                       </ImageView>
+                       <TextView
+                           android:layout_marginStart="5dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="20dp"
+                           android:text="Продам гараж">
+                       </TextView>
+
+                       <TextView
+                           android:layout_marginStart="5dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="20dp"
+                           android:text="Уфа">
+                       </TextView>
+                   </LinearLayout>
+               </androidx.cardview.widget.CardView>
+
+               <androidx.cardview.widget.CardView
+                   android:layout_width="180dp"
+                   android:layout_height="220dp"
+                   app:cardCornerRadius="15dp"
+                   app:cardElevation="5dp"
+                   android:layout_margin="10dp">
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:orientation="vertical"
+                       android:gravity="center">
+                       <ImageView
+                           android:layout_width="match_parent"
+                           android:layout_height="180dp"
+                           android:src="@color/teal_200">
+                       </ImageView>
+                       <TextView
+                           android:layout_marginStart="5dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="20dp"
+                           android:text="Продам гараж">
+                       </TextView>
+
+                       <TextView
+                           android:layout_marginStart="5dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="20dp"
+                           android:text="Уфа">
+                       </TextView>
+                   </LinearLayout>
+               </androidx.cardview.widget.CardView>
+
+               <androidx.cardview.widget.CardView
+                   android:layout_width="180dp"
+                   android:layout_height="220dp"
+                   app:cardCornerRadius="15dp"
+                   app:cardElevation="5dp"
+                   android:layout_margin="10dp">
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:orientation="vertical"
+                       android:gravity="center">
+                       <ImageView
+                           android:layout_width="match_parent"
+                           android:layout_height="180dp"
+                           android:src="@color/teal_200">
+                       </ImageView>
+                       <TextView
+                           android:layout_marginStart="5dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="20dp"
+                           android:text="Продам гараж">
+                       </TextView>
+
+                       <TextView
+                           android:layout_marginStart="5dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="20dp"
+                           android:text="Уфа">
+                       </TextView>
+                   </LinearLayout>
+               </androidx.cardview.widget.CardView>
+
+               <androidx.cardview.widget.CardView
+                   android:layout_width="180dp"
+                   android:layout_height="220dp"
+                   app:cardCornerRadius="15dp"
+                   app:cardElevation="5dp"
+                   android:layout_margin="10dp">
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:orientation="vertical"
+                       android:gravity="center">
+                       <ImageView
+                           android:layout_width="match_parent"
+                           android:layout_height="180dp"
+                           android:src="@color/teal_200">
+                       </ImageView>
+                       <TextView
+                           android:layout_marginStart="5dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="20dp"
+                           android:text="Продам гараж">
+                       </TextView>
+
+                       <TextView
+                           android:layout_marginStart="5dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="20dp"
+                           android:text="Уфа">
+                       </TextView>
+                   </LinearLayout>
+               </androidx.cardview.widget.CardView>
+
+               <androidx.cardview.widget.CardView
+                   android:layout_width="180dp"
+                   android:layout_height="220dp"
+                   app:cardCornerRadius="15dp"
+                   app:cardElevation="5dp"
+                   android:layout_margin="10dp">
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:orientation="vertical"
+                       android:gravity="center">
+                       <ImageView
+                           android:layout_width="match_parent"
+                           android:layout_height="180dp"
+                           android:src="@color/teal_200">
+                       </ImageView>
+                       <TextView
+                           android:layout_marginStart="5dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="20dp"
+                           android:text="Продам гараж">
+                       </TextView>
+
+                       <TextView
+                           android:layout_marginStart="5dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="20dp"
+                           android:text="Уфа">
+                       </TextView>
+                   </LinearLayout>
+               </androidx.cardview.widget.CardView>
+
+               <androidx.cardview.widget.CardView
+                   android:layout_width="180dp"
+                   android:layout_height="220dp"
+                   app:cardCornerRadius="15dp"
+                   app:cardElevation="5dp"
+                   android:layout_margin="10dp">
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:orientation="vertical"
+                       android:gravity="center">
+                       <ImageView
+                           android:layout_width="match_parent"
+                           android:layout_height="180dp"
+                           android:src="@color/teal_200">
+                       </ImageView>
+                       <TextView
+                           android:layout_marginStart="5dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="20dp"
+                           android:text="Продам гараж">
+                       </TextView>
+
+                       <TextView
+                           android:layout_marginStart="5dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="20dp"
+                           android:text="Уфа">
+                       </TextView>
+                   </LinearLayout>
+               </androidx.cardview.widget.CardView>
+
+               <androidx.cardview.widget.CardView
+                   android:layout_width="180dp"
+                   android:layout_height="220dp"
+                   app:cardCornerRadius="15dp"
+                   app:cardElevation="5dp"
+                   android:layout_margin="10dp">
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:orientation="vertical"
+                       android:gravity="center">
+                       <ImageView
+                           android:layout_width="match_parent"
+                           android:layout_height="180dp"
+                           android:src="@color/teal_200">
+                       </ImageView>
+                       <TextView
+                           android:layout_marginStart="5dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="20dp"
+                           android:text="Продам гараж">
+                       </TextView>
+
+                       <TextView
+                           android:layout_marginStart="5dp"
+                           android:layout_width="match_parent"
+                           android:layout_height="20dp"
+                           android:text="Уфа">
+                       </TextView>
+                   </LinearLayout>
+               </androidx.cardview.widget.CardView>
+
+           </GridLayout>
+
+            <Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+            </Toolbar>
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

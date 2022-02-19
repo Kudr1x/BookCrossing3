@@ -13,11 +13,11 @@ import java.util.List;
 
 import max51.com.vk.bookcrossing.R;
 
-public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.ImageHelper> {
+public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.ImageHelper> {
 
    List<Bitmap> bitmapList;
 
-    public ViewPagerAdapter(List<Bitmap> bitmapList) {
+    public HorizontalAdapter(List<Bitmap> bitmapList) {
         this.bitmapList = bitmapList;
     }
 
