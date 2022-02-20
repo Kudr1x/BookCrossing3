@@ -22,7 +22,6 @@ import max51.com.vk.bookcrossing.R;
 
 
 public class Fragment2 extends Fragment {
-
     private HorizontalAdapter horizontalAdapter;
     RecyclerView viewPager;
     List<Bitmap> bitmapList = new ArrayList<Bitmap>();
@@ -58,7 +57,4 @@ public class Fragment2 extends Fragment {
         snapHelper.attachToRecyclerView(viewPager);
 
     }
-
-
-
 }

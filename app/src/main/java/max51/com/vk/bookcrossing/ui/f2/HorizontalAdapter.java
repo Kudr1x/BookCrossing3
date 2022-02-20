@@ -25,7 +25,7 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Im
     @Override
     public ImageHelper onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.rows_movie,parent,false);
+        View view = layoutInflater.inflate(R.layout.horizontal_item,parent,false);
         return new ImageHelper(view);
     }
 
