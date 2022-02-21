@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,12 +24,25 @@ import max51.com.vk.bookcrossing.R;
 
 public class Fragment2 extends Fragment {
     private HorizontalAdapter horizontalAdapter;
+    private gridAdapter gridAdapter;
     RecyclerView viewPager;
     List<Bitmap> bitmapList = new ArrayList<Bitmap>();
+    GridView grid;
+
+    int im[]= {
+        R.color.purple_200,
+        R.color.purple_200,
+        R.color.purple_200
+    };
+
+    String str1[] = {"Test1", "Test2", "Test3"};
+
+    String str2[] = {"Test4", "Test5", "Test6"};
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_2, container, false);
+
     }
 
     @Override
@@ -39,22 +53,28 @@ public class Fragment2 extends Fragment {
 
         bitmapList.add(movie1);
         bitmapList.add(movie2);
-
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewPager = view.findViewById(R.id.viewpager);
+        grid = view.findViewById(R.id.grid_view);
+        gridAdapter = new gridAdapter(im,str1, str2,getContext());
+        grid.setAdapter(gridAdapter);
+
 
         horizontalAdapter = new HorizontalAdapter(bitmapList);
-
+        viewPager = view.findViewById(R.id.viewpager);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         viewPager.setLayoutManager(layoutManager);
         viewPager.setAdapter(horizontalAdapter);
+
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(viewPager);
+
+
+
 
     }
 }

@@ -19,4 +19,9 @@
         android:id="@+id/navigation_notifications"
         android:name="max51.com.vk.bookcrossing.ui.Fragment3"
         tools:layout="@layout/fragment_3" />
+    <fragment
+        android:id="@+id/loginFragment2"
+        android:name="max51.com.vk.bookcrossing.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
 </navigation>
