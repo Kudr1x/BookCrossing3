@@ -10,13 +10,13 @@ import android.widget.TextView;
 
 import max51.com.vk.bookcrossing.R;
 
-public class gridAdapter extends BaseAdapter {
-    private final int image[];
+public class VerticalAdapter extends BaseAdapter {
+    private final int[] image;
     private final String[] text1;
     private final String[] text2;
     Context context;
 
-    public gridAdapter(int[] image, String[] text1, String[] text2, Context context) {
+    public VerticalAdapter(int[] image, String[] text1, String[] text2, Context context) {
         this.image = image;
         this.text1 = text1;
         this.text2 = text2;

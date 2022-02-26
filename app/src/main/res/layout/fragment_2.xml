@@ -68,6 +68,12 @@
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"/>
 
+            <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center">
+            </ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator>
+
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
@@ -84,7 +90,7 @@
             <GridView
                 android:id="@+id/grid_view"
                 android:layout_width="match_parent"
-                android:layout_height="600dp"
+                android:layout_height="900dp"
                 android:gravity="center"
                 android:padding="4dp"
                 android:scrollbars="none"
@@ -92,11 +98,6 @@
                 android:layout_gravity="center"
                 android:numColumns="2">
             </GridView>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="600dp">
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
