@@ -7,25 +7,22 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import java.util.List;
 
 import max51.com.vk.bookcrossing.R;
 
 public class VerticalAdapter extends BaseAdapter {
-    private final int[] image;
-    private final String[] text1;
-    private final String[] text2;
+    List<gridElement>  element;
     Context context;
 
-    public VerticalAdapter(int[] image, String[] text1, String[] text2, Context context) {
-        this.image = image;
-        this.text1 = text1;
-        this.text2 = text2;
+    public VerticalAdapter(List<gridElement> element, Context context) {
+        this.element = element;
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return image.length;
+        return element.size();
     }
 
     @Override
@@ -47,9 +44,9 @@ public class VerticalAdapter extends BaseAdapter {
         TextView tv1 = view.findViewById(R.id.text1);
         TextView tv2 = view.findViewById(R.id.text2);
 
-        img.setImageResource(image[position]);
-        tv1.setText(text1[position]);
-        tv2.setText(text2[position]);
+        img.setImageResource(element.get(position).image);
+        tv1.setText(element.get(position).s1);
+        tv2.setText(element.get(position).s2);
 
         return view;
     }

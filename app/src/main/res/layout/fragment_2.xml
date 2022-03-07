@@ -56,7 +56,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -68,19 +68,12 @@
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"/>
 
-            <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
-                android:layout_width="40dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center">
-            </ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator>
-
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="8dp"
-                android:text="Обновления"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.048"
@@ -90,7 +83,7 @@
             <GridView
                 android:id="@+id/grid_view"
                 android:layout_width="match_parent"
-                android:layout_height="900dp"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:padding="4dp"
                 android:scrollbars="none"

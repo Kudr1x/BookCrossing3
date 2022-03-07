@@ -32,7 +32,8 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Im
     @Override
     public void onBindViewHolder(@NonNull ImageHelper holder, int position) {
             Bitmap bitmap = bitmapList.get(position);
-         holder.moviewImage.setImageBitmap(bitmap);
+         holder.Image.setImageBitmap(bitmap);
+         //qq
     }
 
     @Override
@@ -40,11 +41,11 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Im
         return bitmapList.size();
     }
 
-    class  ImageHelper extends RecyclerView.ViewHolder{
-        ImageView moviewImage;
+    static class  ImageHelper extends RecyclerView.ViewHolder{
+        ImageView Image;
         public ImageHelper(@NonNull View itemView) {
             super(itemView);
-            moviewImage = itemView.findViewById(R.id.movieImage);
+            Image = itemView.findViewById(R.id.movieImage);
         }
     }
 }

@@ -1,13 +1,14 @@
 package max51.com.vk.bookcrossing.ui.f2;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,22 +20,12 @@ import androidx.recyclerview.widget.SnapHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import max51.com.vk.bookcrossing.MainActivity;
 import max51.com.vk.bookcrossing.R;
-import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator;
-
 
 public class Fragment2 extends Fragment {
-    private HorizontalAdapter horizontalAdapter;
-    private VerticalAdapter gridAdapter;
-    RecyclerView viewPager;
-    List<Bitmap> bitmapList = new ArrayList<Bitmap>();
-    GridView grid;
-
-    int im[]= {R.color.purple_200, R.color.purple_200, R.color.purple_200, R.color.purple_200, R.color.purple_200};
-
-    String str1[] = {"Test1", "Test2", "Test3", "test7", "Продам гараж"};
-
-    String str2[] = {"Test4", "Test5", "Test6", "test8", "120000 руб"};
+    private final List<Bitmap> bitmapList = new ArrayList<>();
+    private final ArrayList<gridElement> gridElements = new ArrayList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,35 +36,30 @@ public class Fragment2 extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
-        Bitmap movie1 = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.red);
-        Bitmap movie2 = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.red);
+        gridElements.add(new gridElement( "Test1","Test2", R.color.purple_200));
+        gridElements.add(new gridElement( "Test3","Test4", R.color.purple_200));
+        gridElements.add(new gridElement( "Test5","Test6", R.color.purple_200));
 
-        bitmapList.add(movie1);
-        bitmapList.add(movie2);
+        bitmapList.add(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.red));
+        bitmapList.add(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.red));
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        grid = view.findViewById(R.id.grid_view);
-        gridAdapter = new VerticalAdapter(im,str1, str2,getContext());
+        GridView grid = view.findViewById(R.id.grid_view);
+        VerticalAdapter gridAdapter = new VerticalAdapter(gridElements, getContext());
         grid.setAdapter(gridAdapter);
 
 
-        horizontalAdapter = new HorizontalAdapter(bitmapList);
-        viewPager = view.findViewById(R.id.viewpager);
+        RecyclerView viewPager = view.findViewById(R.id.viewpager);
+        HorizontalAdapter horizontalAdapter = new HorizontalAdapter(bitmapList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         viewPager.setLayoutManager(layoutManager);
         viewPager.setAdapter(horizontalAdapter);
 
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(viewPager);
-
-        Context context = getContext();
-
-        ScrollingPagerIndicator spi = new ScrollingPagerIndicator(context);
-
-        spi.attachToRecyclerView(viewPager);
     }
 }
