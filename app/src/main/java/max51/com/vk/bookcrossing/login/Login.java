@@ -1,5 +1,7 @@
-package max51.com.vk.bookcrossing.ui.login;
+package max51.com.vk.bookcrossing.login;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -23,6 +25,9 @@ import max51.com.vk.bookcrossing.R;
 public class Login extends Fragment{
 
     private FirebaseAuth mAuth;
+    private String userEmail;
+    private String userPassword;
+    private SharedPreferences sPref;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,15 +41,25 @@ public class Login extends Fragment{
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        mAuth = FirebaseAuth.getInstance();
+        sPref = getContext().getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
+        userEmail = sPref.getString("email", "");
+        userPassword = sPref.getString("password", "");
+
+        if(userEmail != ""){
+            mAuth.signInWithEmailAndPassword(userEmail, userPassword);
+            Navigation.findNavController(view).navigate(R.id.action_login_to_mainActivity);
+        }
+
+
         EditText emailEditText = (EditText) getView().findViewById(R.id.editTextTextEmailAddress);
         EditText passwordEditText = (EditText) getView().findViewById(R.id.editTextTextPassword);
         Button btLog = (Button) getView().findViewById(R.id.buttonLogin);
 
-        mAuth = FirebaseAuth.getInstance();
 
         TextView regText = (TextView) getView().findViewById(R.id.reg);
 
-        regText.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_loginFragment_to_registerFragment));
+        regText.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_login_to_register));
 
         btLog.setOnClickListener(view12 -> {
             String email = emailEditText.getText().toString().trim();
@@ -77,11 +92,17 @@ public class Login extends Fragment{
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if(task.isSuccessful()){
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    Navigation.findNavController(view12).navigate(R.id.action_loginFragment_to_navigation_dashboard);
+                    sPref = getContext().getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sPref.edit();
+                    editor.putString("email", email);
+                    editor.putString("password", password);
+                    editor.apply();
+                    Navigation.findNavController(view12).navigate(R.id.action_login_to_mainActivity);
                 }else {
                     Snackbar.make(view12, "Ошибка входа. Проверьте данные", Snackbar.LENGTH_LONG).show();
                 }
             });
         });
     }
+
 }

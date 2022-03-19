@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/navigation_home">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -20,24 +20,4 @@
         android:name="max51.com.vk.bookcrossing.ui.Fragment3"
         tools:layout="@layout/fragment_3" />
 
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="max51.com.vk.bookcrossing.ui.login.Login"
-        tools:layout="@layout/fragment_login" >
-        <action
-            android:id="@+id/action_loginFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_navigation_dashboard"
-            app:destination="@id/navigation_dashboard" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/registerFragment"
-        android:name="max51.com.vk.bookcrossing.ui.login.Register"
-        tools:layout="@layout/fragment_register" >
-        <action
-            android:id="@+id/action_registerFragment_to_navigation_dashboard"
-            app:destination="@id/navigation_dashboard" />
-    </fragment>
 </navigation>

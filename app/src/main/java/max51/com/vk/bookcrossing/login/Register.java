@@ -1,4 +1,4 @@
-package max51.com.vk.bookcrossing.ui.login;
+package max51.com.vk.bookcrossing.login;
 
 import android.os.Bundle;
 import android.util.Patterns;
@@ -18,7 +18,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import max51.com.vk.bookcrossing.R;
-import max51.com.vk.bookcrossing.User;
 
 public class Register extends Fragment {
 
@@ -85,7 +84,7 @@ public class Register extends Fragment {
                     FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnCompleteListener(task1 -> {
                         if(task1.isSuccessful()){
                             Snackbar.make(getView(), "Регистрация успешно завершена", Snackbar.LENGTH_LONG).show();
-                            Navigation.findNavController(view1).navigate(R.id.action_registerFragment_to_navigation_dashboard);
+                            Navigation.findNavController(view).navigate(R.id.action_register_to_mainActivity);
                         }else{
                             Snackbar.make(getView(), "Ошибка", Snackbar.LENGTH_LONG).show();
                         }
@@ -94,8 +93,6 @@ public class Register extends Fragment {
                     Snackbar.make(getView(), "Ошибка", Snackbar.LENGTH_LONG).show();
                 }
             });
-
         });
-
     }
 }

@@ -6,7 +6,8 @@
         <entry key="../../../../layout/custom_preview.xml" value="0.5471417965850037" />
         <entry key="app/src/main/res/drawable/ic_menu.xml" value="0.133" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.133" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_main2.xml" value="0.34322916666666664" />
         <entry key="app/src/main/res/layout/demo_page.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/example_item.xml" value="0.35520833333333335" />
         <entry key="app/src/main/res/layout/example_menu.xml" value="0.2515625" />
@@ -21,7 +22,7 @@
         <entry key="app/src/main/res/layout/image_layout.xml" value="0.35520833333333335" />
         <entry key="app/src/main/res/layout/item.xml" value="0.35520833333333335" />
         <entry key="app/src/main/res/layout/rows_movie.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/vertical_item.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/vertical_item.xml" value="0.25" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.35520833333333335" />
         <entry key="app/src/main/res/menu/example_menu.xml" value="0.2515625" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1815" />
