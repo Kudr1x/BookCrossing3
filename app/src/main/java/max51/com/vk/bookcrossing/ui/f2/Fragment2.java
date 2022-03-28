@@ -49,7 +49,6 @@ public class Fragment2 extends Fragment {
         VerticalAdapter gridAdapter = new VerticalAdapter(gridElements, getContext());
         grid.setAdapter(gridAdapter);
 
-
         RecyclerView viewPager = view.findViewById(R.id.viewpager);
         HorizontalAdapter horizontalAdapter = new HorizontalAdapter(bitmapList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);

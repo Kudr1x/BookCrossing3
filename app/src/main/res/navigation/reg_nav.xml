@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_login_to_mainActivity"
             app:destination="@id/mainActivity" />
+        <action
+            android:id="@+id/action_login_to_reset"
+            app:destination="@id/reset" />
     </fragment>
     <fragment
         android:id="@+id/register"
@@ -30,4 +33,9 @@
         android:id="@+id/mainActivity"
         android:name="max51.com.vk.bookcrossing.ui.MainActivity"
         android:label="MainActivity" />
+    <fragment
+        android:id="@+id/reset"
+        android:name="max51.com.vk.bookcrossing.login.Reset"
+        android:label="fragment_reset"
+        tools:layout="@layout/fragment_reset" />
 </navigation>

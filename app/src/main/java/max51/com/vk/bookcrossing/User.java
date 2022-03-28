@@ -1,4 +1,4 @@
-package max51.com.vk.bookcrossing.login;
+package max51.com.vk.bookcrossing;
 
 public class User {
 

@@ -25,9 +25,8 @@ import max51.com.vk.bookcrossing.R;
 public class Login extends Fragment{
 
     private FirebaseAuth mAuth;
-    private String userEmail;
-    private String userPassword;
     private SharedPreferences sPref;
+    public boolean flag;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,14 +42,25 @@ public class Login extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();
         sPref = getContext().getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
-        userEmail = sPref.getString("email", "");
-        userPassword = sPref.getString("password", "");
+        SharedPreferences.Editor editor = sPref.edit();
 
-        if(userEmail != ""){
-            mAuth.signInWithEmailAndPassword(userEmail, userPassword);
-            Navigation.findNavController(view).navigate(R.id.action_login_to_mainActivity);
+        String userEmail = sPref.getString("email", "");
+        String userPassword = sPref.getString("password", "");
+
+
+        if(null == mAuth.getCurrentUser()){
+            userEmail = "";
+            userPassword = "";
+            editor.putString("email", "");
+            editor.putString("password", "");
+            editor.apply();
         }
 
+        if(!userEmail.equals("")){
+            mAuth.signInWithEmailAndPassword(userEmail, userPassword);
+            Navigation.findNavController(view).navigate(R.id.action_login_to_mainActivity);
+            System.out.println("Вход выполнен");
+        }
 
         EditText emailEditText = (EditText) getView().findViewById(R.id.editTextTextEmailAddress);
         EditText passwordEditText = (EditText) getView().findViewById(R.id.editTextTextPassword);
@@ -58,6 +68,9 @@ public class Login extends Fragment{
 
 
         TextView regText = (TextView) getView().findViewById(R.id.reg);
+        TextView restText = (TextView) getView().findViewById(R.id.reset);
+
+        regText.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_login_to_reset));
 
         regText.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_login_to_register));
 
@@ -92,8 +105,6 @@ public class Login extends Fragment{
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if(task.isSuccessful()){
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    sPref = getContext().getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sPref.edit();
                     editor.putString("email", email);
                     editor.putString("password", password);
                     editor.apply();
@@ -104,5 +115,4 @@ public class Login extends Fragment{
             });
         });
     }
-
 }

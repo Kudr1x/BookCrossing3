@@ -18,6 +18,11 @@
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="max51.com.vk.bookcrossing.ui.Fragment3"
-        tools:layout="@layout/fragment_3" />
+        tools:layout="@layout/fragment_3" >
+        <action
+            android:id="@+id/action_navigation_notifications_to_reg_nav"
+            app:destination="@id/reg_nav" />
+    </fragment>
+    <include app:graph="@navigation/reg_nav" />
 
 </navigation>

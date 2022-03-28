@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import max51.com.vk.bookcrossing.R;
+import max51.com.vk.bookcrossing.User;
 
 public class Register extends Fragment {
 

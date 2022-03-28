@@ -83,13 +83,14 @@
             <GridView
                 android:id="@+id/grid_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="800dp"
                 android:gravity="center"
                 android:padding="4dp"
                 android:scrollbars="none"
                 android:stretchMode="columnWidth"
                 android:layout_gravity="center"
-                android:numColumns="2">
+                android:numColumns="2"
+                android:adjustViewBounds="true">
             </GridView>
         </LinearLayout>
     </ScrollView>

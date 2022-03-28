@@ -8,15 +8,17 @@
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.133" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.34322916666666664" />
+        <entry key="app/src/main/res/layout/activity_reg.xml" value="0.22" />
         <entry key="app/src/main/res/layout/demo_page.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/example_item.xml" value="0.35520833333333335" />
         <entry key="app/src/main/res/layout/example_menu.xml" value="0.2515625" />
         <entry key="app/src/main/res/layout/fragment_1.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_2.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_3.xml" value="0.35520833333333335" />
-        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.35833333333333334" />
         <entry key="app/src/main/res/layout/fragment_regidter.xml" value="0.35520833333333335" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.35520833333333335" />
+        <entry key="app/src/main/res/layout/fragment_reset.xml" value="0.35833333333333334" />
         <entry key="app/src/main/res/layout/fragment_scrolling.xml" value="0.35520833333333335" />
         <entry key="app/src/main/res/layout/horizontal_item.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/image_layout.xml" value="0.35520833333333335" />
