@@ -15,6 +15,7 @@ import androidx.navigation.Navigation;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 import max51.com.vk.bookcrossing.R;
@@ -84,8 +85,10 @@ public class Register extends Fragment {
                     User user = new User(name, email);
                     FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnCompleteListener(task1 -> {
                         if(task1.isSuccessful()){
-                            Snackbar.make(getView(), "Регистрация успешно завершена", Snackbar.LENGTH_LONG).show();
-                            Navigation.findNavController(view).navigate(R.id.action_register_to_mainActivity);
+                            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                            firebaseUser.sendEmailVerification();
+                            Snackbar.make(getView(), "Подтвердите электронную почту для завершения регистрации", Snackbar.LENGTH_LONG).show();
+                            //Navigation.findNavController(view).navigate(R.id.action_register_to_mainActivity);
                         }else{
                             Snackbar.make(getView(), "Ошибка", Snackbar.LENGTH_LONG).show();
                         }

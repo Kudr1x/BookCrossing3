@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="max51.com.vk.bookcrossing.ui.Fragment1"
+        android:name="max51.com.vk.bookcrossing.ui.f1.Fragment1"
         tools:layout="@layout/fragment_1" />
 
     <fragment
@@ -20,9 +20,13 @@
         android:name="max51.com.vk.bookcrossing.ui.Fragment3"
         tools:layout="@layout/fragment_3" >
         <action
-            android:id="@+id/action_navigation_notifications_to_reg_nav"
-            app:destination="@id/reg_nav" />
+            android:id="@+id/action_navigation_notifications_to_regActivity"
+            app:destination="@id/regActivity" />
     </fragment>
-    <include app:graph="@navigation/reg_nav" />
+    <activity
+        android:id="@+id/regActivity"
+        android:name="max51.com.vk.bookcrossing.login.RegActivity"
+        android:label="activity_reg"
+        tools:layout="@layout/activity_reg" />
 
 </navigation>

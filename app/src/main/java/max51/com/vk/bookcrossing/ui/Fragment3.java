@@ -38,7 +38,7 @@ public class Fragment3 extends Fragment {
 
         btOut.setOnClickListener(View -> {
             FirebaseAuth.getInstance().signOut();
-            Navigation.findNavController(view).navigate(R.id.action_navigation_notifications_to_reg_nav);
+            Navigation.findNavController(view).navigate(R.id.action_navigation_notifications_to_regActivity);
         });
     }
 }

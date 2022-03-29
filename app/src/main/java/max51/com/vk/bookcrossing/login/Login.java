@@ -70,7 +70,7 @@ public class Login extends Fragment{
         TextView regText = (TextView) getView().findViewById(R.id.reg);
         TextView restText = (TextView) getView().findViewById(R.id.reset);
 
-        regText.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_login_to_reset));
+        restText.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_login_to_reset));
 
         regText.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_login_to_register));
 
@@ -105,10 +105,14 @@ public class Login extends Fragment{
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if(task.isSuccessful()){
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    editor.putString("email", email);
-                    editor.putString("password", password);
-                    editor.apply();
-                    Navigation.findNavController(view12).navigate(R.id.action_login_to_mainActivity);
+                    if(user.isEmailVerified()){
+                        editor.putString("email", email);
+                        editor.putString("password", password);
+                        editor.apply();
+                        Navigation.findNavController(view12).navigate(R.id.action_login_to_mainActivity);
+                    }else {
+                        Snackbar.make(view12, "Вы не подтвердили свою почту", Snackbar.LENGTH_LONG).show();
+                    }
                 }else {
                     Snackbar.make(view12, "Ошибка входа. Проверьте данные", Snackbar.LENGTH_LONG).show();
                 }
