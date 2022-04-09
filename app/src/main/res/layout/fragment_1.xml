@@ -4,26 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.f1.Fragment1">
+    tools:context=".ui.f1.Fragment1"
+    android:layout_marginBottom="?attr/actionBarSize">
 
-    <Button
-        android:id="@+id/buttonLoad"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginBottom="60dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <GridView
-        android:id="@+id/userGrid"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/userRecycleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:numColumns="2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:src="@drawable/common_google_signin_btn_text_dark_normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

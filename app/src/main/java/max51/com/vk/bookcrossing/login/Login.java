@@ -47,7 +47,6 @@ public class Login extends Fragment{
         String userEmail = sPref.getString("email", "");
         String userPassword = sPref.getString("password", "");
 
-
         if(null == mAuth.getCurrentUser()){
             userEmail = "";
             userPassword = "";

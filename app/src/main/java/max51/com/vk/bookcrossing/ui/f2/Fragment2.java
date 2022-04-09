@@ -22,7 +22,7 @@ import max51.com.vk.bookcrossing.R;
 
 public class Fragment2 extends Fragment {
     private final List<Bitmap> bitmapList = new ArrayList<>();
-    private final ArrayList<gridElement> gridElements = new ArrayList<>();
+    private final ArrayList<Elements> gridElements = new ArrayList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -33,9 +33,9 @@ public class Fragment2 extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
-        gridElements.add(new gridElement( "Test1","Test2", R.color.purple_200));
-        gridElements.add(new gridElement( "Test3","Test4", R.color.purple_200));
-        gridElements.add(new gridElement( "Test5","Test6", R.color.purple_200));
+        gridElements.add(new Elements( "Test1","Test2", R.color.purple_200));
+        gridElements.add(new Elements( "Test3","Test4", R.color.purple_200));
+        gridElements.add(new Elements( "Test5","Test6", R.color.purple_200));
 
         bitmapList.add(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.red));
         bitmapList.add(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.red));

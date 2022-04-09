@@ -31,9 +31,8 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Im
 
     @Override
     public void onBindViewHolder(@NonNull ImageHelper holder, int position) {
-            Bitmap bitmap = bitmapList.get(position);
-         holder.Image.setImageBitmap(bitmap);
-         //qq
+        Bitmap bitmap = bitmapList.get(position);
+        holder.Image.setImageBitmap(bitmap);
     }
 
     @Override

@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="max51.com.vk.bookcrossing">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,9 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BookCrossing">
         <activity
+            android:name=".load.LoadActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true" />
-
         <activity
             android:name=".login.RegActivity"
             android:exported="true"
@@ -24,4 +31,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

@@ -1,6 +1,6 @@
 package max51.com.vk.bookcrossing.ui.f2;
 
-public class gridElement {
+public class Elements {
     public String s1;
     public String s2;
     public int image;
@@ -29,7 +29,7 @@ public class gridElement {
         this.image = image;
     }
 
-    public gridElement(String s1, String s2, int image) {
+    public Elements(String s1, String s2, int image) {
         this.s1 = s1;
         this.s2 = s2;
         this.image = image;

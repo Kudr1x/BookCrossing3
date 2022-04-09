@@ -12,10 +12,10 @@ import java.util.List;
 import max51.com.vk.bookcrossing.R;
 
 public class VerticalAdapter extends BaseAdapter {
-    List<gridElement>  element;
+    List<Elements>  element;
     Context context;
 
-    public VerticalAdapter(List<gridElement> element, Context context) {
+    public VerticalAdapter(List<Elements> element, Context context) {
         this.element = element;
         this.context = context;
     }

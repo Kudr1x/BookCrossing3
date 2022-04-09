@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/load_nav"
+    app:startDestination="@id/load1">
+
+    <fragment
+        android:id="@+id/load1"
+        android:name="max51.com.vk.bookcrossing.load.Load1"
+        android:label="fragment_load1"
+        tools:layout="@layout/fragment_load1" >
+        <action
+            android:id="@+id/action_load1_to_load2"
+            app:destination="@id/load2" />
+    </fragment>
+    <fragment
+        android:id="@+id/load2"
+        android:name="max51.com.vk.bookcrossing.load.Load2"
+        android:label="fragment_load2"
+        tools:layout="@layout/fragment_load2" >
+        <action
+            android:id="@+id/action_load2_to_load3"
+            app:destination="@id/load3" />
+    </fragment>
+    <fragment
+        android:id="@+id/load3"
+        android:name="max51.com.vk.bookcrossing.load.Load3"
+        android:label="fragment_load3"
+        tools:layout="@layout/fragment_load3" />
+</navigation>

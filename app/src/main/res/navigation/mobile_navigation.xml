@@ -8,7 +8,11 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="max51.com.vk.bookcrossing.ui.f1.Fragment1"
-        tools:layout="@layout/fragment_1" />
+        tools:layout="@layout/fragment_1" >
+        <action
+            android:id="@+id/action_navigation_home_to_loadActivity"
+            app:destination="@id/loadActivity" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -28,5 +32,10 @@
         android:name="max51.com.vk.bookcrossing.login.RegActivity"
         android:label="activity_reg"
         tools:layout="@layout/activity_reg" />
+    <activity
+        android:id="@+id/loadActivity"
+        android:name="max51.com.vk.bookcrossing.load.LoadActivity"
+        android:label="activity_load"
+        tools:layout="@layout/activity_load" />
 
 </navigation>
