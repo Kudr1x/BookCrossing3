@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+
+import com.google.android.gms.common.util.ScopeUtil;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -93,6 +95,11 @@ public class Login extends Fragment{
                 return;
             }
 
+//            try{
+//                mAuth.signInWithEmailAndPassword(email, password);
+//                }catch (Exception e){
+//                System.out.println(e.toString());
+//            }
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if(task.isSuccessful()){
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
