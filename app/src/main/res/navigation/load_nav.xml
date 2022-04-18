@@ -22,10 +22,33 @@
         <action
             android:id="@+id/action_load2_to_load3"
             app:destination="@id/load3" />
+        <argument
+            android:name="author"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/load3"
         android:name="max51.com.vk.bookcrossing.load.Load3"
         android:label="fragment_load3"
-        tools:layout="@layout/fragment_load3" />
+        tools:layout="@layout/fragment_load3" >
+        <action
+            android:id="@+id/action_load3_to_load4"
+            app:destination="@id/load4" />
+    </fragment>
+    <fragment
+        android:id="@+id/load4"
+        android:name="max51.com.vk.bookcrossing.load.Load4"
+        android:label="fragment_load4"
+        tools:layout="@layout/fragment_load4" >
+        <action
+            android:id="@+id/action_load4_to_mainActivity2"
+            app:destination="@id/mainActivity2" />
+    </fragment>
+    <activity
+        android:id="@+id/mainActivity2"
+        android:name="max51.com.vk.bookcrossing.ui.MainActivity"
+        android:label="MainActivity" />
 </navigation>

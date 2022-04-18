@@ -10,12 +10,14 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import max51.com.vk.bookcrossing.R;
-import max51.com.vk.bookcrossing.ui.f2.Elements;
+import max51.com.vk.bookcrossing.Elements;
 
-public class recAdapter extends RecyclerView.Adapter<recAdapter.ExampleViewHolder> {
+public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ExampleViewHolder> {
     private ArrayList<Elements> mExampleList;
 
     public static class ExampleViewHolder extends RecyclerView.ViewHolder {
@@ -31,7 +33,7 @@ public class recAdapter extends RecyclerView.Adapter<recAdapter.ExampleViewHolde
         }
     }
 
-    public recAdapter(ArrayList<Elements> exampleList) {
+    public RecAdapter(ArrayList<Elements> exampleList) {
         mExampleList = exampleList;
     }
 
@@ -45,9 +47,9 @@ public class recAdapter extends RecyclerView.Adapter<recAdapter.ExampleViewHolde
     @Override
     public void onBindViewHolder(ExampleViewHolder holder, int position) {
         Elements currentItem = mExampleList.get(position);
-        holder.mImageView.setImageResource(currentItem.getImage());
-        holder.mTextView1.setText(currentItem.getS1());
-        holder.mTextView2.setText(currentItem.getS2());
+        holder.mTextView1.setText(currentItem.getTitle());
+        holder.mTextView2.setText(currentItem.getAuthor());
+        Picasso.get().load(currentItem.getUri()).fit().centerCrop().into(holder.mImageView);
     }
 
     @Override

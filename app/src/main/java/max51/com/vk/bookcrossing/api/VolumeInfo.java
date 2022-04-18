@@ -23,4 +23,5 @@ public class VolumeInfo implements Serializable {
     public List<String> getAuthors() {
         return authors;
     }
+
 }

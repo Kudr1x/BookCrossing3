@@ -17,34 +17,36 @@ import max51.com.vk.bookcrossing.R;
 
 public class Load2 extends Fragment {
 
+    String author;
+    String title;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_load2, container, false);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Button bt = view.findViewById(R.id.next2);
-        EditText ed = view.findViewById(R.id.editTextTextMultiLine);
+        EditText ed = view.findViewById(R.id.editText);
+
+        author = getArguments().getString("author");
+        title = getArguments().getString("title");
+        if(!author.isEmpty()) ed.setText(author);
 
         bt.setOnClickListener(view1 -> {
             String text = ed.getText().toString();
+            Bundle bundle = new Bundle();
+            bundle.putString("author", author);
+            bundle.putString("title", title);
 
             if(text.isEmpty()){
-                ed.setError("");
+                ed.setError("Укажите автора");
                 ed.requestFocus();
                 return;
             }
-
-            Navigation.findNavController(view).navigate(R.id.action_load2_to_load3);
+            Navigation.findNavController(view).navigate(R.id.action_load2_to_load3, bundle);
         });
     }
 }
-

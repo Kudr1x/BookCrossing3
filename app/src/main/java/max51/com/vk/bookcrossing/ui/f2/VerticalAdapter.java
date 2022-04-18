@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.List;
 
+import max51.com.vk.bookcrossing.Elements;
 import max51.com.vk.bookcrossing.R;
 
 public class VerticalAdapter extends BaseAdapter {
@@ -41,12 +42,13 @@ public class VerticalAdapter extends BaseAdapter {
         View view = layoutInflater.inflate(R.layout.vertical_item, null);
 
         ImageView img = view.findViewById(R.id.image);
-        TextView tv1 = view.findViewById(R.id.text1);
-        TextView tv2 = view.findViewById(R.id.text2);
+        TextView title = view.findViewById(R.id.title);
+        TextView author = view.findViewById(R.id.author);
 
-        img.setImageResource(element.get(position).image);
-        tv1.setText(element.get(position).s1);
-        tv2.setText(element.get(position).s2);
+        //img.setImageResource(element.get(position).image);
+        title.setText(element.get(position).getTitle());
+        author.setText(element.get(position).getAuthor());
+        //img.setImageURI(element.get(position).getUri());
 
         return view;
     }

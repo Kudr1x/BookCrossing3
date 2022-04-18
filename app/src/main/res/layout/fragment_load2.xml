@@ -24,22 +24,24 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
+        android:text="Укажите автора"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:text="Добавьте описание"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar4" />
 
     <EditText
-        android:id="@+id/editTextTextMultiLine"
+        android:id="@+id/editText"
         android:layout_width="match_parent"
-        android:layout_height="440dp"
+        android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
+        android:singleLine="true"
+        android:inputType="text"
+        android:maxLines="1"
         android:gravity="start|top"
-        android:inputType="textMultiLine"
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/next2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +50,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7"
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="SpeakableTextPresentCheck" />
-
     <Button
         android:id="@+id/next2"
         android:layout_width="match_parent"

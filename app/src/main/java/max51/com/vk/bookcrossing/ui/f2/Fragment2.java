@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.SnapHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import max51.com.vk.bookcrossing.Elements;
 import max51.com.vk.bookcrossing.R;
 
 public class Fragment2 extends Fragment {
@@ -33,9 +34,9 @@ public class Fragment2 extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
-        gridElements.add(new Elements( "Test1","Test2", R.color.purple_200));
-        gridElements.add(new Elements( "Test3","Test4", R.color.purple_200));
-        gridElements.add(new Elements( "Test5","Test6", R.color.purple_200));
+//        gridElements.add(new Elements( "Test1","Test2", R.color.purple_200));
+//        gridElements.add(new Elements( "Test3","Test4", R.color.purple_200));
+//        gridElements.add(new Elements( "Test5","Test6", R.color.purple_200));
 
         bitmapList.add(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.red));
         bitmapList.add(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.red));

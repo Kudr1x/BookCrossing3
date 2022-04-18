@@ -1,9 +1,11 @@
 package max51.com.vk.bookcrossing.api;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +16,13 @@ import max51.com.vk.bookcrossing.R;
 
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.CustomViewHolder> {
     private List<Item> volumeInfo;
+    private SelectListener listener;
+
+    public BooksAdapter(final List<Item> volumeInfo, SelectListener listener){
+        this.volumeInfo = volumeInfo;
+        this.listener = listener;
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
@@ -25,12 +34,20 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.CustomViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        VolumeInfo volumeInfo = this.volumeInfo.get(position).getVolumeInfo();
-        holder.bookTitle.setText(volumeInfo.getTitle());
-        if (volumeInfo.getAuthors() != null && !volumeInfo.getAuthors().isEmpty()) {
-            holder.bookAuthor.setText(volumeInfo.getAuthors().get(0));
+    public void onBindViewHolder(@NonNull CustomViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        holder.bookTitle.setText(volumeInfo.get(position).getVolumeInfo().getTitle());
+        if (volumeInfo.get(position).getVolumeInfo().getAuthors() != null && !volumeInfo.get(position).getVolumeInfo().getAuthors().isEmpty()) {
+            holder.bookAuthor.setText(volumeInfo.get(position).getVolumeInfo().getAuthors().get(0));
         }
+
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onItemClicked(volumeInfo.get(position));
+            }
+        });
+
+
     }
 
     @Override
@@ -38,18 +55,15 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.CustomViewHo
         return volumeInfo == null ? 0 : volumeInfo.size();
     }
 
-    public void setVolumeInfo(final List<Item> volumeInfo) {
-        this.volumeInfo = volumeInfo;
-        notifyDataSetChanged();
-    }
-
-    class CustomViewHolder extends RecyclerView.ViewHolder {
+    class CustomViewHolder extends RecyclerView.ViewHolder{
         TextView bookTitle, bookAuthor;
+        public LinearLayout linearLayout;
 
         CustomViewHolder(View view) {
             super(view);
             bookTitle = view.findViewById(R.id.bookTitle);
             bookAuthor = view.findViewById(R.id.bookAuthor);
+            linearLayout = view.findViewById(R.id.main_container);
         }
     }
 }

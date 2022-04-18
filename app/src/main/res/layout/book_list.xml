@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="4dp">
+    android:padding="4dp"
+    android:id="@+id/main_container">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,7 +14,10 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -23,13 +27,17 @@ import max51.com.vk.bookcrossing.api.BookResponse;
 import max51.com.vk.bookcrossing.api.BooksAdapter;
 import max51.com.vk.bookcrossing.api.Item;
 import max51.com.vk.bookcrossing.api.RetroClient;
+import max51.com.vk.bookcrossing.api.SelectListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Load1 extends Fragment {
+public class Load1 extends Fragment implements SelectListener {
 
     private static final int MAX_RESULTS = 5;
+
+    private String title;
+    private String author;
 
     private List<Item> volumeInfoList;
     private ApiService api;
@@ -42,11 +50,6 @@ public class Load1 extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -56,49 +59,74 @@ public class Load1 extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         EditText editText = view.findViewById(R.id.autoCompleteTextEdit);
+        Button bt = view.findViewById(R.id.next1);
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                setText(charSequence.toString());
+                edit(editText.getText());
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                setText(charSequence.toString());
+                edit(editText.getText());
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                setText(editable.toString());
+                edit(editable);
             }
 
-            void setText(String s){
-                try{
-                    adapter = new BooksAdapter();
-                    recyclerView.setAdapter(adapter);
-                }catch (Exception ignored){ }
-                doSearch(s);
+            public void edit(Editable editable){
+                try{ recyclerView.setAdapter(adapter); }catch (Exception ignored){ }
+                doSearch(editable.toString());
+                author = "";
             }
         });
 
+        bt.setOnClickListener(view1 -> {
+            Bundle bundle = new Bundle();
+            title = editText.getText().toString();
 
+            if(title.isEmpty()){
+                editText.setError("Введите название");
+                editText.requestFocus();
+                return;
+            }
+
+            bundle.putString("author", author);
+            bundle.putString("title", title);
+            Navigation.findNavController(view).navigate(R.id.action_load1_to_load2, bundle);
+        });
     }
 
     private void doSearch(final String query) {
         Call<BookResponse> call = api.getMyJSON(query, MAX_RESULTS);
         call.enqueue(new Callback<BookResponse>() {
             @Override
-            public void onResponse(Call<BookResponse> call, Response<BookResponse> response) {
+            public void onResponse(Call<BookResponse> call, Response<BookResponse> response){
                 if (response.isSuccessful()) {
                     volumeInfoList = response.body().getItems();
                     recyclerView.smoothScrollToPosition(0);
-                    adapter.setVolumeInfo(volumeInfoList);
+                    setAdapter();
                 }
             }
 
             @Override
             public void onFailure(Call<BookResponse> call, Throwable t) { }
         });
+    }
+
+    @Override
+    public void onItemClicked(Item item) {
+        EditText editText = getView().findViewById(R.id.autoCompleteTextEdit);
+        editText.setText(item.getVolumeInfo().getTitle());
+
+        title = item.getVolumeInfo().getTitle();
+        if(item.getVolumeInfo().getAuthors().size() != 0) author = item.getVolumeInfo().getAuthors().get(0);
+    }
+
+    public void setAdapter(){
+        adapter = new BooksAdapter(volumeInfoList, this);
     }
 }

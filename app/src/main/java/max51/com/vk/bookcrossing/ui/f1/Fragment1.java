@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -11,14 +13,23 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import max51.com.vk.bookcrossing.R;
-import max51.com.vk.bookcrossing.ui.f2.Elements;
+import max51.com.vk.bookcrossing.Elements;
 
 public class Fragment1 extends Fragment {
 
     private final ArrayList<Elements> elementsArrayList = new ArrayList<>();
+    private DatabaseReference mDatabaseRef;
+    private RecyclerView recyclerView;
+    private RecAdapter recAdapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -26,40 +37,42 @@ public class Fragment1 extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        elementsArrayList.add(new Elements( "Test1","Test2", R.color.purple_200));
-        elementsArrayList.add(new Elements( "Test3","Test4", R.color.purple_200));
-        elementsArrayList.add(new Elements( "Test5","Test6", R.color.purple_200));
-        elementsArrayList.add(new Elements( "Test5","Test6", R.color.purple_200));
-        elementsArrayList.add(new Elements( "Test5","Test6", R.color.purple_200));
-        elementsArrayList.add(new Elements( "Test5","Test6", R.color.purple_200));
-        elementsArrayList.add(new Elements( "Test5","Test6", R.color.purple_200));
-        elementsArrayList.add(new Elements( "Test5","Test6", R.color.purple_200));
-        elementsArrayList.add(new Elements( "Test5","Test6", R.color.purple_200));
-        elementsArrayList.add(new Elements( "Test5","Test6", R.color.purple_200));
-        elementsArrayList.add(new Elements( "Test5","Test6", R.color.purple_200));
-        elementsArrayList.add(new Elements( "Test5","Test6", R.color.purple_200));
-        elementsArrayList.add(new Elements( "Test5","Test6", R.color.purple_200));
-
-    }
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         FloatingActionButton btLoad = view.findViewById(R.id.floatingActionButton);
 
-//todo
-//        Animation anHide = AnimationUtils.loadAnimation(getContext(), R.anim.fab_hide);
-//        Animation anShow = AnimationUtils.loadAnimation(getContext(), R.anim.fab_show);
 
-        RecyclerView rec1 = view.findViewById(R.id.userRecycleView);
-        recAdapter recadapter = new recAdapter(elementsArrayList);
+        recyclerView = view.findViewById(R.id.userRecycleView);
+        recyclerView.setHasFixedSize(true);
+        //recAdapter = new RecAdapter(elementsArrayList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        rec1.setLayoutManager(layoutManager);
-        rec1.setAdapter(recadapter);
+        recyclerView.setLayoutManager(layoutManager);
+        //recyclerView.setAdapter(recAdapter);
 
-        rec1.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+
+        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot postSnapshot : snapshot.getChildren()){
+                    Elements elements = postSnapshot.getValue(Elements.class);
+                    if(elements.id.equals(FirebaseAuth.getInstance().getUid())){
+                        elementsArrayList.add(elements);
+                    }
+
+                    recAdapter = new RecAdapter(elementsArrayList);
+
+                    recyclerView.setAdapter(recAdapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
