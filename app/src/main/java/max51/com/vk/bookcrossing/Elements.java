@@ -47,6 +47,8 @@ public class Elements {
         this.id = id;
     }
 
+    public Elements(){}
+
     public Elements(String title, String author, String desk, String uri, String id) {
         this.title = title;
         this.author = author;

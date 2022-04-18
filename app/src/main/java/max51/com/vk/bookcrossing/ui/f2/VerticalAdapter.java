@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import max51.com.vk.bookcrossing.Elements;
@@ -48,7 +51,7 @@ public class VerticalAdapter extends BaseAdapter {
         //img.setImageResource(element.get(position).image);
         title.setText(element.get(position).getTitle());
         author.setText(element.get(position).getAuthor());
-        //img.setImageURI(element.get(position).getUri());
+        Picasso.get().load(element.get(position).getUri()).fit().centerCrop().into(img);
 
         return view;
     }

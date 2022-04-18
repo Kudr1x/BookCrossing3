@@ -76,7 +76,7 @@ public class Load4 extends Fragment {
 
         next.setOnClickListener(view1 -> {
             if(image != null){
-                StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + "png");
+                StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + "jpeg");
 
                 fileReference.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -91,10 +91,16 @@ public class Load4 extends Fragment {
 
 
                         Toast.makeText(getContext(), "Успешно", Toast.LENGTH_LONG).show();
-                        Elements elements = new Elements(title, author, desk, taskSnapshot.getUploadSessionUri().toString(), id);
 
-                        String uploadId = mDatabaseRef.push().getKey();
-                        mDatabaseRef.child(uploadId).setValue(elements);
+                        fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                String url = uri.toString();
+                                Elements elements = new Elements(title, author, desk, url, id);
+                                String uploadId = mDatabaseRef.push().getKey();
+                                mDatabaseRef.child(uploadId).setValue(elements);
+                            }
+                        });
 
                         Navigation.findNavController(view).navigate(R.id.action_load4_to_mainActivity2);
                     }

@@ -44,20 +44,20 @@ public class Fragment1 extends Fragment {
 
         recyclerView = view.findViewById(R.id.userRecycleView);
         recyclerView.setHasFixedSize(true);
-        //recAdapter = new RecAdapter(elementsArrayList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        //recyclerView.setAdapter(recAdapter);
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
 
+
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot snapshot) {
+                elementsArrayList.clear();
                 for(DataSnapshot postSnapshot : snapshot.getChildren()){
-                    Elements elements = postSnapshot.getValue(Elements.class);
-                    if(elements.id.equals(FirebaseAuth.getInstance().getUid())){
-                        elementsArrayList.add(elements);
+                    Elements element = postSnapshot.getValue(Elements.class);
+                    if(element.id.equals(FirebaseAuth.getInstance().getUid())){
+                        elementsArrayList.add(element);
                     }
 
                     recAdapter = new RecAdapter(elementsArrayList);
