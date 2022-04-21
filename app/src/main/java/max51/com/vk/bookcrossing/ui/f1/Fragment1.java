@@ -21,10 +21,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
+import kotlinx.coroutines.selects.SelectBuilder;
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.Elements;
+import max51.com.vk.bookcrossing.SelectListenerElement;
 
-public class Fragment1 extends Fragment {
+public class Fragment1 extends Fragment implements SelectListenerElement {
 
     private final ArrayList<Elements> elementsArrayList = new ArrayList<>();
     private DatabaseReference mDatabaseRef;
@@ -41,14 +44,12 @@ public class Fragment1 extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         FloatingActionButton btLoad = view.findViewById(R.id.floatingActionButton);
 
-
         recyclerView = view.findViewById(R.id.userRecycleView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
-
 
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -60,7 +61,7 @@ public class Fragment1 extends Fragment {
                         elementsArrayList.add(element);
                     }
 
-                    recAdapter = new RecAdapter(elementsArrayList);
+                    createAdapter();
 
                     recyclerView.setAdapter(recAdapter);
                 }
@@ -91,5 +92,23 @@ public class Fragment1 extends Fragment {
         btLoad.setOnClickListener(view1 -> {
             Navigation.findNavController(view).navigate(R.id.action_navigation_home_to_loadActivity);
         });
+    }
+
+    @Override
+    public void onItemClicked(Elements elements) {
+        Bundle bundle = new Bundle();
+
+        bundle.putString("title", elements.getTitle());
+        bundle.putString("author", elements.getAuthor());
+        bundle.putString("desk", elements.getDesk());
+        bundle.putString("uri", elements.getUri());
+        bundle.putString("id", elements.getId());
+        bundle.putString("uploadId", elements.getUploadId());
+
+        Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_editFragment, bundle);
+    }
+
+    public void createAdapter(){
+        recAdapter = new RecAdapter(elementsArrayList, this);
     }
 }

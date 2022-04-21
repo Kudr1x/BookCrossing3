@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,9 +29,9 @@ import java.util.List;
 
 import max51.com.vk.bookcrossing.Elements;
 import max51.com.vk.bookcrossing.R;
-import max51.com.vk.bookcrossing.ui.f1.RecAdapter;
+import max51.com.vk.bookcrossing.SelectListenerElement;
 
-public class Fragment2 extends Fragment {
+public class Fragment2 extends Fragment implements SelectListenerElement {
     private final List<Bitmap> bitmapList = new ArrayList<>();
     private final ArrayList<Elements> gridElements = new ArrayList<>();
     private DatabaseReference mDatabaseRef;
@@ -46,13 +46,14 @@ public class Fragment2 extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        bitmapList.add(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.red));
-        bitmapList.add(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.red));
+        bitmapList.add(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.rec));
+        bitmapList.add(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.rec2));
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
 
-        GridView grid = view.findViewById(R.id.grid_view);
+        ExpandableHeightGridView grid = view.findViewById(R.id.grid_view);
         grid.setAdapter(gridAdapter);
+        grid.setExpanded(true);
 
         RecyclerView viewPager = view.findViewById(R.id.viewpager);
         HorizontalAdapter horizontalAdapter = new HorizontalAdapter(bitmapList);
@@ -72,7 +73,7 @@ public class Fragment2 extends Fragment {
                         gridElements.add(element);
                     }
 
-                    gridAdapter = new VerticalAdapter(gridElements, getContext());
+                    createAdapter();
 
                     grid.setAdapter(gridAdapter);
                 }
@@ -83,5 +84,22 @@ public class Fragment2 extends Fragment {
                 Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void createAdapter(){
+        gridAdapter = new VerticalAdapter(gridElements, getContext(), this);
+    }
+
+    @Override
+    public void onItemClicked(Elements elements) {
+        Bundle bundle = new Bundle();
+
+        bundle.putString("title", elements.getTitle());
+        bundle.putString("author", elements.getAuthor());
+        bundle.putString("desk", elements.getDesk());
+        bundle.putString("uri", elements.getUri());
+        bundle.putString("id", elements.getId());
+
+        Navigation.findNavController(getView()).navigate(R.id.action_navigation_dashboard_to_viewFragment, bundle);
     }
 }

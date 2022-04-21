@@ -4,7 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.5471417965850037" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2635" />
+        <entry key="app/src/main/res/drawable/add.xml" value="0.253" />
         <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.222" />
+        <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.2635" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2635" />
         <entry key="app/src/main/res/drawable/ic_menu.xml" value="0.133" />
         <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.3355" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.133" />
@@ -12,13 +16,16 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.34322916666666664" />
         <entry key="app/src/main/res/layout/activity_reg.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_view.xml" value="0.3515625" />
         <entry key="app/src/main/res/layout/book_list.xml" value="0.3017543859649123" />
         <entry key="app/src/main/res/layout/demo_page.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/layout/dialog.xml" value="0.3515625" />
         <entry key="app/src/main/res/layout/example_item.xml" value="0.35520833333333335" />
         <entry key="app/src/main/res/layout/example_menu.xml" value="0.2515625" />
         <entry key="app/src/main/res/layout/fragment_1.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_2.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_3.xml" value="0.35520833333333335" />
+        <entry key="app/src/main/res/layout/fragment_edit.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_load.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_load1.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_load2.xml" value="0.25" />
@@ -29,6 +36,7 @@
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.35520833333333335" />
         <entry key="app/src/main/res/layout/fragment_reset.xml" value="0.35833333333333334" />
         <entry key="app/src/main/res/layout/fragment_scrolling.xml" value="0.35520833333333335" />
+        <entry key="app/src/main/res/layout/fragment_view.xml" value="0.1" />
         <entry key="app/src/main/res/layout/horizontal_item.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/image_layout.xml" value="0.35520833333333335" />
         <entry key="app/src/main/res/layout/item.xml" value="0.35520833333333335" />

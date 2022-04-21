@@ -46,8 +46,6 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.CustomViewHo
                 listener.onItemClicked(volumeInfo.get(position));
             }
         });
-
-
     }
 
     @Override
