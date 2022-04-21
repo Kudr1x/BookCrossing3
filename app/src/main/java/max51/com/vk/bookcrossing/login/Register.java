@@ -80,7 +80,6 @@ public class Register extends Fragment {
                             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                             firebaseUser.sendEmailVerification();
                             Snackbar.make(getView(), "Подтвердите электронную почту для завершения регистрации", Snackbar.LENGTH_LONG).show();
-                            //Navigation.findNavController(view).navigate(R.id.action_register_to_mainActivity);
                         }else{
                             Snackbar.make(getView(), "Ошибка", Snackbar.LENGTH_LONG).show();
                         }

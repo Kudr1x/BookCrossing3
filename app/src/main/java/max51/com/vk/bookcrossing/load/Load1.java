@@ -94,8 +94,10 @@ public class Load1 extends Fragment implements SelectListener {
                 return;
             }
 
-            bundle.putString("author", author);
-            bundle.putString("title", title);
+            try{
+                bundle.putString("author", author);
+                bundle.putString("title", title);
+            }catch(Exception e ){ }
             Navigation.findNavController(view).navigate(R.id.action_load1_to_load2, bundle);
         });
     }
@@ -122,8 +124,12 @@ public class Load1 extends Fragment implements SelectListener {
         EditText editText = getView().findViewById(R.id.autoCompleteTextEdit);
         editText.setText(item.getVolumeInfo().getTitle());
 
-        title = item.getVolumeInfo().getTitle();
-        if(item.getVolumeInfo().getAuthors().size() != 0) author = item.getVolumeInfo().getAuthors().get(0);
+        try{
+            title = item.getVolumeInfo().getTitle();
+            if(item.getVolumeInfo().getAuthors().size() != 0) author = item.getVolumeInfo().getAuthors().get(0);
+        }catch (Exception e){
+            author = "";
+        }
     }
 
     public void setAdapter(){

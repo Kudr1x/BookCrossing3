@@ -95,11 +95,6 @@ public class Login extends Fragment{
                 return;
             }
 
-//            try{
-//                mAuth.signInWithEmailAndPassword(email, password);
-//                }catch (Exception e){
-//                System.out.println(e.toString());
-//            }
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if(task.isSuccessful()){
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

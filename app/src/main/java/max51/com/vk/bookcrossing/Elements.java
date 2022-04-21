@@ -6,6 +6,15 @@ public class Elements {
     public String desk;
     public String uri;
     public String id;
+    public String uploadId;
+
+    public String getUploadId() {
+        return uploadId;
+    }
+
+    public void setUploadId(String uploadId) {
+        this.uploadId = uploadId;
+    }
 
     public String getTitle() {
         return title;
@@ -49,11 +58,12 @@ public class Elements {
 
     public Elements(){}
 
-    public Elements(String title, String author, String desk, String uri, String id) {
+    public Elements(String title, String author, String desk, String uri, String id, String uploadId) {
         this.title = title;
         this.author = author;
         this.desk = desk;
         this.uri = uri;
         this.id = id;
+        this.uploadId = uploadId;
     }
 }

@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.f2.Fragment2">
+    android:layout_height="wrap_content"
+    tools:context=".ui.f2.Fragment2"
+    android:layout_marginBottom="?attr/actionBarSize">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -18,45 +19,20 @@
         app:layout_constraintTop_toTopOf="parent" >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <SearchView
-                android:id="@+id/searchView"
-                android:layout_width="300dp"
-                android:layout_height="match_parent"
-                android:gravity="start"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-            </SearchView>
-
-
-            <Button
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@android:color/black"
-                android:drawableBottom="@drawable/ic_menu"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/searchView"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="SpeakableTextPresentCheck">
-
-            </Button>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="match_parent"/>
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbarDefaultDelayBeforeFade="600"
+        android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:layout_marginBottom="?attr/actionBarSize">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -74,24 +50,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="8dp"
+                android:text="Книги"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.048"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
 
-            <GridView
+            <max51.com.vk.bookcrossing.ui.f2.ExpandableHeightGridView
                 android:id="@+id/grid_view"
-                android:layout_width="match_parent"
-                android:layout_height="800dp"
-                android:gravity="center"
-                android:padding="4dp"
-                android:scrollbars="none"
-                android:stretchMode="columnWidth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:gravity="center"
+                android:isScrollContainer="false"
+                android:minHeight="48dp"
                 android:numColumns="2"
-                android:adjustViewBounds="true">
-            </GridView>
+                android:padding="4dp"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="20dp"
+                tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck"></max51.com.vk.bookcrossing.ui.f2.ExpandableHeightGridView>
         </LinearLayout>
     </ScrollView>
 

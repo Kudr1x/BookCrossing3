@@ -89,15 +89,14 @@ public class Load4 extends Fragment {
                             }
                         }, 5000);
 
-
                         Toast.makeText(getContext(), "Успешно", Toast.LENGTH_LONG).show();
 
                         fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
                                 String url = uri.toString();
-                                Elements elements = new Elements(title, author, desk, url, id);
                                 String uploadId = mDatabaseRef.push().getKey();
+                                Elements elements = new Elements(title, author, desk, url, id, uploadId);
                                 mDatabaseRef.child(uploadId).setValue(elements);
                             }
                         });
