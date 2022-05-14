@@ -10,16 +10,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 import max51.com.vk.bookcrossing.Elements;
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.SelectListenerElement;
 
-public class VerticalAdapter extends BaseAdapter {
+public class VerticalAdapter extends BaseAdapter{
     List<Elements>  element;
     Context context;
+
     private SelectListenerElement listener;
 
     public VerticalAdapter(List<Elements> element, Context context, SelectListenerElement listener) {
@@ -35,12 +35,12 @@ public class VerticalAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return 0;
+        return element.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -60,11 +60,15 @@ public class VerticalAdapter extends BaseAdapter {
             }
         });
 
-
         title.setText(element.get(position).getTitle());
         author.setText(element.get(position).getAuthor());
         Picasso.get().load(element.get(position).getUri()).fit().centerCrop().into(img);
 
         return view;
+    }
+
+    public void filteredList(List<Elements> filteredList){
+        element = filteredList;
+        notifyDataSetChanged();
     }
 }

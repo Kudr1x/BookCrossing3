@@ -10,36 +10,38 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.Elements;
 import max51.com.vk.bookcrossing.SelectListenerElement;
 
 public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ExampleViewHolder> {
-    private ArrayList<Elements> mExampleList;
+    private List<Elements> mExampleList;
     private SelectListenerElement listener;
 
     public static class ExampleViewHolder extends RecyclerView.ViewHolder {
         public ImageView mImageView;
         public TextView mTextView1;
         public TextView mTextView2;
-        public LinearLayout linearLayout;
+        public CardView cardView;
 
         public ExampleViewHolder(View itemView) {
             super(itemView);
-            linearLayout = itemView.findViewById(R.id.main);
+            cardView = itemView.findViewById(R.id.main);
             mImageView = itemView.findViewById(R.id.imageV);
             mTextView1 = itemView.findViewById(R.id.name);
             mTextView2 = itemView.findViewById(R.id.name2);
         }
     }
 
-    public RecAdapter(ArrayList<Elements> exampleList, SelectListenerElement listener) {
+    public RecAdapter(List<Elements> exampleList, SelectListenerElement listener) {
         mExampleList = exampleList;
         this.listener = listener;
     }
@@ -58,7 +60,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ExampleViewHolde
         holder.mTextView2.setText(currentItem.getAuthor());
         Picasso.get().load(currentItem.getUri()).fit().centerCrop().into(holder.mImageView);
 
-        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listener.onItemClicked(mExampleList.get(position));
@@ -69,5 +71,10 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ExampleViewHolde
     @Override
     public int getItemCount() {
         return mExampleList.size();
+    }
+
+    public void filteredList(List<Elements> filteredList) {
+        mExampleList = filteredList;
+        notifyDataSetChanged();
     }
 }

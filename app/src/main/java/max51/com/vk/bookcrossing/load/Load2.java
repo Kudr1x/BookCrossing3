@@ -36,12 +36,12 @@ public class Load2 extends Fragment {
         if(!author.isEmpty()) ed.setText(author);
 
         bt.setOnClickListener(view1 -> {
-            String text = ed.getText().toString();
+            author = ed.getText().toString();
             Bundle bundle = new Bundle();
             bundle.putString("author", author);
             bundle.putString("title", title);
 
-            if(text.isEmpty()){
+            if(author.isEmpty()){
                 ed.setError("Укажите автора");
                 ed.requestFocus();
                 return;

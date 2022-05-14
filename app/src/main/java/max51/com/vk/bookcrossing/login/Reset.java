@@ -37,13 +37,13 @@ public class Reset extends Fragment {
             String textEmail = email.getText().toString().trim();
 
             if(textEmail.isEmpty()){
-                email.setError("");
+                email.setError("Введите email");
                 email.requestFocus();
                 return;
             }
 
             if(!Patterns.EMAIL_ADDRESS.matcher(textEmail).matches()){
-                email.setError("");
+                email.setError("Не рпавильный формат почты");
                 email.requestFocus();
                 return;
             }

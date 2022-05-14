@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,10 +21,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
-import kotlinx.coroutines.selects.SelectBuilder;
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.Elements;
 import max51.com.vk.bookcrossing.SelectListenerElement;
@@ -33,6 +35,8 @@ public class Fragment1 extends Fragment implements SelectListenerElement {
     private DatabaseReference mDatabaseRef;
     private RecyclerView recyclerView;
     private RecAdapter recAdapter;
+    private TextView textView;
+    private SearchView searchView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,6 +47,8 @@ public class Fragment1 extends Fragment implements SelectListenerElement {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         FloatingActionButton btLoad = view.findViewById(R.id.floatingActionButton);
+        TextView textView = view.findViewById(R.id.startMessage);
+        SearchView searchView = view.findViewById(R.id.searchView);
 
         recyclerView = view.findViewById(R.id.userRecycleView);
         recyclerView.setHasFixedSize(true);
@@ -62,6 +68,12 @@ public class Fragment1 extends Fragment implements SelectListenerElement {
                     }
 
                     createAdapter();
+
+                    if(elementsArrayList.isEmpty()){
+                        textView.setVisibility(View.VISIBLE);
+                    }else {
+                        textView.setVisibility(View.GONE);
+                    }
 
                     recyclerView.setAdapter(recAdapter);
                 }
@@ -89,9 +101,32 @@ public class Fragment1 extends Fragment implements SelectListenerElement {
             }
         });
 
-        btLoad.setOnClickListener(view1 -> {
-            Navigation.findNavController(view).navigate(R.id.action_navigation_home_to_loadActivity);
+        btLoad.setOnClickListener(view1 -> Navigation.findNavController(view).navigate(R.id.action_navigation_home_to_loadActivity));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return true;
+            }
         });
+    }
+
+    private void filter(String newText) {
+        List<Elements> filteredList = new ArrayList<>();
+
+        for(Elements i: elementsArrayList){
+            if(i.getTitle().toLowerCase(Locale.ROOT).contains(newText.toLowerCase(Locale.ROOT))){
+                filteredList.add(i);
+            }
+        }
+
+        recAdapter.filteredList(filteredList);
     }
 
     @Override

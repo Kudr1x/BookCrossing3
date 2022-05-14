@@ -1,23 +1,27 @@
 package max51.com.vk.bookcrossing.load;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,8 +30,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import max51.com.vk.bookcrossing.Elements;
 import max51.com.vk.bookcrossing.R;
@@ -40,8 +44,14 @@ public class Load4 extends Fragment {
     private String desk;
     private String id;
 
+    private ImageView imageView;
+    private Button chose;
+    private Button next;
+
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
+
+    private ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,10 +61,9 @@ public class Load4 extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button chose = view.findViewById(R.id.choose);
-        Button next = view.findViewById(R.id.next4);
-        ImageView imageView = view.findViewById(R.id.imageView);
-        ProgressBar mProgressBar = view.findViewById(R.id.progressBar);
+        chose = view.findViewById(R.id.choose);
+        next = view.findViewById(R.id.next4);
+        imageView = view.findViewById(R.id.imageView);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads/");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
@@ -64,60 +73,81 @@ public class Load4 extends Fragment {
         desk = getArguments().getString("desk");
         id = FirebaseAuth.getInstance().getUid();
 
-        ActivityResultLauncher<String> launcher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
-            @Override
-            public void onActivityResult(Uri result) {
-                image = result;
-                imageView.setImageURI(result);
-            }
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Загружается....");
+        progressDialog.setCancelable(false);
+
+        chose.setOnClickListener(view1 -> showChoicesDialog());
+
+        next.setOnClickListener(view1 -> createPost());
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        image = data.getData();
+        Picasso.get().load(image).into(imageView);
+    }
+
+    private void showChoicesDialog() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottomsheet2layout);
+
+        Button btGall = dialog.findViewById(R.id.gallery);
+        Button btCam = dialog.findViewById(R.id.cam);
+
+        btGall.setOnClickListener(view -> {
+            ImagePicker.with(this).galleryOnly().crop().start();
+            dialog.cancel();
         });
 
-        chose.setOnClickListener(view1 -> launcher.launch("image/*"));
-
-        next.setOnClickListener(view1 -> {
-            if(image != null){
-                StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + "jpeg");
-
-                fileReference.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                mProgressBar.setProgress(0);
-                            }
-                        }, 5000);
-
-                        Toast.makeText(getContext(), "Успешно", Toast.LENGTH_LONG).show();
-
-                        fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                String url = uri.toString();
-                                String uploadId = mDatabaseRef.push().getKey();
-                                Elements elements = new Elements(title, author, desk, url, id, uploadId);
-                                mDatabaseRef.child(uploadId).setValue(elements);
-                            }
-                        });
-
-                        Navigation.findNavController(view).navigate(R.id.action_load4_to_mainActivity2);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                        double Progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                        mProgressBar.setProgress((int) Progress);
-                    }
-                });
-            }else{
-                Toast.makeText(getContext(), "Выберете файл", Toast.LENGTH_LONG).show();
-            }
+        btCam.setOnClickListener(view -> {
+            ImagePicker.with(this).cameraOnly().crop().start();
+            dialog.cancel();
         });
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+    }
+
+    private void createPost(){
+        if(image != null){
+            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + "jpeg");
+            fileReference.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String url = uri.toString();
+                            String uploadId = mDatabaseRef.push().getKey();
+                            Elements elements = new Elements(title, author, desk, url, id, uploadId);
+                            mDatabaseRef.child(uploadId).setValue(elements);
+                        }
+                    });
+
+                    Navigation.findNavController(getView()).navigate(R.id.action_load4_to_mainActivity2);
+                    progressDialog.dismiss();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                    progressDialog.show();
+                }
+            });
+        }else{
+            Toast.makeText(getContext(), "Выберете файл", Toast.LENGTH_LONG).show();
+        }
     }
 }

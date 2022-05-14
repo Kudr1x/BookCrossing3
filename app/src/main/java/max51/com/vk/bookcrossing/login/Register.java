@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
 
 import max51.com.vk.bookcrossing.R;
@@ -43,31 +44,31 @@ public class Register extends Fragment {
 
 
             if(name.isEmpty()){
-                nameEditText.setError("");
+                nameEditText.setError("Введите имя");
                 nameEditText.requestFocus();
                 return;
             }
 
             if(email.isEmpty()){
-                emailEditText.setError("");
+                emailEditText.setError("Введите email");
                 emailEditText.requestFocus();
                 return;
             }
 
             if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                emailEditText.setError("");
+                emailEditText.setError("Не правильный формат почты");
                 emailEditText.requestFocus();
                 return;
             }
 
             if(password.isEmpty()){
-                passwordEditText.setError("");
+                passwordEditText.setError("Введите пароль");
                 passwordEditText.requestFocus();
                 return;
             }
 
             if(password.length() < 6){
-                passwordEditText.setError("");
+                passwordEditText.setError("Пароль должен быть больше 6 символо");
                 passwordEditText.requestFocus();
                 return;
             }
@@ -78,6 +79,8 @@ public class Register extends Fragment {
                     FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnCompleteListener(task1 -> {
                         if(task1.isSuccessful()){
                             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
+                            firebaseUser.updateProfile(profileUpdates);
                             firebaseUser.sendEmailVerification();
                             Snackbar.make(getView(), "Подтвердите электронную почту для завершения регистрации", Snackbar.LENGTH_LONG).show();
                         }else{

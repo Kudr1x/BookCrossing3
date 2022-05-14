@@ -63,9 +63,7 @@ public class Load1 extends Fragment implements SelectListener {
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                edit(editText.getText());
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -73,15 +71,7 @@ public class Load1 extends Fragment implements SelectListener {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-                edit(editable);
-            }
-
-            public void edit(Editable editable){
-                try{ recyclerView.setAdapter(adapter); }catch (Exception ignored){ }
-                doSearch(editable.toString());
-                author = "";
-            }
+            public void afterTextChanged(Editable editable) { }
         });
 
         bt.setOnClickListener(view1 -> {
@@ -134,5 +124,11 @@ public class Load1 extends Fragment implements SelectListener {
 
     public void setAdapter(){
         adapter = new BooksAdapter(volumeInfoList, this);
+    }
+
+    public void edit(Editable editable){
+        try{ recyclerView.setAdapter(adapter); }catch (Exception ignored){ }
+        doSearch(editable.toString());
+        author = "";
     }
 }

@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import max51.com.vk.bookcrossing.Elements;
 import max51.com.vk.bookcrossing.R;
@@ -36,6 +38,7 @@ public class Fragment2 extends Fragment implements SelectListenerElement {
     private final ArrayList<Elements> gridElements = new ArrayList<>();
     private DatabaseReference mDatabaseRef;
     private VerticalAdapter gridAdapter;
+    private SearchView searchView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,6 +53,8 @@ public class Fragment2 extends Fragment implements SelectListenerElement {
         bitmapList.add(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.rec2));
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+
+        searchView = view.findViewById(R.id.sv);
 
         ExpandableHeightGridView grid = view.findViewById(R.id.grid_view);
         grid.setAdapter(gridAdapter);
@@ -84,6 +89,31 @@ public class Fragment2 extends Fragment implements SelectListenerElement {
                 Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return true;
+            }
+        });
+    }
+
+    private void filter(String newText) {
+        List<Elements> filteredList = new ArrayList<>();
+
+        for(Elements i: gridElements){
+            if(i.getTitle().toLowerCase(Locale.ROOT).contains(newText.toLowerCase(Locale.ROOT))){
+                filteredList.add(i);
+            }
+        }
+
+        gridAdapter.filteredList(filteredList);
     }
 
     public void createAdapter(){

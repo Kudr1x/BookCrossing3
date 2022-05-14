@@ -1,7 +1,6 @@
 buildscript {
     repositories {
         google()  // Google's Maven repository
-
     }
 
     dependencies {

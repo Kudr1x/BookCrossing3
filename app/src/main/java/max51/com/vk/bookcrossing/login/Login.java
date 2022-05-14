@@ -14,12 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-
-import com.google.android.gms.common.util.ScopeUtil;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 import max51.com.vk.bookcrossing.R;
 
 public class Login extends Fragment{
@@ -55,13 +52,13 @@ public class Login extends Fragment{
             System.out.println("Вход выполнен");
         }
 
-        EditText emailEditText = (EditText) getView().findViewById(R.id.editTextTextEmailAddress);
-        EditText passwordEditText = (EditText) getView().findViewById(R.id.editTextTextPassword);
-        Button btLog = (Button) getView().findViewById(R.id.buttonLogin);
+        EditText emailEditText = getView().findViewById(R.id.editTextTextEmailAddress);
+        EditText passwordEditText = getView().findViewById(R.id.editTextTextPassword);
+        Button btLog = getView().findViewById(R.id.buttonLogin);
 
 
-        TextView regText = (TextView) getView().findViewById(R.id.reg);
-        TextView restText = (TextView) getView().findViewById(R.id.reset);
+        TextView regText = getView().findViewById(R.id.reg);
+        TextView restText = getView().findViewById(R.id.reset);
 
         restText.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_login_to_reset));
 
@@ -72,25 +69,25 @@ public class Login extends Fragment{
             String password = passwordEditText.getText().toString().trim();
 
             if(email.isEmpty()){
-                emailEditText.setError("");
+                emailEditText.setError("Введите email");
                 emailEditText.requestFocus();
                 return;
             }
 
             if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                emailEditText.setError("");
+                emailEditText.setError("Не правильный формат почты");
                 emailEditText.requestFocus();
                 return;
             }
 
             if(password.isEmpty()){
-                passwordEditText.setError("");
+                passwordEditText.setError("Введите пароль");
                 passwordEditText.requestFocus();
                 return;
             }
 
             if(password.length() < 6){
-                passwordEditText.setError("");
+                passwordEditText.setError("Пароль должен быть больше 6 сомволов");
                 passwordEditText.requestFocus();
                 return;
             }
