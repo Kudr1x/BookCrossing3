@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "40350816537",
+    "firebase_url": "https://bookcrossing-268ac-default-rtdb.firebaseio.com",
+    "project_id": "bookcrossing-268ac",
+    "storage_bucket": "bookcrossing-268ac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40350816537:android:67ba0557d199acd416cd88",
+        "android_client_info": {
+          "package_name": "max51.com.vk.bookcrossing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "40350816537-01l0rchuosovti1i3o7ckjunfun79q7n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "max51.com.vk.bookcrossing",
+            "certificate_hash": "34986e180bb8104bc298551636023bd1cf976165"
+          }
+        },
+        {
+          "client_id": "40350816537-6a21ccud03t0pp1ibh4530dlf745kh7f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD51qL3JD31ZfRjt0sJG2Nrr55XPy16tN0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "40350816537-6a21ccud03t0pp1ibh4530dlf745kh7f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
