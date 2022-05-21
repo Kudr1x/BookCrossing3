@@ -4,16 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".load.Load3">
+    android:background="@color/browser_actions_bg_grey"
+    tools:context=".ui.load.Load3">
 
     <Button
         android:id="@+id/next3"
+        android:textSize="24sp"
+        android:background="@drawable/custom_button"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginBottom="28dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:text="Дальше"
+        android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -39,6 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="Добавьте описание"
+                android:textColor="#FFFFFF"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -49,20 +54,27 @@
     <EditText
         android:id="@+id/editTextTextMultiLine2"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
         android:ems="10"
+        android:textSize="24sp"
+        android:background="@drawable/custom_text"
         android:gravity="start|top"
+        android:hint="Описание"
         android:inputType="textMultiLine"
+        android:minHeight="48dp"
+        android:maxHeight="230dp"
         android:overScrollMode="never"
         android:scrollbars="none"
+        android:windowSoftInputMode="adjustUnspecified"
         app:layout_constraintBottom_toTopOf="@+id/next3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar5"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintVertical_bias="0.017" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

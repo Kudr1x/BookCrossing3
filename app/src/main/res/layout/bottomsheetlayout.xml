@@ -16,6 +16,7 @@
         android:textColor="@color/black"
         android:layout_marginTop="5dp"
         android:textSize="25dp"
+        android:textAllCaps="false"
         android:textStyle="bold"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,10 +29,12 @@
 
         <Button
             android:id="@+id/yes"
+            android:background="@drawable/custom_button"
             android:layout_width="140dp"
             android:layout_height="60dp"
             app:layout_constraintStart_toStartOf="parent"
             android:text="Да"
+            android:textAllCaps="false"
             android:textStyle="bold"
             android:textSize="16sp"
             app:layout_constraintTop_toTopOf="parent">
@@ -39,9 +42,11 @@
 
         <Button
             android:id="@+id/no"
+            android:background="@drawable/custom_button"
             android:layout_width="140dp"
             android:layout_height="60dp"
             android:text="Нет"
+            android:textAllCaps="false"
             android:textStyle="bold"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"

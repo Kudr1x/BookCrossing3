@@ -22,8 +22,8 @@
         android:name="max51.com.vk.bookcrossing.ui.f2.Fragment2"
         tools:layout="@layout/fragment_2" >
         <action
-            android:id="@+id/action_navigation_dashboard_to_viewFragment"
-            app:destination="@id/viewFragment" />
+            android:id="@+id/action_navigation_dashboard_to_viewActivity"
+            app:destination="@id/viewActivity" />
     </fragment>
 
     <fragment
@@ -31,24 +31,23 @@
         android:name="max51.com.vk.bookcrossing.ui.f3.Fragment3"
         tools:layout="@layout/fragment_3" >
         <action
+            android:id="@+id/action_navigation_notifications_to_changePasswordActivity"
+            app:destination="@id/changePasswordActivity" />
+        <action
             android:id="@+id/action_navigation_notifications_to_regActivity"
             app:destination="@id/regActivity" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_changeNameActivity"
+            app:destination="@id/changeNameActivity" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_infoActivity"
+            app:destination="@id/infoActivity" />
     </fragment>
     <activity
-        android:id="@+id/regActivity"
-        android:name="max51.com.vk.bookcrossing.login.RegActivity"
-        android:label="activity_reg"
-        tools:layout="@layout/activity_reg" />
-    <activity
         android:id="@+id/loadActivity"
-        android:name="max51.com.vk.bookcrossing.load.LoadActivity"
+        android:name="max51.com.vk.bookcrossing.ui.load.LoadActivity"
         android:label="activity_load"
         tools:layout="@layout/activity_load" />
-    <fragment
-        android:id="@+id/viewFragment"
-        android:name="max51.com.vk.bookcrossing.ui.f2.ViewFragment"
-        android:label="fragment_view"
-        tools:layout="@layout/fragment_view" />
     <fragment
         android:id="@+id/editFragment"
         android:name="max51.com.vk.bookcrossing.ui.f1.EditFragment"
@@ -58,5 +57,30 @@
             android:id="@+id/action_editFragment_to_navigation_home"
             app:destination="@id/navigation_home" />
     </fragment>
+    <activity
+        android:id="@+id/viewActivity"
+        android:name="max51.com.vk.bookcrossing.ui.f2.ViewActivity"
+        android:label="activity_view"
+        tools:layout="@layout/activity_view" />
+    <activity
+        android:id="@+id/changePasswordActivity"
+        android:name="max51.com.vk.bookcrossing.ui.f3.changePasswordActivity"
+        android:label="fragment_change_password"
+        tools:layout="@layout/activity_change_password" />
+    <activity
+        android:id="@+id/regActivity"
+        android:name="max51.com.vk.bookcrossing.ui.login.RegActivity"
+        android:label="activity_reg"
+        tools:layout="@layout/activity_reg" />
+    <activity
+        android:id="@+id/changeNameActivity"
+        android:name="max51.com.vk.bookcrossing.ui.f3.changeNameActivity"
+        android:label="activity_change_name"
+        tools:layout="@layout/activity_change_name" />
+    <activity
+        android:id="@+id/infoActivity"
+        android:name="max51.com.vk.bookcrossing.ui.f3.InfoActivity"
+        android:label="activity_info"
+        tools:layout="@layout/activity_info" />
 
 </navigation>

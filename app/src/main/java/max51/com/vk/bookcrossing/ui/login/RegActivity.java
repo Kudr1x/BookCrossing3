@@ -1,4 +1,4 @@
-package max51.com.vk.bookcrossing.login;
+package max51.com.vk.bookcrossing.ui.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 

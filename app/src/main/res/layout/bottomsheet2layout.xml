@@ -28,22 +28,26 @@
 
         <Button
             android:id="@+id/cam"
+            android:background="@drawable/custom_button"
             android:layout_width="140dp"
             android:layout_height="60dp"
             app:layout_constraintStart_toStartOf="parent"
             android:text="Камера"
             android:textStyle="bold"
             android:textSize="16sp"
+            android:textAllCaps="false"
             app:layout_constraintTop_toTopOf="parent">
         </Button>
 
         <Button
             android:id="@+id/gallery"
+            android:background="@drawable/custom_button"
             android:layout_width="140dp"
             android:layout_height="60dp"
             android:text="Галерея"
             android:textStyle="bold"
             android:textSize="16sp"
+            android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
         </Button>

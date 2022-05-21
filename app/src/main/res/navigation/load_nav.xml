@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/load1"
-        android:name="max51.com.vk.bookcrossing.load.Load1"
+        android:name="max51.com.vk.bookcrossing.ui.load.Load1"
         android:label="fragment_load1"
         tools:layout="@layout/fragment_load1" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/load2"
-        android:name="max51.com.vk.bookcrossing.load.Load2"
+        android:name="max51.com.vk.bookcrossing.ui.load.Load2"
         android:label="fragment_load2"
         tools:layout="@layout/fragment_load2" >
         <action
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/load3"
-        android:name="max51.com.vk.bookcrossing.load.Load3"
+        android:name="max51.com.vk.bookcrossing.ui.load.Load3"
         android:label="fragment_load3"
         tools:layout="@layout/fragment_load3" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/load4"
-        android:name="max51.com.vk.bookcrossing.load.Load4"
+        android:name="max51.com.vk.bookcrossing.ui.load.Load4"
         android:label="fragment_load4"
         tools:layout="@layout/fragment_load4" >
         <action

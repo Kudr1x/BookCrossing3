@@ -4,16 +4,16 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/library_add"
-        android:title="" />
+        android:title="Моя бибилиотека" />
 
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/menu_book"
-        android:title="" />
+        android:title="Объявления" />
 
     <item
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/person"
-        android:title="" />
+        android:title="Мой профиль" />
 
 </menu>

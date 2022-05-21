@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:textStyle="bold"
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Контакты"
+        android:textColor="@android:color/black"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/tgView"
+        android:drawablePadding="10dp"
+        android:layout_width="match_parent"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_height="50dp"
+        android:drawableLeft="@drawable/tg"
+        app:layout_constraintEnd_toStartOf="@+id/copyTg"
+        app:layout_constraintTop_toBottomOf="@id/textView"
+        android:padding="10dp"
+        android:textSize="18sp"
+        android:background="@drawable/custom_text" />
+
+    <ImageView
+        android:id="@+id/copyTg"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/copy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/vkView"
+        android:layout_width="match_parent"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_height="50dp"
+        android:drawable="@drawable/custom_text"
+        android:drawableLeft="@drawable/vk"
+        android:drawablePadding="10dp"
+        app:layout_constraintTop_toBottomOf="@id/tgView"
+        android:padding="10dp"
+        android:textSize="18sp"
+        android:background="@drawable/custom_text" />
+
+    <ImageView
+        android:id="@+id/copyVk"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/copy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/numView"
+        android:layout_width="match_parent"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_height="50dp"
+        android:drawable="@drawable/custom_text"
+        android:drawableLeft="@drawable/phone"
+        app:layout_constraintEnd_toStartOf="@id/copyNum"
+        app:layout_constraintTop_toBottomOf="@id/vkView"
+        android:padding="10dp"
+        android:textSize="18sp"
+        android:background="@drawable/custom_text" />
+
+    <ImageView
+        android:id="@+id/copyNum"
+        android:drawablePadding="10dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="204dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/copy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/emailView"
+        android:layout_width="match_parent"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_height="50dp"
+        android:drawable="@drawable/custom_text"
+        android:drawableLeft="@drawable/email_color"
+        app:layout_constraintEnd_toStartOf="@id/copyEmail"
+        app:layout_constraintTop_toBottomOf="@id/numView"
+        android:padding="10dp"
+        android:textSize="18sp"
+        android:background="@drawable/custom_text" />
+
+    <ImageView
+        android:id="@+id/copyEmail"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="268dp"
+        android:layout_marginEnd="12dp"
+        android:drawablePadding="10dp"
+        android:src="@drawable/copy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Toolbar
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        app:layout_constraintTop_toBottomOf="@id/emailView"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

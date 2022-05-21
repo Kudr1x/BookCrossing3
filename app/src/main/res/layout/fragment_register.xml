@@ -5,7 +5,7 @@
     android:id="@+id/registerFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login.Register">
+    tools:context=".ui.login.Register">
 
     <TextView
         android:id="@+id/textView2"
@@ -21,8 +21,9 @@
 
     <EditText
         android:id="@+id/editTextTextPersonName"
+        android:background="@drawable/custom_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="70dp"
         android:layout_marginEnd="50dp"
@@ -38,7 +39,8 @@
     <EditText
         android:id="@+id/editTextTextEmailAddress2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:background="@drawable/custom_text"
+        android:layout_height="50dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="50dp"
@@ -53,8 +55,9 @@
 
     <EditText
         android:id="@+id/editTextTextPassword2"
+        android:background="@drawable/custom_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="50dp"
@@ -69,12 +72,14 @@
 
     <Button
         android:id="@+id/buttonRegister"
+        android:background="@drawable/custom_button"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:layout_marginStart="50sp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="50sp"
         android:text="Регистрация"
+        android:textAllCaps="false"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

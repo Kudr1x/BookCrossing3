@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -15,12 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import max51.com.vk.bookcrossing.R;
-import max51.com.vk.bookcrossing.Elements;
-import max51.com.vk.bookcrossing.SelectListenerElement;
+import max51.com.vk.bookcrossing.util.Elements;
+import max51.com.vk.bookcrossing.util.SelectListenerElement;
 
 public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ExampleViewHolder> {
     private List<Elements> mExampleList;

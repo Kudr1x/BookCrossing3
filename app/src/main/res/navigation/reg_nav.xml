@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/login"
-        android:name="max51.com.vk.bookcrossing.login.Login"
+        android:name="max51.com.vk.bookcrossing.ui.login.Login"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/register"
-        android:name="max51.com.vk.bookcrossing.login.Register"
+        android:name="max51.com.vk.bookcrossing.ui.login.Register"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
@@ -35,7 +35,7 @@
         android:label="MainActivity" />
     <fragment
         android:id="@+id/reset"
-        android:name="max51.com.vk.bookcrossing.login.Reset"
+        android:name="max51.com.vk.bookcrossing.ui.login.Reset"
         android:label="fragment_reset"
         tools:layout="@layout/fragment_reset" />
 </navigation>

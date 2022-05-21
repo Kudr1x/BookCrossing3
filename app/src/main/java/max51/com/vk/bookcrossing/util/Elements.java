@@ -1,4 +1,4 @@
-package max51.com.vk.bookcrossing;
+package max51.com.vk.bookcrossing.util;
 
 public class Elements {
     public String title;
@@ -7,6 +7,7 @@ public class Elements {
     public String uri;
     public String id;
     public String uploadId;
+    public String profileName;
 
     public String getUploadId() {
         return uploadId;
@@ -58,12 +59,21 @@ public class Elements {
 
     public Elements(){}
 
-    public Elements(String title, String author, String desk, String uri, String id, String uploadId) {
+    public String getProfileName() {
+        return profileName;
+    }
+
+    public void setProfileName(String profileName) {
+        this.profileName = profileName;
+    }
+
+    public Elements(String title, String author, String desk, String uri, String id, String uploadId, String profileName) {
         this.title = title;
         this.author = author;
         this.desk = desk;
         this.uri = uri;
         this.id = id;
         this.uploadId = uploadId;
+        this.profileName = profileName;
     }
 }

@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.Locale;
 
 import max51.com.vk.bookcrossing.R;
-import max51.com.vk.bookcrossing.Elements;
-import max51.com.vk.bookcrossing.SelectListenerElement;
+import max51.com.vk.bookcrossing.util.Elements;
+import max51.com.vk.bookcrossing.util.SelectListenerElement;
 
 public class Fragment1 extends Fragment implements SelectListenerElement {
 

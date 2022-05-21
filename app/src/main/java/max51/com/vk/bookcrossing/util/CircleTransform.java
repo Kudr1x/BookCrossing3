@@ -1,4 +1,4 @@
-package max51.com.vk.bookcrossing;
+package max51.com.vk.bookcrossing.util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

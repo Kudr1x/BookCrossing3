@@ -5,6 +5,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.f1.EditFragment"
+    android:background="@color/browser_actions_bg_grey"
+
     android:layout_marginBottom="?attr/actionBarSize">
 
     <ScrollView
@@ -99,8 +101,9 @@
                 android:id="@+id/btSave"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/save">
-            </ImageView>
+                android:src="@drawable/save"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>

@@ -12,9 +12,9 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 
-import max51.com.vk.bookcrossing.Elements;
+import max51.com.vk.bookcrossing.util.Elements;
 import max51.com.vk.bookcrossing.R;
-import max51.com.vk.bookcrossing.SelectListenerElement;
+import max51.com.vk.bookcrossing.util.SelectListenerElement;
 
 public class VerticalAdapter extends BaseAdapter{
     List<Elements>  element;

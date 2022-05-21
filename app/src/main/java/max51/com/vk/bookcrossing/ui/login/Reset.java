@@ -1,4 +1,4 @@
-package max51.com.vk.bookcrossing.login;
+package max51.com.vk.bookcrossing.ui.login;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;

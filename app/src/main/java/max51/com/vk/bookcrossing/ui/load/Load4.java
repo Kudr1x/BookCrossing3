@@ -1,4 +1,4 @@
-package max51.com.vk.bookcrossing.load;
+package max51.com.vk.bookcrossing.ui.load;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -33,7 +33,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import max51.com.vk.bookcrossing.Elements;
+import max51.com.vk.bookcrossing.util.Elements;
 import max51.com.vk.bookcrossing.R;
 
 public class Load4 extends Fragment {
@@ -127,7 +127,7 @@ public class Load4 extends Fragment {
                         public void onSuccess(Uri uri) {
                             String url = uri.toString();
                             String uploadId = mDatabaseRef.push().getKey();
-                            Elements elements = new Elements(title, author, desk, url, id, uploadId);
+                            Elements elements = new Elements(title, author, desk, url, id, uploadId, FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
                             mDatabaseRef.child(uploadId).setValue(elements);
                         }
                     });

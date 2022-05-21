@@ -1,5 +1,6 @@
 package max51.com.vk.bookcrossing.ui.f2;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -29,16 +30,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import max51.com.vk.bookcrossing.Elements;
+import max51.com.vk.bookcrossing.util.Elements;
 import max51.com.vk.bookcrossing.R;
-import max51.com.vk.bookcrossing.SelectListenerElement;
+import max51.com.vk.bookcrossing.util.ExpandableHeightGridView;
+import max51.com.vk.bookcrossing.util.SelectListenerElement;
+import max51.com.vk.bookcrossing.util.User;
 
-public class Fragment2 extends Fragment implements SelectListenerElement {
+public class Fragment2 extends Fragment implements SelectListenerElement{
+
+    public Fragment2(){ }
+
     private final List<Bitmap> bitmapList = new ArrayList<>();
     private final ArrayList<Elements> gridElements = new ArrayList<>();
     private DatabaseReference mDatabaseRef;
     private VerticalAdapter gridAdapter;
     private SearchView searchView;
+    private String fav;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -102,6 +109,23 @@ public class Fragment2 extends Fragment implements SelectListenerElement {
                 return true;
             }
         });
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
+                    User user = postSnapshot.getValue(User.class);
+                    if(user.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                        fav = user.getFavorite();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
     }
 
     private void filter(String newText) {
@@ -113,7 +137,9 @@ public class Fragment2 extends Fragment implements SelectListenerElement {
             }
         }
 
-        gridAdapter.filteredList(filteredList);
+        try{ gridAdapter.filteredList(filteredList);
+        }catch (Exception ignored){ }
+
     }
 
     public void createAdapter(){
@@ -122,14 +148,20 @@ public class Fragment2 extends Fragment implements SelectListenerElement {
 
     @Override
     public void onItemClicked(Elements elements) {
-        Bundle bundle = new Bundle();
+        sendData(elements);
+    }
 
-        bundle.putString("title", elements.getTitle());
-        bundle.putString("author", elements.getAuthor());
-        bundle.putString("desk", elements.getDesk());
-        bundle.putString("uri", elements.getUri());
-        bundle.putString("id", elements.getId());
+    private void sendData(Elements elements) {
+        Intent i = new Intent(getActivity().getBaseContext(), ViewActivity.class);
 
-        Navigation.findNavController(getView()).navigate(R.id.action_navigation_dashboard_to_viewFragment, bundle);
+        i.putExtra("fav", fav);
+        i.putExtra("title", elements.getTitle());
+        i.putExtra("author", elements.getAuthor());
+        i.putExtra("desk", elements.getDesk());
+        i.putExtra("uri", elements.getUri());
+        i.putExtra("id", elements.getId());
+        i.putExtra("profileName", elements.getProfileName());
+        i.putExtra("uploadId", elements.getUploadId());
+        getActivity().startActivity(i);
     }
 }

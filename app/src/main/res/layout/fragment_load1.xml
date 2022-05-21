@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".load.Load1">
+    android:background="@color/browser_actions_bg_grey"
+    tools:context=".ui.load.Load1">
 
     <Button
         android:id="@+id/next1"
+        android:background="@drawable/custom_button"
+        android:textAllCaps="false"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginBottom="28dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:text="Дальше"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar3"
@@ -33,6 +38,7 @@
             android:layout_height="match_parent">
             <TextView
                 android:id="@+id/textView6"
+                android:textColor="#FFFFFF"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
@@ -60,6 +66,7 @@
     <EditText
         android:id="@+id/autoCompleteTextEdit"
         android:layout_width="match_parent"
+        android:background="@drawable/custom_text"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="32dp"

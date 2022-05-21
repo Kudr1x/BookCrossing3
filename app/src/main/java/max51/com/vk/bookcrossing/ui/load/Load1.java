@@ -1,4 +1,4 @@
-package max51.com.vk.bookcrossing.load;
+package max51.com.vk.bookcrossing.ui.load;
 
 import android.os.Bundle;
 
@@ -16,9 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.google.firebase.auth.FirebaseAuth;
-
 import java.util.List;
 
 import max51.com.vk.bookcrossing.R;
@@ -38,7 +35,6 @@ public class Load1 extends Fragment implements SelectListener {
 
     private String title;
     private String author;
-
     private List<Item> volumeInfoList;
     private ApiService api;
     private BooksAdapter adapter;
@@ -66,12 +62,10 @@ public class Load1 extends Fragment implements SelectListener {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                edit(editText.getText());
-            }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
             @Override
-            public void afterTextChanged(Editable editable) { }
+            public void afterTextChanged(Editable editable) { edit(editable); }
         });
 
         bt.setOnClickListener(view1 -> {
@@ -87,7 +81,7 @@ public class Load1 extends Fragment implements SelectListener {
             try{
                 bundle.putString("author", author);
                 bundle.putString("title", title);
-            }catch(Exception e ){ }
+            }catch(Exception ignored){ }
             Navigation.findNavController(view).navigate(R.id.action_load1_to_load2, bundle);
         });
     }
@@ -100,7 +94,7 @@ public class Load1 extends Fragment implements SelectListener {
                 if (response.isSuccessful()) {
                     volumeInfoList = response.body().getItems();
                     recyclerView.smoothScrollToPosition(0);
-                    setAdapter();
+                    setAdapters();
                 }
             }
 
@@ -113,7 +107,6 @@ public class Load1 extends Fragment implements SelectListener {
     public void onItemClicked(Item item) {
         EditText editText = getView().findViewById(R.id.autoCompleteTextEdit);
         editText.setText(item.getVolumeInfo().getTitle());
-
         try{
             title = item.getVolumeInfo().getTitle();
             if(item.getVolumeInfo().getAuthors().size() != 0) author = item.getVolumeInfo().getAuthors().get(0);
@@ -122,12 +115,12 @@ public class Load1 extends Fragment implements SelectListener {
         }
     }
 
-    public void setAdapter(){
+    public void setAdapters(){
         adapter = new BooksAdapter(volumeInfoList, this);
+        try{ recyclerView.setAdapter(adapter); }catch (Exception ignored){ }
     }
 
     public void edit(Editable editable){
-        try{ recyclerView.setAdapter(adapter); }catch (Exception ignored){ }
         doSearch(editable.toString());
         author = "";
     }

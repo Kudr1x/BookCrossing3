@@ -1,4 +1,4 @@
-package max51.com.vk.bookcrossing.login;
+package max51.com.vk.bookcrossing.ui.login;
 
 import android.os.Bundle;
 import android.util.Patterns;
@@ -17,7 +17,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
 
 import max51.com.vk.bookcrossing.R;
-import max51.com.vk.bookcrossing.User;
+import max51.com.vk.bookcrossing.util.User;
 
 public class Register extends Fragment {
 
@@ -30,10 +30,10 @@ public class Register extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        EditText emailEditText = (EditText) getView().findViewById(R.id.editTextTextEmailAddress2);
-        EditText passwordEditText = (EditText) getView().findViewById(R.id.editTextTextPassword2);
-        EditText nameEditText = (EditText) getView().findViewById(R.id.editTextTextPersonName);
-        Button btReg = (Button) getView().findViewById(R.id.buttonRegister);
+        EditText emailEditText = getView().findViewById(R.id.editTextTextEmailAddress2);
+        EditText passwordEditText = getView().findViewById(R.id.editTextTextPassword2);
+        EditText nameEditText = getView().findViewById(R.id.editTextTextPersonName);
+        Button btReg = getView().findViewById(R.id.buttonRegister);
         mAuth = FirebaseAuth.getInstance();
 
 
@@ -73,9 +73,11 @@ public class Register extends Fragment {
                 return;
             }
 
+            String ms = null;
+
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if(task.isSuccessful()){
-                    User user = new User(name, email);
+                    User user = new User(name, email, FirebaseAuth.getInstance().getCurrentUser().getUid(), "null", "null", "null", ms);
                     FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnCompleteListener(task1 -> {
                         if(task1.isSuccessful()){
                             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();

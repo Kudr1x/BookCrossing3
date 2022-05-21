@@ -1,4 +1,4 @@
-package max51.com.vk.bookcrossing.login;
+package max51.com.vk.bookcrossing.ui.login;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -49,7 +49,6 @@ public class Login extends Fragment{
         if(!userEmail.equals("")){
             mAuth.signInWithEmailAndPassword(userEmail, userPassword);
             Navigation.findNavController(view).navigate(R.id.action_login_to_mainActivity);
-            System.out.println("Вход выполнен");
         }
 
         EditText emailEditText = getView().findViewById(R.id.editTextTextEmailAddress);

@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login.RegActivity">
-
-
+    tools:context=".ui.login.RegActivity">
 
     <fragment
         android:id="@+id/nav_host_fragment_activity_main"
