@@ -1,5 +1,6 @@
 package max51.com.vk.bookcrossing.ui.f2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,12 +33,12 @@ import java.util.Locale;
 import max51.com.vk.bookcrossing.util.Elements;
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.util.ExpandableHeightGridView;
+import max51.com.vk.bookcrossing.util.HorizontalAdapter;
 import max51.com.vk.bookcrossing.util.SelectListenerElement;
 import max51.com.vk.bookcrossing.util.User;
+import max51.com.vk.bookcrossing.util.VerticalAdapter;
 
 public class Fragment2 extends Fragment implements SelectListenerElement{
-
-    public Fragment2(){ }
 
     private final List<Bitmap> bitmapList = new ArrayList<>();
     private final ArrayList<Elements> gridElements = new ArrayList<>();
@@ -81,12 +81,11 @@ public class Fragment2 extends Fragment implements SelectListenerElement{
                 gridElements.clear();
                 for(DataSnapshot postSnapshot : snapshot.getChildren()){
                     Elements element = postSnapshot.getValue(Elements.class);
-                    if(!element.id.equals(FirebaseAuth.getInstance().getUid())){
+                    if(!element.id.equals(FirebaseAuth.getInstance().getUid()) && !element.getArchive()){
                         gridElements.add(element);
                     }
 
                     createAdapter();
-
                     grid.setAdapter(gridAdapter);
                 }
             }
@@ -143,7 +142,7 @@ public class Fragment2 extends Fragment implements SelectListenerElement{
     }
 
     public void createAdapter(){
-        gridAdapter = new VerticalAdapter(gridElements, getContext(), this);
+        gridAdapter = new VerticalAdapter(gridElements, getContext(), this, getActivity());
     }
 
     @Override

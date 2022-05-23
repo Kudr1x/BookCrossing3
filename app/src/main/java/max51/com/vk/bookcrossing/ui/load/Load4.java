@@ -127,7 +127,7 @@ public class Load4 extends Fragment {
                         public void onSuccess(Uri uri) {
                             String url = uri.toString();
                             String uploadId = mDatabaseRef.push().getKey();
-                            Elements elements = new Elements(title, author, desk, url, id, uploadId, FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                            Elements elements = new Elements(title, author, desk, url, id, uploadId, FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), false);
                             mDatabaseRef.child(uploadId).setValue(elements);
                         }
                     });

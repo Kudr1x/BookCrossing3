@@ -42,6 +42,12 @@
         <action
             android:id="@+id/action_navigation_notifications_to_infoActivity"
             app:destination="@id/infoActivity" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_favoriteActivity"
+            app:destination="@id/favoriteActivity" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_archiveActivity"
+            app:destination="@id/archiveActivity" />
     </fragment>
     <activity
         android:id="@+id/loadActivity"
@@ -50,7 +56,7 @@
         tools:layout="@layout/activity_load" />
     <fragment
         android:id="@+id/editFragment"
-        android:name="max51.com.vk.bookcrossing.ui.f1.EditFragment"
+        android:name="max51.com.vk.bookcrossing.ui.f1.EditActivity"
         android:label="fragment_edit"
         tools:layout="@layout/fragment_edit" >
         <action
@@ -82,5 +88,15 @@
         android:name="max51.com.vk.bookcrossing.ui.f3.InfoActivity"
         android:label="activity_info"
         tools:layout="@layout/activity_info" />
+    <activity
+        android:id="@+id/favoriteActivity"
+        android:name="max51.com.vk.bookcrossing.ui.f3.FavoriteActivity"
+        android:label="activity_favorite"
+        tools:layout="@layout/activity_favorite" />
+    <activity
+        android:id="@+id/archiveActivity"
+        android:name="max51.com.vk.bookcrossing.ui.f3.ArchiveActivity"
+        android:label="activity_archive"
+        tools:layout="@layout/activity_archive" />
 
 </navigation>

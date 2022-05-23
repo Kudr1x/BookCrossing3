@@ -39,11 +39,14 @@
         <entry key="app/src/main/res/drawable/phone.xml" value="0.2855" />
         <entry key="app/src/main/res/drawable/save.xml" value="0.253" />
         <entry key="app/src/main/res/drawable/tg.xml" value="0.2855" />
+        <entry key="app/src/main/res/drawable/unarchive.xml" value="0.2155" />
         <entry key="app/src/main/res/drawable/unfavorite.xml" value="0.3355" />
         <entry key="app/src/main/res/drawable/vk.xml" value="0.2855" />
+        <entry key="app/src/main/res/layout/activity_archive.xml" value="0.2598958333333333" />
         <entry key="app/src/main/res/layout/activity_change_email.xml" value="0.3458333333333333" />
         <entry key="app/src/main/res/layout/activity_change_name.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_change_password.xml" value="0.3609375" />
+        <entry key="app/src/main/res/layout/activity_favorite.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/layout/activity_info.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/activity_load.xml" value="0.35833333333333334" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
@@ -64,6 +67,7 @@
         <entry key="app/src/main/res/layout/fragment_change_password.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_dialog.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_edit.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_favorite.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/layout/fragment_info.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_load.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_load1.xml" value="0.25" />

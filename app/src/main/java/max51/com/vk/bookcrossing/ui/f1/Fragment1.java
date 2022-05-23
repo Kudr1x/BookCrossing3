@@ -1,5 +1,6 @@
 package max51.com.vk.bookcrossing.ui.f1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import java.util.Locale;
 
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.util.Elements;
+import max51.com.vk.bookcrossing.util.RecAdapter;
 import max51.com.vk.bookcrossing.util.SelectListenerElement;
 
 public class Fragment1 extends Fragment implements SelectListenerElement {
@@ -63,7 +65,7 @@ public class Fragment1 extends Fragment implements SelectListenerElement {
                 elementsArrayList.clear();
                 for(DataSnapshot postSnapshot : snapshot.getChildren()){
                     Elements element = postSnapshot.getValue(Elements.class);
-                    if(element.id.equals(FirebaseAuth.getInstance().getUid())){
+                    if(element.id.equals(FirebaseAuth.getInstance().getUid()) && !element.getArchive()){
                         elementsArrayList.add(element);
                     }
 
@@ -131,19 +133,18 @@ public class Fragment1 extends Fragment implements SelectListenerElement {
 
     @Override
     public void onItemClicked(Elements elements) {
-        Bundle bundle = new Bundle();
+        Intent i = new Intent(getActivity().getBaseContext(), EditActivity.class);
 
-        bundle.putString("title", elements.getTitle());
-        bundle.putString("author", elements.getAuthor());
-        bundle.putString("desk", elements.getDesk());
-        bundle.putString("uri", elements.getUri());
-        bundle.putString("id", elements.getId());
-        bundle.putString("uploadId", elements.getUploadId());
-
-        Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_editFragment, bundle);
+        i.putExtra("title", elements.getTitle());
+        i.putExtra("author", elements.getAuthor());
+        i.putExtra("desk", elements.getDesk());
+        i.putExtra("uri", elements.getUri());
+        i.putExtra("id", elements.getId());
+        i.putExtra("uploadId", elements.getUploadId());
+        getActivity().startActivity(i);
     }
 
     public void createAdapter(){
-        recAdapter = new RecAdapter(elementsArrayList, this);
+        recAdapter = new RecAdapter(elementsArrayList, this, getActivity());
     }
 }

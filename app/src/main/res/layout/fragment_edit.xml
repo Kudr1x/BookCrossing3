@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.f1.EditFragment"
+    tools:context=".ui.f1.EditActivity"
     android:background="@color/browser_actions_bg_grey"
 
     android:layout_marginBottom="?attr/actionBarSize">
@@ -35,11 +35,12 @@
                 android:id="@+id/editTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:layout_marginTop="16dp"
+                android:minHeight="48dp"
+                android:text="TextView"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:text="TextView"
-                android:layout_margin="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editImage" />
 
@@ -49,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_marginTop="16dp"
+                android:minHeight="48dp"
                 android:text="TextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.526"
@@ -59,8 +61,9 @@
                 android:id="@+id/editDesk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_margin="10dp"
+                android:layout_marginTop="16dp"
+                android:minHeight="48dp"
                 android:text="TextView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editAuthor" />
@@ -94,8 +97,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
-                tools:ignore="TouchTargetSizeCheck">
-            </ImageView>
+                tools:ignore="TouchTargetSizeCheck"/>
+
+            <ImageView
+                android:id="@+id/archive"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/archive"
+                app:layout_constraintEnd_toStartOf="@id/btDel"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="10dp"/>
 
             <ImageView
                 android:id="@+id/btSave"

@@ -1,6 +1,8 @@
-package max51.com.vk.bookcrossing.ui.f2;
+package max51.com.vk.bookcrossing.util;
 
+import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +21,15 @@ import max51.com.vk.bookcrossing.util.SelectListenerElement;
 public class VerticalAdapter extends BaseAdapter{
     List<Elements>  element;
     Context context;
+    Activity activity;
 
     private SelectListenerElement listener;
 
-    public VerticalAdapter(List<Elements> element, Context context, SelectListenerElement listener) {
+    public VerticalAdapter(List<Elements> element, Context context, SelectListenerElement listener, Activity activity) {
         this.element = element;
         this.context = context;
         this.listener = listener;
+        this.activity = activity;
     }
 
     @Override
@@ -60,9 +64,8 @@ public class VerticalAdapter extends BaseAdapter{
             }
         });
 
-        title.setText(element.get(position).getTitle());
-        author.setText(element.get(position).getAuthor());
-        Picasso.get().load(element.get(position).getUri()).fit().centerCrop().into(img);
+        thread thread = new thread(element, position, img, title, author, activity);
+        thread.start();
 
         return view;
     }
@@ -70,5 +73,36 @@ public class VerticalAdapter extends BaseAdapter{
     public void filteredList(List<Elements> filteredList){
         element = filteredList;
         notifyDataSetChanged();
+    }
+}
+
+class thread extends Thread{
+
+    List<Elements> element;
+    int position;
+    ImageView img;
+    TextView title;
+    TextView author;
+    Activity activity;
+
+    public thread(List<Elements> element, int position, ImageView img, TextView title, TextView author, Activity activity) {
+        this.element = element;
+        this.position = position;
+        this.img = img;
+        this.title = title;
+        this.author = author;
+        this.activity = activity;
+    }
+
+    @Override
+    public void run(){
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Picasso.get().load(element.get(position).getUri()).fit().centerCrop().into(img);
+                title.setText(element.get(position).getTitle());
+                author.setText(element.get(position).getAuthor());
+            }
+        });
     }
 }

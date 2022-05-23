@@ -18,18 +18,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import max51.com.vk.bookcrossing.R;
+import max51.com.vk.bookcrossing.util.User;
 
 public class Fragment3 extends Fragment {
 
@@ -40,6 +47,7 @@ public class Fragment3 extends Fragment {
     private Button btOut;
     private FirebaseUser user;
     private StorageReference mStorageRef;
+    private String fav;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,7 +65,9 @@ public class Fragment3 extends Fragment {
         ConstraintLayout changePassword = view.findViewById(R.id.changePassword);
         ConstraintLayout changeName = view.findViewById(R.id.changeName);
         ConstraintLayout changePhoto = view.findViewById(R.id.changePhoto);
+        ConstraintLayout favoriteActivity = view.findViewById(R.id.favorite);
         ConstraintLayout info = view.findViewById(R.id.info);
+        ConstraintLayout archived = view.findViewById(R.id.archived);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("avatars/");
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -67,6 +77,10 @@ public class Fragment3 extends Fragment {
 
         Uri userImage = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
         if(userImage != null) Picasso.get().load(userImage).into(imageProfile);
+
+        archived.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_navigation_notifications_to_archiveActivity));
+
+        favoriteActivity.setOnClickListener(view1 -> runFavoriteActivity());
 
         imageProfile.setOnClickListener(view1 -> showChoicesDialog());
 
@@ -146,7 +160,32 @@ public class Fragment3 extends Fragment {
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
-    void exit(){
+    private void runFavoriteActivity() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
+                    User user = postSnapshot.getValue(User.class);
+                    if(user.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                        fav = user.getFavorite();
+                        System.out.println(fav);
+                        try {
+                            Intent i = new Intent(getActivity().getBaseContext(), FavoriteActivity.class);
+                            i.putExtra("fav", fav);
+                            getActivity().startActivity(i);
+                        }catch (Exception ignore){}
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
+
+    private void exit(){
         FirebaseAuth.getInstance().signOut();
         Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_regActivity);
     }

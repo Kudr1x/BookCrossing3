@@ -1,4 +1,4 @@
-package max51.com.vk.bookcrossing.ui.f2;
+package max51.com.vk.bookcrossing.util;
 
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;

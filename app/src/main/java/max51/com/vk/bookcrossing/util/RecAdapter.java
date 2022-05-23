@@ -1,7 +1,8 @@
-package max51.com.vk.bookcrossing.ui.f1;
+package max51.com.vk.bookcrossing.util;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +18,11 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import max51.com.vk.bookcrossing.R;
-import max51.com.vk.bookcrossing.util.Elements;
-import max51.com.vk.bookcrossing.util.SelectListenerElement;
 
 public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ExampleViewHolder> {
     private List<Elements> mExampleList;
     private SelectListenerElement listener;
+    private Activity activity;
 
     public static class ExampleViewHolder extends RecyclerView.ViewHolder {
         public ImageView mImageView;
@@ -39,9 +39,10 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ExampleViewHolde
         }
     }
 
-    public RecAdapter(List<Elements> exampleList, SelectListenerElement listener) {
+    public RecAdapter(List<Elements> exampleList, SelectListenerElement listener, Activity activity) {
         mExampleList = exampleList;
         this.listener = listener;
+        this.activity = activity;
     }
 
     @Override
@@ -53,10 +54,8 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ExampleViewHolde
 
     @Override
     public void onBindViewHolder(ExampleViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        Elements currentItem = mExampleList.get(position);
-        holder.mTextView1.setText(currentItem.getTitle());
-        holder.mTextView2.setText(currentItem.getAuthor());
-        Picasso.get().load(currentItem.getUri()).fit().centerCrop().into(holder.mImageView);
+        threadRec thread = new threadRec(activity, mExampleList, position, holder);
+        thread.start();
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,5 +73,33 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ExampleViewHolde
     public void filteredList(List<Elements> filteredList) {
         mExampleList = filteredList;
         notifyDataSetChanged();
+    }
+}
+
+class threadRec extends Thread{
+
+    Activity activity;
+    List<Elements> mExampleList;
+    int position;
+    RecAdapter.ExampleViewHolder holder;
+
+    public threadRec(Activity activity, List<Elements> mExampleList, int position, RecAdapter.ExampleViewHolder holder) {
+        this.activity = activity;
+        this.mExampleList = mExampleList;
+        this.position = position;
+        this.holder = holder;
+    }
+
+    @Override
+    public void run(){
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Elements currentItem = mExampleList.get(position);
+                holder.mTextView1.setText(currentItem.getTitle());
+                holder.mTextView2.setText(currentItem.getAuthor());
+                Picasso.get().load(currentItem.getUri()).fit().centerCrop().into(holder.mImageView);
+            }
+        });
     }
 }
