@@ -68,11 +68,11 @@ public class Elements {
         this.profileName = profileName;
     }
 
-    public Boolean getArchive() {return archived;}
+    public Boolean getArchived() {return archived;}
 
     public void setArchive(Boolean archive) {this.archived = archive;}
 
-    public Elements(String title, String author, String desk, String uri, String id, String uploadId, String profileName, Boolean archive) {
+    public Elements(String title, String author, String desk, String uri, String id, String uploadId, String profileName, Boolean archived) {
         this.title = title;
         this.author = author;
         this.desk = desk;
@@ -80,6 +80,6 @@ public class Elements {
         this.id = id;
         this.uploadId = uploadId;
         this.profileName = profileName;
-        this.archived = archive;
+        this.archived = archived;
     }
 }

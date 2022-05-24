@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -46,6 +47,7 @@ public class Fragment2 extends Fragment implements SelectListenerElement{
     private VerticalAdapter gridAdapter;
     private SearchView searchView;
     private String fav;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,6 +64,7 @@ public class Fragment2 extends Fragment implements SelectListenerElement{
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
 
         searchView = view.findViewById(R.id.sv);
+        swipeRefreshLayout = view.findViewById(R.id.swipe);
 
         ExpandableHeightGridView grid = view.findViewById(R.id.grid_view);
         grid.setAdapter(gridAdapter);
@@ -75,13 +78,21 @@ public class Fragment2 extends Fragment implements SelectListenerElement{
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(viewPager);
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                gridAdapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 gridElements.clear();
                 for(DataSnapshot postSnapshot : snapshot.getChildren()){
                     Elements element = postSnapshot.getValue(Elements.class);
-                    if(!element.id.equals(FirebaseAuth.getInstance().getUid()) && !element.getArchive()){
+                    if(!element.id.equals(FirebaseAuth.getInstance().getUid()) && !element.getArchived()){
                         gridElements.add(element);
                     }
 

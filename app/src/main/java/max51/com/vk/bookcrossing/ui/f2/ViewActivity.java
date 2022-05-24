@@ -150,9 +150,9 @@ public class ViewActivity extends AppCompatActivity {
         ImageView numCopy = dialog.findViewById(R.id.copyNum);
         ImageView emailCopy = dialog.findViewById(R.id.copyEmail);
 
-        textTg.setText(tg);
-        textVk.setText(vk);
-        textNum.setText(num);
+        if(!tg.equals("null")) textTg.setText(tg);
+        if(!vk.equals("null")) textVk.setText(vk);
+        if(!num.equals("null")) textNum.setText(num);
         textEmail.setText(email);
 
         ClipboardManager myClipboard;
@@ -216,6 +216,7 @@ public class ViewActivity extends AppCompatActivity {
     };
 
     private void start(){
+        System.out.println(fav);
         String[] separated = fav.split("\\|");
         if(Arrays.asList(separated).contains(uploadId)){
             favorite.setChecked(true);

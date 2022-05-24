@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     tools:context=".ui.f2.Fragment2"
     android:windowSoftInputMode="adjustResize"
-    android:background="#F5F5F5"
+    android:background="@color/browser_actions_bg_grey"
     android:layout_marginBottom="?attr/actionBarSize">
 
     <androidx.appcompat.widget.Toolbar
@@ -29,77 +29,71 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/ic_menu"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-            </ImageView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        android:layout_marginBottom="?attr/actionBarSize">
+        android:layout_marginTop="50dp">
 
-        <LinearLayout
+        <ScrollView
+            android:id="@+id/scrollView2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_marginBottom="?attr/actionBarSize"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/swipe">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/viewpager"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_marginTop="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="8dp"
-                android:text="Книги"
-                android:textStyle="bold"
-                android:textSize="22sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.048"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-            <max51.com.vk.bookcrossing.util.ExpandableHeightGridView
-                android:background="#F5F5F5"
-                android:id="@+id/grid_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                android:gravity="center"
-                android:horizontalSpacing="16dp"
-                android:verticalSpacing="16dp"
-                android:padding="16dp"
-                android:clipToPadding="false"
-                android:isScrollContainer="false"
-                android:minHeight="48dp"
-                android:numColumns="2"
-                android:stretchMode="columnWidth"
-                tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck">
-            </max51.com.vk.bookcrossing.util.ExpandableHeightGridView>
-        </LinearLayout>
-    </ScrollView>
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Книги"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.048"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
 
-
-
-
+                <max51.com.vk.bookcrossing.util.ExpandableHeightGridView
+                    android:id="@+id/grid_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:background="@color/browser_actions_bg_grey"
+                    android:clipToPadding="false"
+                    android:gravity="center"
+                    android:horizontalSpacing="16dp"
+                    android:isScrollContainer="false"
+                    android:minHeight="48dp"
+                    android:numColumns="2"
+                    android:padding="16dp"
+                    android:stretchMode="columnWidth"
+                    android:verticalSpacing="16dp"
+                    tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
+            </LinearLayout>
+        </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

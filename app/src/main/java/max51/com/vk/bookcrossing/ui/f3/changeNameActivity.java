@@ -3,6 +3,7 @@ package max51.com.vk.bookcrossing.ui.f3;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +18,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import java.util.concurrent.TimeUnit;
+
 import max51.com.vk.bookcrossing.R;
+import max51.com.vk.bookcrossing.ui.MainActivity;
 
 public class changeNameActivity extends AppCompatActivity {
 
@@ -55,7 +59,10 @@ public class changeNameActivity extends AppCompatActivity {
                     firebaseUser.updateProfile(profileUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            Snackbar.make(view, "Имя измененно", Snackbar.LENGTH_LONG).show();
+                            Intent i = new Intent(changeNameActivity.this, MainActivity.class);
+                            i.putExtra("flag", true);
+                            startActivity(i);
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

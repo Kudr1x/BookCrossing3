@@ -1,4 +1,5 @@
 package max51.com.vk.bookcrossing.ui.f3;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
@@ -188,5 +188,6 @@ public class Fragment3 extends Fragment {
     private void exit(){
         FirebaseAuth.getInstance().signOut();
         Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_regActivity);
+        getActivity().finish();
     }
 }

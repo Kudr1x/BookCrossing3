@@ -1,20 +1,19 @@
-package max51.com.vk.bookcrossing.ui.f1;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
+package max51.com.vk.bookcrossing.ui.f3;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -22,16 +21,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 import max51.com.vk.bookcrossing.R;
+import max51.com.vk.bookcrossing.ui.f2.ViewActivity;
 import max51.com.vk.bookcrossing.util.Elements;
 import max51.com.vk.bookcrossing.util.RecAdapter;
 import max51.com.vk.bookcrossing.util.SelectListenerElement;
 
-public class Fragment1 extends Fragment implements SelectListenerElement {
+public class FavoriteActivity extends AppCompatActivity implements SelectListenerElement {
 
     private final ArrayList<Elements> elementsArrayList = new ArrayList<>();
     private DatabaseReference mDatabaseRef;
@@ -39,25 +41,28 @@ public class Fragment1 extends Fragment implements SelectListenerElement {
     private RecAdapter recAdapter;
     private TextView textView;
     private SearchView searchView;
+    private String fav;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_1, container, false);
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_favorite);
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        FloatingActionButton btLoad = view.findViewById(R.id.floatingActionButton);
-        TextView textView = view.findViewById(R.id.startMessage);
-        SearchView searchView = view.findViewById(R.id.searchView);
+        TextView textView = findViewById(R.id.startMessage);
+        SearchView searchView = findViewById(R.id.searchFavorite);
+        ImageView back = findViewById(R.id.backFav);
 
-        recyclerView = view.findViewById(R.id.userRecycleView);
+        recyclerView = findViewById(R.id.favoriteRecycleView);
         recyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(FavoriteActivity.this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+
+        Intent i = getIntent();
+        fav = i.getStringExtra("fav");
+        System.out.println(fav);
+        String[] separated = fav.split("\\|");
 
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -65,7 +70,7 @@ public class Fragment1 extends Fragment implements SelectListenerElement {
                 elementsArrayList.clear();
                 for(DataSnapshot postSnapshot : snapshot.getChildren()){
                     Elements element = postSnapshot.getValue(Elements.class);
-                    if(element.id.equals(FirebaseAuth.getInstance().getUid()) && !element.getArchived()){
+                    if(Arrays.asList(separated).contains(element.getUploadId()) && !element.getArchived()){
                         elementsArrayList.add(element);
                     }
 
@@ -83,27 +88,9 @@ public class Fragment1 extends Fragment implements SelectListenerElement {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(FavoriteActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0 || dy < 0 && btLoad.isShown())
-                    btLoad.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE)
-                    btLoad.setVisibility(View.VISIBLE);
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-        });
-
-        btLoad.setOnClickListener(view1 -> Navigation.findNavController(view).navigate(R.id.action_navigation_home_to_loadActivity));
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -117,6 +104,8 @@ public class Fragment1 extends Fragment implements SelectListenerElement {
                 return true;
             }
         });
+
+        back.setOnClickListener(view -> onBackPressed());
     }
 
     private void filter(String newText) {
@@ -133,7 +122,7 @@ public class Fragment1 extends Fragment implements SelectListenerElement {
 
     @Override
     public void onItemClicked(Elements elements) {
-        Intent i = new Intent(getActivity().getBaseContext(), EditActivity.class);
+        Intent i = new Intent(FavoriteActivity.this, ViewActivity.class);
 
         i.putExtra("title", elements.getTitle());
         i.putExtra("author", elements.getAuthor());
@@ -141,10 +130,11 @@ public class Fragment1 extends Fragment implements SelectListenerElement {
         i.putExtra("uri", elements.getUri());
         i.putExtra("id", elements.getId());
         i.putExtra("uploadId", elements.getUploadId());
-        getActivity().startActivity(i);
+        i.putExtra("fav", fav);
+        this.startActivity(i);
     }
 
     public void createAdapter(){
-        recAdapter = new RecAdapter(elementsArrayList, this, getActivity());
+        recAdapter = new RecAdapter(elementsArrayList, this, this);
     }
 }

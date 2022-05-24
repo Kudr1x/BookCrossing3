@@ -1,18 +1,19 @@
 package max51.com.vk.bookcrossing.ui;
 
+import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
-
+import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
+import com.google.android.material.snackbar.Snackbar;
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.databinding.ActivityMainBinding;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +23,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        View view = findViewById(android.R.id.content).getRootView();
+        Intent i = getIntent();
+        boolean flag = i.getBooleanExtra("flag", false);
+        if(flag){
+            Snackbar.make(view, "Изменения сохранены", Snackbar.LENGTH_LONG).show();
+        }
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

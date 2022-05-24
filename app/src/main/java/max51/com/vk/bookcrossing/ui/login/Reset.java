@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -30,6 +31,9 @@ public class Reset extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         EditText email = view.findViewById(R.id.resetEmailText);
         Button button = view.findViewById(R.id.resetButton);
+        ImageView back = view.findViewById(R.id.back);
+
+        back.setOnClickListener(view1 -> getActivity().onBackPressed());
 
         button.setOnClickListener(view1 -> {
 

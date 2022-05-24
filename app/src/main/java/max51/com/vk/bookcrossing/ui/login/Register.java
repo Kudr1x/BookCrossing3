@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -33,9 +35,11 @@ public class Register extends Fragment {
         EditText emailEditText = getView().findViewById(R.id.editTextTextEmailAddress2);
         EditText passwordEditText = getView().findViewById(R.id.editTextTextPassword2);
         EditText nameEditText = getView().findViewById(R.id.editTextTextPersonName);
+        ImageView back = getView().findViewById(R.id.back);
         Button btReg = getView().findViewById(R.id.buttonRegister);
         mAuth = FirebaseAuth.getInstance();
 
+        back.setOnClickListener(view1 -> getActivity().onBackPressed());
 
         btReg.setOnClickListener(view1 -> {
             String email = emailEditText.getText().toString().trim();
@@ -73,11 +77,9 @@ public class Register extends Fragment {
                 return;
             }
 
-            String ms = null;
-
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if(task.isSuccessful()){
-                    User user = new User(name, email, FirebaseAuth.getInstance().getCurrentUser().getUid(), "null", "null", "null", ms);
+                    User user = new User(name, email, FirebaseAuth.getInstance().getCurrentUser().getUid(), "null", "null", "null", "start");
                     FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnCompleteListener(task1 -> {
                         if(task1.isSuccessful()){
                             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();

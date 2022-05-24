@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_navigation_dashboard_to_viewActivity"
             app:destination="@id/viewActivity" />
+        <action
+            android:id="@+id/action_navigation_dashboard_to_navigation_notifications"
+            app:destination="@id/navigation_notifications" />
     </fragment>
 
     <fragment

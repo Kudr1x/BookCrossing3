@@ -3,7 +3,9 @@ package max51.com.vk.bookcrossing.ui.f3;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,6 +18,8 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 
 import max51.com.vk.bookcrossing.R;
+import max51.com.vk.bookcrossing.ui.MainActivity;
+import max51.com.vk.bookcrossing.ui.f1.Fragment1;
 
 public class changePasswordActivity extends AppCompatActivity {
 
@@ -60,7 +64,9 @@ public class changePasswordActivity extends AppCompatActivity {
                     else FirebaseAuth.getInstance().getCurrentUser().updatePassword(ed2.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            Snackbar.make(view, "Пароль изменён", Snackbar.LENGTH_LONG).show();
+                            Intent i = new Intent(changePasswordActivity.this, MainActivity.class);
+                            i.putExtra("flag", true);
+                            startActivity(i);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

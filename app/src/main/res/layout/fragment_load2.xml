@@ -53,6 +53,7 @@
 
     <EditText
         android:hint="Автор"
+        android:padding="10dp"
         android:background="@drawable/custom_text"
         android:id="@+id/editText"
         android:textSize="24sp"
