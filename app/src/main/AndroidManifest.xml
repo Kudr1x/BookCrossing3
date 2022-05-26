@@ -43,7 +43,6 @@
         <activity
             android:name=".ui.load.LoadActivity"
             android:exported="false"
-            android:noHistory="true"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.MainActivity"
