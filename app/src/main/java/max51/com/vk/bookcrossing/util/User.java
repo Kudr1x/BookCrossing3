@@ -3,24 +3,35 @@ package max51.com.vk.bookcrossing.util;
 public class User {
 
     public String name;
-    public String email;
     public String id;
-    public String tg;
-    public String vk;
-    public String num;
     public String favorite;
+    public String city;
+    public String region;
 
     public User(){ }
 
-
-    public User(String name, String email, String id, String tg, String vk, String num, String favorite) {
+    public User(String name, String id, String favorite, String city, String region) {
         this.name = name;
-        this.email = email;
         this.id = id;
-        this.tg = tg;
-        this.vk = vk;
-        this.num = num;
         this.favorite = favorite;
+        this.city = city;
+        this.region = region;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public String getId() { return id; }
@@ -35,39 +46,7 @@ public class User {
         return name;
     }
 
-    public String getTg() {
-        return tg;
-    }
-
-    public void setTg(String tg) {
-        this.tg = tg;
-    }
-
-    public String getVk() {
-        return vk;
-    }
-
-    public void setVk(String vk) {
-        this.vk = vk;
-    }
-
-    public String getNum() {
-        return num;
-    }
-
-    public void setNum(String num) {
-        this.num = num;
-    }
-
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

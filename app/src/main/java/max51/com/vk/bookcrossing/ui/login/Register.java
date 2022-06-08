@@ -79,7 +79,7 @@ public class Register extends Fragment {
 
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if(task.isSuccessful()){
-                    User user = new User(name, email, FirebaseAuth.getInstance().getCurrentUser().getUid(), "null", "null", "null", "start");
+                    User user = new User(name, FirebaseAuth.getInstance().getCurrentUser().getUid(), "start", "", "");
                     FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnCompleteListener(task1 -> {
                         if(task1.isSuccessful()){
                             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();

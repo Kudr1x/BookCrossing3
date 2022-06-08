@@ -28,13 +28,13 @@ public class Load3 extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button btNext = view.findViewById(R.id.next3);
+        Button next = view.findViewById(R.id.next3);
         EditText editText = view.findViewById(R.id.editTextTextMultiLine2);
 
         author = getArguments().getString("author");
         title = getArguments().getString("title");
 
-        btNext.setOnClickListener(view1 -> {
+        next.setOnClickListener(view1 -> {
 
             desk = editText.getText().toString();
 

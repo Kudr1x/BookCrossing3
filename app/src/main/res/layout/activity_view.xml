@@ -48,10 +48,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarView"
         tools:ignore="SpeakableTextPresentCheck">
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="50dp">
+
+            <ImageView
+                android:id="@+id/viewImage"
+                android:layout_width="261dp"
+                android:layout_height="260dp"
+                android:layout_marginTop="76dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/profileView"
                 android:layout_width="match_parent"
@@ -98,24 +108,12 @@
                         app:layout_constraintStart_toEndOf="@+id/circleImageView"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
             </androidx.cardview.widget.CardView>
-
-            <ImageView
-                android:id="@+id/viewImage"
-                android:layout_width="261dp"
-                android:layout_height="260dp"
-                android:layout_marginTop="76dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/viewTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:text="TextView"
@@ -124,27 +122,47 @@
                 app:layout_constraintTop_toBottomOf="@+id/profileView" />
 
             <TextView
+                android:text="TextView"
+                android:id="@+id/cityAndRegion"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewTitle"/>
+
+            <TextView
                 android:id="@+id/viewAuthor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:layout_marginTop="16dp"
                 android:text="TextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.526"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/cityAndRegion" />
 
             <TextView
                 android:id="@+id/viewDesk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_margin="10dp"
                 android:text="TextView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewAuthor" />
 
+            <Button
+                android:id="@+id/report"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:background="@drawable/custom_button"
+                android:drawableLeft="@drawable/report"
+                app:layout_constraintTop_toBottomOf="@+id/viewDesk"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="10dp"
+                android:text="Подать жалобу"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

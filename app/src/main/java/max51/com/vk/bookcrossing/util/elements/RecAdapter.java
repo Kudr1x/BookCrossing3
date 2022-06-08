@@ -1,4 +1,4 @@
-package max51.com.vk.bookcrossing.util;
+package max51.com.vk.bookcrossing.util.elements;
 
 
 import android.annotation.SuppressLint;
@@ -96,7 +96,7 @@ class threadRec extends Thread{
             @Override
             public void run() {
                 Elements currentItem = mExampleList.get(position);
-                holder.mTextView1.setText(currentItem.getTitle());
+                holder.mTextView1.setText(currentItem.getTitle() + "," + currentItem.getDate());
                 holder.mTextView2.setText(currentItem.getAuthor());
                 Picasso.get().load(currentItem.getUri()).fit().centerCrop().into(holder.mImageView);
             }

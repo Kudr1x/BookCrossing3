@@ -1,34 +1,30 @@
 package max51.com.vk.bookcrossing.ui.f1;
+
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,14 +35,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.ui.MainActivity;
-import max51.com.vk.bookcrossing.ui.f2.ViewActivity;
 
 public class EditActivity extends AppCompatActivity {
 
@@ -55,16 +50,21 @@ public class EditActivity extends AppCompatActivity {
     private String desk;
     private String urif;
     private String id;
+    private String date;
     private String uploadId;
+    private String uri;
+    private String y;
+    private String m;
+    private Uri image;
+    private Boolean arch;
+
     private EditText titleText;
     private EditText authorText;
+    private EditText dateText;
     private TextView deskText;
     private ImageView imageView;
     private DatabaseReference mDatabaseRef;
     private StorageReference mStorageRef;
-    private String uri;
-    private Uri image;
-    private Boolean arch;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,24 +74,22 @@ public class EditActivity extends AppCompatActivity {
         titleText = findViewById(R.id.editTitle);
         authorText = findViewById(R.id.editAuthor);
         deskText = findViewById(R.id.editDesk);
+        dateText = findViewById(R.id.editDate);
         imageView = findViewById(R.id.editImage);
         ImageView btDel = findViewById(R.id.btDel);
         ImageView btSave = findViewById(R.id.btSave);
         ImageView btArch = findViewById(R.id.archive);
+        ImageView calendar = findViewById(R.id.calendarEdit);
 
-        Intent i = getIntent();
-
-        author = i.getStringExtra("author");
-        title = i.getStringExtra("title");
-        desk = i.getStringExtra("desk");
-        urif = i.getStringExtra("uri");
-        id = i.getStringExtra("id");
-        uploadId = i.getStringExtra("uploadId");
-        arch = i.getBooleanExtra("archived", false);
+        getData();
 
         Drawable drawable = getResources().getDrawable(R.drawable.unarchive);
 
         if(arch) btArch.setImageDrawable(drawable);
+
+        String timeStamp = new SimpleDateFormat("yyyyMM").format(Calendar.getInstance().getTime());
+        y = timeStamp.substring(0,4);
+        m = timeStamp.substring(4,6);
 
         uri = urif;
 
@@ -99,17 +97,90 @@ public class EditActivity extends AppCompatActivity {
         authorText.setText(author);
         deskText.setText(desk);
         Picasso.get().load(urif).fit().centerCrop().into(imageView);
+        textWatcher();
+
+        dateText.setText(date.substring(0,2) + date.substring(3,7));
 
         imageView.setOnClickListener(view1 -> showChoicesDialog());
 
         btSave.setOnClickListener(view1 -> {
             save();
-            Snackbar.make(view1, "Изменения сохраненны", Snackbar.LENGTH_LONG).show();
+            if(checkDate()) Snackbar.make(view1, "Изменения сохраненны", Snackbar.LENGTH_LONG).show();
+            else Snackbar.make(view1, "Не верные данные", Snackbar.LENGTH_LONG).show();
         });
 
         btDel.setOnClickListener(view1 -> showDelDialog());
 
         btArch.setOnClickListener(view -> showArhDialog());
+
+        calendar.setOnClickListener(view -> calendar());
+    }
+
+    private void getData() {
+        Intent i = getIntent();
+        author = i.getStringExtra("author");
+        title = i.getStringExtra("title");
+        desk = i.getStringExtra("desk");
+        urif = i.getStringExtra("uri");
+        id = i.getStringExtra("id");
+        date = i.getStringExtra("date");
+        uploadId = i.getStringExtra("uploadId");
+        arch = i.getBooleanExtra("archived", false);
+    }
+
+    private void textWatcher(){
+        TextWatcher tw = new TextWatcher() {
+            private String current = "";
+            private String mmyyyy = "MMГГГГ";
+            private Calendar cal = Calendar.getInstance();
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!s.toString().equals(current)) {
+                    String clean = s.toString().replaceAll("[^\\d.]|\\.", "");
+                    String cleanC = current.replaceAll("[^\\d.]|\\.", "");
+                    int cl = clean.length();
+                    int sel = cl;
+                    for (int i = 2; i <= cl && i < 6; i += 2) {
+                        sel++;
+                    }
+                    //Fix for pressing delete next to a forward slash
+                    if (clean.equals(cleanC)) sel--;
+
+                    if (clean.length() < 6){
+                        clean = clean + mmyyyy.substring(clean.length());
+                    }else{
+                        //This part makes sure that when we finish entering numbers
+                        //the date is correct, fixing it otherwise
+                        int mon  = Integer.parseInt(clean.substring(0,2));
+                        int year = Integer.parseInt(clean.substring(2,6));
+
+                        if(mon < 1) mon = 1;
+                        if(mon > 12) mon = 12;
+                        if(year < 1900) year = 1900;
+                        if(year > Integer.parseInt(y)) year = Integer.parseInt(y);
+                        cal.set(Calendar.MONTH, mon-1);
+                        cal.set(Calendar.YEAR, year);
+                        clean = String.format("%02d%02d", mon, year);
+                    }
+
+                    clean = String.format("%s/%s", clean.substring(0, 2), clean.substring(2, 6));
+
+                    sel = Math.max(sel, 0);
+                    current = clean;
+                    dateText.setText(current);
+                    dateText.setSelection(Math.min(sel, current.length()));
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        };
+
+        dateText.addTextChangedListener(tw);
     }
 
     private void showArhDialog() {
@@ -145,13 +216,16 @@ public class EditActivity extends AppCompatActivity {
     }
 
     private void save() {
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
-        Map<String, Object> hasMap = new HashMap<>();
-        hasMap.put("author", authorText.getText().toString());
-        hasMap.put("title", titleText.getText().toString());
-        hasMap.put("desk", deskText.getText().toString());
-        hasMap.put("uri", urif);
-        mDatabaseRef.child(uploadId).updateChildren(hasMap);
+        if(checkDate()){
+            mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+            Map<String, Object> hasMap = new HashMap<>();
+            hasMap.put("author", authorText.getText().toString());
+            hasMap.put("title", titleText.getText().toString());
+            hasMap.put("desk", deskText.getText().toString());
+            hasMap.put("uri", urif);
+            hasMap.put("date", dateText.getText().toString());
+            mDatabaseRef.child(uploadId).updateChildren(hasMap);
+        }
     }
 
     @Override
@@ -247,5 +321,39 @@ public class EditActivity extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.getWindow().setGravity(Gravity.BOTTOM);
+    }
+
+    private void calendar(){
+        DatePickerDialog monthDatePickerDialog = new DatePickerDialog(EditActivity.this,
+                AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                if(month+1 <= 9) dateText.setText("0" + Integer.toString(month+1) + Integer.toString(year));
+                else dateText.setText(Integer.toString(month+1) + Integer.toString(year));
+            }
+        }, Integer.parseInt(y), Integer.parseInt(m) - 1, 1){
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                getDatePicker().findViewById(getResources().getIdentifier("day","id","android")).setVisibility(View.GONE);
+            }
+        };
+
+        monthDatePickerDialog.setTitle("Выберите дату");
+        monthDatePickerDialog.show();
+    }
+
+    private boolean checkDate(){
+        try {
+            String date = dateText.getText().toString();
+            String testMonth = date.substring(0,2);
+            String testYear = date.substring(3,7);
+            int temp = Integer.parseInt(testMonth);
+            temp = Integer.parseInt(testYear);
+            return true;
+        }catch (Exception e){
+            Snackbar.make(getWindow().getDecorView().findViewById(android.R.id.content), "Введите корректную дату", Snackbar.LENGTH_LONG).show();
+            return false;
+        }
     }
 }

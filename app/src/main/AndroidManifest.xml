@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="max51.com.vk.bookcrossing">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -17,7 +18,16 @@
         android:theme="@style/Theme.BookCrossing"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.f3.LocationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.chats.AllChatsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.f3.ArchiveActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.chats.ChatActivity"
             android:exported="false" />
         <activity
             android:name=".ui.f1.EditActivity"
@@ -27,26 +37,23 @@
             android:name=".ui.f3.FavoriteActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.f3.InfoActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.f2.ViewActivity"
             android:exported="false" />
         <activity
             android:name=".ui.f3.changeNameActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.f3.changePasswordActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.load.LoadActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.MainActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".ui.login.RegActivity"
             android:exported="true"
@@ -55,9 +62,16 @@
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="label" />
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="ica" />
 
+    </application>
 </manifest>

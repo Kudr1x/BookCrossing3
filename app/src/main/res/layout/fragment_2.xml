@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".ui.f2.Fragment2"
+    android:id="@+id/con2"
     android:windowSoftInputMode="adjustResize"
     android:background="@color/browser_actions_bg_grey"
     android:layout_marginBottom="?attr/actionBarSize">
@@ -38,7 +39,7 @@
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="55dp">
 
         <ScrollView
             android:id="@+id/scrollView2"
@@ -46,7 +47,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="?attr/actionBarSize"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/swipe">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,6 +63,21 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent" />
 
+                <max51.com.vk.bookcrossing.util.custom.TabView
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/tabv_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    app:tabv_colorMain="#219BCC"
+                    app:tabv_colorSub="#ffffff"
+                    app:tabv_duration="250"
+                    app:tabv_textSize="18dp"
+                    android:layout_gravity="center"
+                    app:tabv_title="Город;Район;Страна" />
+
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
@@ -76,7 +92,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
 
-                <max51.com.vk.bookcrossing.util.ExpandableHeightGridView
+                <max51.com.vk.bookcrossing.util.custom.ExpandableHeightGridView
                     android:id="@+id/grid_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -86,7 +102,6 @@
                     android:clipToPadding="false"
                     android:gravity="center"
                     android:horizontalSpacing="16dp"
-                    android:isScrollContainer="false"
                     android:minHeight="48dp"
                     android:numColumns="2"
                     android:padding="16dp"

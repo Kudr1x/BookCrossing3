@@ -1,153 +1,155 @@
 package max51.com.vk.bookcrossing.ui.load;
 
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.view.Gravity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.github.dhaval2404.imagepicker.ImagePicker;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
-import max51.com.vk.bookcrossing.util.Elements;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import max51.com.vk.bookcrossing.R;
 
 public class Load4 extends Fragment {
 
-    private Uri image;
-    private String title;
-    private String author;
-    private String desk;
-    private String id;
+    String author;
+    String title;
+    String desk;
+    String id;
+    String y;
+    String m;
 
-    private ImageView imageView;
-    private Button chose;
-    private Button next;
-
-    private StorageReference mStorageRef;
-    private DatabaseReference mDatabaseRef;
-
-    private ProgressDialog progressDialog;
+    ImageView calendar;
+    EditText editDate;
+    Button next;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_load4, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        chose = view.findViewById(R.id.choose);
-        next = view.findViewById(R.id.next4);
-        imageView = view.findViewById(R.id.imageView);
-
-        mStorageRef = FirebaseStorage.getInstance().getReference("uploads/");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
-
         author = getArguments().getString("author");
         title = getArguments().getString("title");
         desk = getArguments().getString("desk");
-        id = FirebaseAuth.getInstance().getUid();
+        calendar = view.findViewById(R.id.calendar);
+        editDate = view.findViewById(R.id.editDate);
+        next = view.findViewById(R.id.next4);
 
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Загружается....");
-        progressDialog.setCancelable(false);
+        String timeStamp = new SimpleDateFormat("yyyyMM").format(Calendar.getInstance().getTime());
 
-        chose.setOnClickListener(view1 -> showChoicesDialog());
+        y = timeStamp.substring(0,4);
+        m = timeStamp.substring(4,6);
 
-        next.setOnClickListener(view1 -> createPost());
-    }
+        DatePickerDialog monthDatePickerDialog = new DatePickerDialog(getContext(),
+                AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                if(month+1 <= 9) editDate.setText("0" + Integer.toString(month+1) + Integer.toString(year));
+                else editDate.setText(Integer.toString(month+1) + Integer.toString(year));
+            }
+        }, Integer.parseInt(y), Integer.parseInt(m) - 1, 1){
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                getDatePicker().findViewById(getResources().getIdentifier("day","id","android")).setVisibility(View.GONE);
+            }
+        };
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        next.setOnClickListener(view1 -> {
+            try {
+                String date = editDate.getText().toString();
+                String testMonth = date.substring(0,2);
+                String testYear = date.substring(3,7);
+                int temp = Integer.parseInt(testMonth);
+                temp = Integer.parseInt(testYear);
 
-        image = data.getData();
-        Picasso.get().load(image).into(imageView);
-    }
-
-    private void showChoicesDialog() {
-        final Dialog dialog = new Dialog(getContext());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.bottomsheet2layout);
-
-        Button btGall = dialog.findViewById(R.id.gallery);
-        Button btCam = dialog.findViewById(R.id.cam);
-
-        btGall.setOnClickListener(view -> {
-            ImagePicker.with(this).galleryOnly().crop().start();
-            dialog.cancel();
+                Bundle bundle = new Bundle();
+                bundle.putString("author", author);
+                bundle.putString("title", title);
+                bundle.putString("desk", desk);
+                bundle.putString("date", date);
+                Navigation.findNavController(view).navigate(R.id.action_load4_to_load5, bundle);
+            }catch (Exception e){
+                Snackbar.make(view, "Введите корректную дату", Snackbar.LENGTH_LONG).show();
+            }
         });
 
-        btCam.setOnClickListener(view -> {
-            ImagePicker.with(this).cameraOnly().crop().start();
-            dialog.cancel();
-        });
+        monthDatePickerDialog.setTitle("Выберите дату");
 
-        dialog.show();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        dialog.getWindow().setGravity(Gravity.BOTTOM);
-    }
+        calendar.setOnClickListener(view1 -> monthDatePickerDialog.show());
 
-    private void createPost(){
-        if(image != null){
-            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + "jpeg");
-            fileReference.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+        TextWatcher tw = new TextWatcher() {
+            private String current = "";
+            private String mmyyyy = "MMГГГГ";
+            private Calendar cal = Calendar.getInstance();
 
-                    fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            String url = uri.toString();
-                            String uploadId = mDatabaseRef.push().getKey();
-                            Elements elements = new Elements(title, author, desk, url, id, uploadId, FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), false);
-                            mDatabaseRef.child(uploadId).setValue(elements);
-                        }
-                    });
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!s.toString().equals(current)) {
+                    String clean = s.toString().replaceAll("[^\\d.]|\\.", "");
+                    String cleanC = current.replaceAll("[^\\d.]|\\.", "");
+                    int cl = clean.length();
+                    int sel = cl;
+                    for (int i = 2; i <= cl && i < 6; i += 2) {
+                        sel++;
+                    }
+                    //Fix for pressing delete next to a forward slash
+                    if (clean.equals(cleanC)) sel--;
 
-                    Navigation.findNavController(getView()).navigate(R.id.action_load4_to_mainActivity2);
-                    progressDialog.dismiss();
+                    if (clean.length() < 6){
+                        clean = clean + mmyyyy.substring(clean.length());
+                    }else{
+                        //This part makes sure that when we finish entering numbers
+                        //the date is correct, fixing it otherwise
+                        int mon  = Integer.parseInt(clean.substring(0,2));
+                        int year = Integer.parseInt(clean.substring(2,6));
+
+                        if(mon < 1) mon = 1;
+                        if(mon > 12) mon = 12;
+                        if(year < 1900) year = 1900;
+                        if(year > Integer.parseInt(y)) year = Integer.parseInt(y);
+                        cal.set(Calendar.MONTH, mon-1);
+                        cal.set(Calendar.YEAR, year);
+                        clean = String.format("%02d%02d", mon, year);
+                    }
+
+                    clean = String.format("%s/%s", clean.substring(0, 2), clean.substring(2, 6));
+
+                    sel = Math.max(sel, 0);
+                    current = clean;
+                    editDate.setText(current);
+                    editDate.setSelection(Math.min(sel, current.length()));
                 }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                    progressDialog.show();
-                }
-            });
-        }else{
-            Toast.makeText(getContext(), "Выберете файл", Toast.LENGTH_LONG).show();
-        }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        };
+
+        editDate.addTextChangedListener(tw);
     }
 }

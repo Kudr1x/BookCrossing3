@@ -3,7 +3,6 @@ package max51.com.vk.bookcrossing.ui.f3;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,17 +21,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.ui.f1.EditActivity;
-import max51.com.vk.bookcrossing.ui.f2.ViewActivity;
-import max51.com.vk.bookcrossing.util.Elements;
-import max51.com.vk.bookcrossing.util.RecAdapter;
-import max51.com.vk.bookcrossing.util.SelectListenerElement;
+import max51.com.vk.bookcrossing.util.elements.Elements;
+import max51.com.vk.bookcrossing.util.elements.RecAdapter;
+import max51.com.vk.bookcrossing.util.elements.SelectListenerElement;
 
 
 public class ArchiveActivity extends AppCompatActivity implements SelectListenerElement {

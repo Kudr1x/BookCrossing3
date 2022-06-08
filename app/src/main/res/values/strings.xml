@@ -103,4 +103,9 @@
     <string name="login_failed">"Login failed"</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="towns">
+        <item> Москва </item>
+        <item> Уфа </item>
+        <item> Казань </item>
+    </string-array>
 </resources>

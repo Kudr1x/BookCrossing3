@@ -3,7 +3,6 @@ package max51.com.vk.bookcrossing.ui.f3;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,8 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,9 +26,9 @@ import java.util.Locale;
 
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.ui.f2.ViewActivity;
-import max51.com.vk.bookcrossing.util.Elements;
-import max51.com.vk.bookcrossing.util.RecAdapter;
-import max51.com.vk.bookcrossing.util.SelectListenerElement;
+import max51.com.vk.bookcrossing.util.elements.Elements;
+import max51.com.vk.bookcrossing.util.elements.RecAdapter;
+import max51.com.vk.bookcrossing.util.elements.SelectListenerElement;
 
 public class FavoriteActivity extends AppCompatActivity implements SelectListenerElement {
 

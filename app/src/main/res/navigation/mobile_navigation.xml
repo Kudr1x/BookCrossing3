@@ -51,6 +51,12 @@
         <action
             android:id="@+id/action_navigation_notifications_to_archiveActivity"
             app:destination="@id/archiveActivity" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_allChatsActivity"
+            app:destination="@id/allChatsActivity" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_locationActivity"
+            app:destination="@id/locationActivity" />
     </fragment>
     <activity
         android:id="@+id/loadActivity"
@@ -101,5 +107,15 @@
         android:name="max51.com.vk.bookcrossing.ui.f3.ArchiveActivity"
         android:label="activity_archive"
         tools:layout="@layout/activity_archive" />
+    <activity
+        android:id="@+id/allChatsActivity"
+        android:name="max51.com.vk.bookcrossing.ui.chats.AllChatsActivity"
+        android:label="activity_all_chats"
+        tools:layout="@layout/activity_all_chats" />
+    <activity
+        android:id="@+id/locationActivity"
+        android:name="max51.com.vk.bookcrossing.ui.f3.LocationActivity"
+        android:label="activity_location"
+        tools:layout="@layout/activity_location" />
 
 </navigation>

@@ -68,6 +68,7 @@ public class Fragment3 extends Fragment {
         ConstraintLayout favoriteActivity = view.findViewById(R.id.favorite);
         ConstraintLayout info = view.findViewById(R.id.info);
         ConstraintLayout archived = view.findViewById(R.id.archived);
+        ConstraintLayout city = view.findViewById(R.id.changeCity);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("avatars/");
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -84,13 +85,15 @@ public class Fragment3 extends Fragment {
 
         imageProfile.setOnClickListener(view1 -> showChoicesDialog());
 
-        info.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_navigation_notifications_to_infoActivity));
+        info.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_navigation_notifications_to_allChatsActivity));
 
         changePassword.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_navigation_notifications_to_changePasswordActivity));
 
         changeName.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_navigation_notifications_to_changeNameActivity));
 
         changePhoto.setOnClickListener(view1 -> showChoicesDialog());
+
+        city.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_navigation_notifications_to_locationActivity));
 
         btOut.setOnClickListener(view1 -> showOutDialog());
     }

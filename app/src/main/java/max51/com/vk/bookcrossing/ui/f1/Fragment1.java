@@ -27,9 +27,9 @@ import java.util.List;
 import java.util.Locale;
 
 import max51.com.vk.bookcrossing.R;
-import max51.com.vk.bookcrossing.util.Elements;
-import max51.com.vk.bookcrossing.util.RecAdapter;
-import max51.com.vk.bookcrossing.util.SelectListenerElement;
+import max51.com.vk.bookcrossing.util.elements.Elements;
+import max51.com.vk.bookcrossing.util.elements.RecAdapter;
+import max51.com.vk.bookcrossing.util.elements.SelectListenerElement;
 
 public class Fragment1 extends Fragment implements SelectListenerElement {
 
@@ -141,6 +141,7 @@ public class Fragment1 extends Fragment implements SelectListenerElement {
         i.putExtra("uri", elements.getUri());
         i.putExtra("id", elements.getId());
         i.putExtra("uploadId", elements.getUploadId());
+        i.putExtra("date", elements.getDate());
         getActivity().startActivity(i);
     }
 

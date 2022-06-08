@@ -4,24 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/browser_actions_bg_grey"
     tools:context=".ui.load.Load4">
-
-    <Button
-        android:id="@+id/next4"
-        android:background="@drawable/custom_button"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginBottom="28dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:text="Создать"
-        android:textSize="24sp"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar6"
@@ -43,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:text="Добавьте фото"
+                android:text="Дата издательства"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -52,31 +35,55 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="303dp"
-        android:layout_height="390dp"
-        android:adjustViewBounds="true"
-        android:maxWidth="390dp"
-        android:maxHeight="303dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toTopOf="@+id/choose"
+    <Button
+        android:id="@+id/next4"
+        android:background="@drawable/custom_button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="28dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="Дальше"
+        android:textSize="24sp"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:hint="мм/гггг"
+        android:padding="10dp"
+        android:background="@drawable/custom_text"
+        android:id="@+id/editDate"
+        android:textSize="24sp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="65dp"
+        app:layout_constraintEnd_toStartOf="@id/calendar"
+        android:gravity="start|top"
+        android:inputType="date"
+        android:maxLines="1"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@+id/next4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar6"
-        tools:src="@tools:sample/avatars" />
+        app:layout_constraintVertical_bias="0.028" />
 
-    <Button
-        android:id="@+id/choose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/custom_button"
-        android:text="Загрузить фото"
-        android:textAllCaps="false"
-        android:textSize="24sp"
+    <ImageView
+        android:id="@+id/calendar"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/calendar"
         app:layout_constraintBottom_toTopOf="@+id/next4"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar6"
+        app:layout_constraintVertical_bias="0.015" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

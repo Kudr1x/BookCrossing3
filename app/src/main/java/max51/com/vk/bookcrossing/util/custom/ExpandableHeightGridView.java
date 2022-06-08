@@ -1,4 +1,4 @@
-package max51.com.vk.bookcrossing.util;
+package max51.com.vk.bookcrossing.util.custom;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -23,8 +23,7 @@ public class ExpandableHeightGridView extends GridView
         super(context, attrs, defStyle);
     }
 
-    public boolean isExpanded()
-    {
+    public boolean isExpanded() {
         return expanded;
     }
 

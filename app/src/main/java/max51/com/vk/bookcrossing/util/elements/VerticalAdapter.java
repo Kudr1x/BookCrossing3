@@ -1,8 +1,7 @@
-package max51.com.vk.bookcrossing.util;
+package max51.com.vk.bookcrossing.util.elements;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +13,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 
-import max51.com.vk.bookcrossing.util.Elements;
 import max51.com.vk.bookcrossing.R;
-import max51.com.vk.bookcrossing.util.SelectListenerElement;
 
 public class VerticalAdapter extends BaseAdapter{
     List<Elements>  element;
@@ -100,7 +97,7 @@ class thread extends Thread{
             @Override
             public void run() {
                 Picasso.get().load(element.get(position).getUri()).fit().centerCrop().into(img);
-                title.setText(element.get(position).getTitle());
+                title.setText(element.get(position).getTitle() + "," + element.get(position).getDate());
                 author.setText(element.get(position).getAuthor());
             }
         });
