@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
@@ -28,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -52,6 +53,10 @@ public class Fragment2 extends Fragment implements SelectListenerElement{
     private ExpandableHeightGridView grid;
     private String city;
     private String region;
+    private final Object lockA = new Object();
+    private final Object lockB = new Object();
+    private final Object lockC = new Object();
+    private final Object lockD = new Object();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -102,73 +107,16 @@ public class Fragment2 extends Fragment implements SelectListenerElement{
             }
         });
 
-        getUserData();
-
-        selectData(0);
-
-        selectFilter();
+        threadGetUserData();
+        threadSelectFiler();
     }
 
-    private void selectData(int filter) {
-        DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
 
-        mDatabaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                gridElements.clear();
-                for(DataSnapshot postSnapshot : snapshot.getChildren()){
-                    Elements element = postSnapshot.getValue(Elements.class);
-                    if(!element.id.equals(FirebaseAuth.getInstance().getUid()) && !element.getArchived()){
-                        switch (filter){
-                            case 0:
-                                if(Objects.equals(element.getCity(), city)) gridElements.add(element);
-                                break;
-                            case 1:
-                                if(Objects.equals(element.getRegion(), region)) gridElements.add(element);
-                                break;
-                            case 2:
-                                gridElements.add(element);
-                                break;
-                        }
-                    }
-
-                    createAdapter();
-                    grid.setAdapter(gridAdapter);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void getUserData() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
-                    User user = postSnapshot.getValue(User.class);
-                    if(user.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                        fav = user.getFavorite();
-                        city = user.getCity();
-                        region = user.getRegion();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
-        });
-    }
-
-    private void selectFilter() {
+    private synchronized void threadSelectFiler(){
         tabView.setOnTabSelectedListener(new TabView.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int index) {
-                selectData(index);
+                threadSelectData(index);
             }
         });
     }
@@ -188,7 +136,8 @@ public class Fragment2 extends Fragment implements SelectListenerElement{
 
     }
 
-    public void createAdapter(){
+    public synchronized void createAdapter(){
+        Collections.reverse(gridElements);
         gridAdapter = new VerticalAdapter(gridElements, getContext(), this, getActivity());
     }
 
@@ -212,5 +161,58 @@ public class Fragment2 extends Fragment implements SelectListenerElement{
         i.putExtra("uploadId", elements.getUploadId());
         i.putExtra("date", elements.getDate());
         getActivity().startActivity(i);
+    }
+
+    private synchronized void threadGetUserData() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    User user = postSnapshot.getValue(User.class);
+                    if (user.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                        fav = user.getFavorite();
+                        city = user.getCity();
+                        region = user.getRegion();
+                        threadSelectData(0);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    private synchronized void threadSelectData(int filter){
+        DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                gridElements.clear();
+                for(DataSnapshot postSnapshot : snapshot.getChildren()){
+                    Elements element = postSnapshot.getValue(Elements.class);
+                    if(!element.id.equals(FirebaseAuth.getInstance().getUid()) && !element.getArchived()){
+                        if(filter == 0){
+                            if(Objects.equals(element.getCity(), city)) gridElements.add(element);
+                        }if(filter == 1){
+                            if(Objects.equals(element.getRegion(), region)) gridElements.add(element);
+                        }if(filter == 2){
+                            gridElements.add(element);
+                        }
+                    }
+                }
+
+                createAdapter();
+                grid.setAdapter(gridAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

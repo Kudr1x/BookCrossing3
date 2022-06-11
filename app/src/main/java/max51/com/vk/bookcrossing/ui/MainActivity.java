@@ -1,6 +1,5 @@
 package max51.com.vk.bookcrossing.ui;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;

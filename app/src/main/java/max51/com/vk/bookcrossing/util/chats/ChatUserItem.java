@@ -5,20 +5,11 @@ public class ChatUserItem {
     String uri;
     String lastMsg;
     String name;
+    Boolean flag;
 
-    public ChatUserItem(){
-
-    }
-
-    public ChatUserItem(String id, String uri, String lastMsg, String name) {
+    public ChatUserItem(String id, String lastMsg, Boolean flag) {
         this.id = id;
-        this.uri = uri;
         this.lastMsg = lastMsg;
-        this.name = name;
-    }
-
-    public ChatUserItem(String id) {
-        this.id = id;
     }
 
     public ChatUserItem(String id, String name) {

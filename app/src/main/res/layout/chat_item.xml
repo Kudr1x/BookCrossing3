@@ -16,6 +16,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/statusOnline"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            app:layout_constraintEnd_toEndOf="@id/chatImage"
+            app:layout_constraintBottom_toBottomOf="@id/chatImage"
+            android:src="#76BA1B"
+            android:visibility="invisible"
+            android:layout_margin="6dp"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/statusOffline"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            app:layout_constraintEnd_toEndOf="@id/chatImage"
+            app:layout_constraintBottom_toBottomOf="@id/chatImage"
+            android:src="#4D4D4D"
+            android:visibility="invisible"
+            android:layout_margin="6dp"/>
+
         <TextView
             android:id="@+id/titleChat"
             android:layout_width="wrap_content"

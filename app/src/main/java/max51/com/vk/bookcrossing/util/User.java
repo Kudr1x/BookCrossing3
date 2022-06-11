@@ -7,15 +7,25 @@ public class User {
     public String favorite;
     public String city;
     public String region;
+    public String status;
 
     public User(){ }
 
-    public User(String name, String id, String favorite, String city, String region) {
+    public User(String name, String id, String favorite, String city, String region, String status) {
         this.name = name;
         this.id = id;
         this.favorite = favorite;
         this.city = city;
         this.region = region;
+        this.status = "offline";
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getCity() {

@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -75,16 +78,22 @@ public class LocationActivity extends AppCompatActivity {
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         List<Address> addresses = null;
         try{
-            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            double x = location.getLatitude();
+            double y = location.getLongitude();
+            if(Build.VERSION.SDK_INT < 33) {
+                addresses = geocoder.getFromLocation(x, y, 1);
+            }
             String city = addresses.get(0).getLocality();
+            Toast.makeText(this, (int) location.getLongitude()+"", Toast.LENGTH_SHORT).show();
             if(onlyCity.contains(city)){
                 editText.setText(city);
                 saveCity(city);
             }else {
-                Snackbar.make(view, "Ошибка", Snackbar.LENGTH_LONG).show();
+                System.out.println(city);
+                Snackbar.make(view, "Ошибка1", Snackbar.LENGTH_LONG).show();
             }
         }catch (IOException e) {
-            Snackbar.make(view, "Ошибка", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(view, "Ошибка2", Snackbar.LENGTH_LONG).show();
         }
     }
 

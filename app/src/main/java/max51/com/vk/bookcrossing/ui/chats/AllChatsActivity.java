@@ -17,6 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.util.chats.ChatUserItem;
@@ -27,6 +29,7 @@ public class AllChatsActivity extends AppCompatActivity implements SelectListene
 
     String yourId;
     String otherId;
+    String lastMsg;
 
     FirebaseDatabase database;
     RecyclerView recyclerView;
@@ -64,9 +67,21 @@ public class AllChatsActivity extends AppCompatActivity implements SelectListene
                     if(key.substring(0, 28).equals(yourId)){
                         otherId = key.substring(28);
                         chats1.add(otherId);
-                        chats.add(new ChatUserItem(otherId));
-                        chatsAdapter = new ChatsAdapter(chats, selectListenerChat);
-                        recyclerView.setAdapter(chatsAdapter);
+                        DatabaseReference lm = ChatReference.child(key).child("LastMessage");
+                        lm.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                lastMsg = snapshot.getValue().toString();
+                                chats.add(new ChatUserItem(otherId, lastMsg, true));
+                                chatsAdapter = new ChatsAdapter(chats, selectListenerChat);
+                                recyclerView.setAdapter(chatsAdapter);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
                 }
             }
@@ -83,5 +98,36 @@ public class AllChatsActivity extends AppCompatActivity implements SelectListene
         i.putExtra("uid", item.getId());
         i.putExtra("name", item.getName());
         startActivity(i);
+    }
+
+    private void setStatus(String status){
+        Map<String, Object> hasMap = new HashMap<>();
+        hasMap.put("status", status);
+        DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference("Users");
+        mDatabaseRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(hasMap);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setStatus("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        setStatus("offline");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        setStatus("offline");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        setStatus("offline");
     }
 }

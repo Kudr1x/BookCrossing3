@@ -19,11 +19,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.vanniktech.emoji.EmojiEditText;
-import com.vanniktech.emoji.EmojiManager;
-import com.vanniktech.emoji.EmojiPopup;
-import com.vanniktech.emoji.EmojiProvider;
-
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -70,8 +65,6 @@ public class ChatActivity extends AppCompatActivity {
 
         name = getIntent().getStringExtra("name");
         reciverId = getIntent().getStringExtra("uid");
-
-        System.out.println(reciverId);
 
         txtName.setText(name);
 
@@ -134,7 +127,8 @@ public class ChatActivity extends AppCompatActivity {
                                     .push().setValue(messages).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-
+                                            database.getReference().child("chats").child(senderRoom).child("LastMessage").setValue(message);
+                                            database.getReference().child("chats").child(reciverRoom).child("LastMessage").setValue(message);
                                         }
                                     });
                         }

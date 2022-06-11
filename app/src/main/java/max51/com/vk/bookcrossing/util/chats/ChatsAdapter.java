@@ -23,6 +23,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import max51.com.vk.bookcrossing.R;
@@ -34,6 +35,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
     private SelectListenerChat listener;
 
     private String name;
+    private String status;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public CardView main;
@@ -41,12 +43,17 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
         public TextView title;
         public TextView lastMessage;
 
+        public CircleImageView online;
+        public CircleImageView offline;
+
         public ViewHolder(View itemView) {
             super(itemView);
             main = itemView.findViewById(R.id.main);
             circleImageView = itemView.findViewById(R.id.chatImage);
             title = itemView.findViewById(R.id.titleChat);
             lastMessage = itemView.findViewById(R.id.lastMessage);
+            online = itemView.findViewById(R.id.statusOnline);
+            offline = itemView.findViewById(R.id.statusOffline);
         }
     }
 
@@ -87,6 +94,15 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
                     if(user.getId().equals(list.get(position).getId())){
                         name = user.getName();
                         holder.title.setText(name);
+
+                        status = user.getStatus();
+
+                        System.out.println(status);
+                        if(Objects.equals(status, "online")){
+                            holder.online.setVisibility(View.VISIBLE);
+                        }else{
+                            holder.offline.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
             }
@@ -94,6 +110,8 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
+
+        holder.lastMessage.setText(item.getLastMsg());
 
         holder.main.setOnClickListener(view -> {
             listener.onItemClicked(new ChatUserItem(list.get(position).id, holder.title.getText().toString()));
@@ -103,7 +121,6 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
     public int getItemCount() {
         return list.size();
     }
-
 //    public void filteredList(List<Elements> filteredList) {
 //        mExampleList = filteredList;
 //        notifyDataSetChanged();

@@ -16,6 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.installations.remote.FirebaseInstallationServiceClient;
+
 import java.util.List;
 
 import max51.com.vk.bookcrossing.R;
@@ -85,6 +89,7 @@ public class Load1 extends Fragment implements SelectListener {
             Navigation.findNavController(view).navigate(R.id.action_load1_to_load2, bundle);
         });
     }
+
 
     private void doSearch(final String query) {
         Call<BookResponse> call = api.getMyJSON(query, MAX_RESULTS);

@@ -24,29 +24,19 @@ import android.widget.Toast;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.vision.label.ImageLabeler;
-import com.google.android.gms.vision.label.internal.client.ImageLabelerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.ml.vision.FirebaseVision;
-import com.google.firebase.ml.vision.common.FirebaseVisionImage;
-import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
-import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
+
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.google.mlkit.vision.label.ImageLabeling;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.util.List;
-
-import max51.com.vk.bookcrossing.ui.f2.Fragment2;
 import max51.com.vk.bookcrossing.util.User;
 import max51.com.vk.bookcrossing.util.elements.Elements;
 import max51.com.vk.bookcrossing.R;
@@ -127,6 +117,8 @@ public class Load5 extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         image = data.getData();
         Picasso.get().load(image).into(imageView);
+
+
     }
 
     private void showChoicesDialog() {
