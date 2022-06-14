@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Item implements Serializable {
+public class Item implements Serializable {        //Класс для хранения информации о книге
     @SerializedName("volumeInfo")
     @Expose
     private VolumeInfo volumeInfo;

@@ -1,18 +1,18 @@
 package max51.com.vk.bookcrossing.util.chats;
 
-public class ChatUserItem {
-    String id;
-    String uri;
-    String lastMsg;
-    String name;
-    Boolean flag;
+public class ChatUserItem {     //Класс диалогов
+    String id;                  //id собеседниа
+    String uri;                 //Фото пользователя
+    String lastMsg;             //Последнее сообщение
+    String name;                //Имя собеседника
+    Boolean flag;               //Переменная отвечающая за выбор конструктора
 
-    public ChatUserItem(String id, String lastMsg, Boolean flag) {
+    public ChatUserItem(String id, String lastMsg, Boolean flag) {  //1 конструктор
         this.id = id;
         this.lastMsg = lastMsg;
     }
 
-    public ChatUserItem(String id, String name) {
+    public ChatUserItem(String id, String name) {          //2 конструктор
         this.id = id;
         this.name = name;
     }

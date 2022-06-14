@@ -28,26 +28,26 @@ import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.util.chats.Messages;
 import max51.com.vk.bookcrossing.util.chats.MessagesAdapter;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity {  //Чат с пользователем
 
-    private String reciverId;
-    private String name;
-    private String senderId;
-    private FirebaseDatabase database;
-    private FirebaseAuth auth;
+    private String reciverId;                         //id собеседника
+    private String name;                              //Имя
+    private String senderId;                          //id текущего пользователя
+    private FirebaseDatabase database;                //бд
+    private FirebaseAuth auth;                        //firebase авторизация
 
-    ImageView sendBtn;
-    ImageView back;
-    EditText editMessage;
-    TextView txtName;
+    private ImageView sendBtn;                        //Кнопка отправить
+    private ImageView back;                           //Кнопка назад
+    private EditText editMessage;                     //Поле ввода сообщения
+    private TextView txtName;                         //Имя собеседника
 
-    RecyclerView messageAdapter;
-    ArrayList<Messages> messagesArrayList;
+    private RecyclerView messageAdapter;              //Пролистывающийся список
+    private ArrayList<Messages> messagesArrayList;    //Массив сообщений
 
-    String senderRoom;
-    String reciverRoom;
+    private String senderRoom;                        //id команты
+    private String reciverRoom;                       //id команты
 
-    MessagesAdapter adapter;
+    private MessagesAdapter adapter;                  //Адаптер
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +81,8 @@ public class ChatActivity extends AppCompatActivity {
         senderRoom = senderId + reciverId;
         reciverRoom = reciverId + senderId;
 
+        //Поиск сообщений
         DatabaseReference ChatReference = database.getReference().child("chats").child(senderRoom).child("messages");
-
         ChatReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -100,6 +100,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+        //Отправить сообщение
         sendBtn.setOnClickListener(view -> {
             String message = editMessage.getText().toString();
             if(message.isEmpty()){
@@ -135,6 +136,7 @@ public class ChatActivity extends AppCompatActivity {
                     });
         });
 
+        //Кнопочка назад
         back.setOnClickListener(view -> onBackPressed());
     }
 }

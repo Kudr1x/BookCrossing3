@@ -13,10 +13,11 @@ import java.util.List;
 
 import max51.com.vk.bookcrossing.R;
 
-public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.ImageHelper> {
+public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.ImageHelper> {    //Адапетр для dashboard
 
-   List<Bitmap> bitmapList;
+   List<Bitmap> bitmapList;    //Массив для картинок
 
+    //Конструктор
     public HorizontalAdapter(List<Bitmap> bitmapList) {
         this.bitmapList = bitmapList;
     }

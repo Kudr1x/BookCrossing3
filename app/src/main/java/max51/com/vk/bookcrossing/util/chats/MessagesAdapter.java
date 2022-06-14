@@ -22,14 +22,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.util.chats.Messages;
 
-public class MessagesAdapter extends RecyclerView.Adapter {
+public class MessagesAdapter extends RecyclerView.Adapter {   //Адаптер сообщенинй в диалоге
 
-    Context context;
-    ArrayList<Messages> messagesArrayList;
-    int ITEM_SENDER = 1;
-    int ITEM_RECIVR = 2;
+    Context context;                               //Контекст
+    ArrayList<Messages> messagesArrayList;         //Массив сообщенинй
+    final static int ITEM_SENDER = 1;              //Константа для обозначения типа сообщения
+    final static int ITEM_RECIVR = 2;              //Константа для обозначения типа сообщения
 
-    public MessagesAdapter(Context context, ArrayList<Messages> messagesArrayList) {
+    public MessagesAdapter(Context context, ArrayList<Messages> messagesArrayList) {  //Конструктор
         this.context = context;
         this.messagesArrayList = messagesArrayList;
     }
@@ -38,10 +38,10 @@ public class MessagesAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(viewType == ITEM_SENDER){
-            View view = LayoutInflater.from(context).inflate(R.layout.sender_layout_item, parent, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.sender_layout_item, parent, false);   //Сообщение текущего пользователя
             return new SenderViewHolder(view);
         }else {
-            View view = LayoutInflater.from(context).inflate(R.layout.reciver_layout_item, parent, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.reciver_layout_item, parent, false);   //Сообщение собеседника
             return new ReciverViewHolder(view);
         }
     }
@@ -53,7 +53,15 @@ public class MessagesAdapter extends RecyclerView.Adapter {
         if(holder.getClass() == SenderViewHolder.class){
             SenderViewHolder viewHolder = (SenderViewHolder) holder;
             viewHolder.textView.setText(messages.getMessage());
-            Picasso.get().load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).fit().centerCrop().into(viewHolder.imageView);
+            StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("avatars/");
+            StorageReference fileReference = mStorageRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid() + "." + "jpeg");
+            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    String urlProf = uri.toString();
+                    Picasso.get().load(urlProf).fit().centerCrop().into(viewHolder.imageView);
+                }
+            });
         }else {
             ReciverViewHolder viewHolder = (ReciverViewHolder) holder;
             viewHolder.textView.setText(messages.getMessage());

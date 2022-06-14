@@ -3,7 +3,7 @@ package max51.com.vk.bookcrossing.api;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetroClient {
+public class RetroClient {        //Класс для запросов
 
     private static final String ROOT_URL = "https://www.googleapis.com/books/v1/";
 

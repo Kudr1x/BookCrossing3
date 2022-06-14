@@ -18,10 +18,10 @@ import java.util.Locale;
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.util.city.City;
 
-public class CityAdapter extends ArrayAdapter<City> {
+public class CityAdapter extends ArrayAdapter<City> {           //Адапетр для подсказок
     private List<City> cityList;
 
-    public CityAdapter(@NonNull Context context, @NonNull List<City> list) {
+    public CityAdapter(@NonNull Context context, @NonNull List<City> list) {     //Конструктор
         super(context, 0, list);
         cityList = new ArrayList<>(list);
     }
@@ -30,7 +30,7 @@ public class CityAdapter extends ArrayAdapter<City> {
     @Override
     public Filter getFilter() {
         return cityFilter;
-    }
+    }      //Подсказки на основе введённых данных
 
     @NonNull
     @Override

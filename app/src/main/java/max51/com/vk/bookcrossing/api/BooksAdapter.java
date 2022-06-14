@@ -14,11 +14,11 @@ import java.util.List;
 
 import max51.com.vk.bookcrossing.R;
 
-public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.CustomViewHolder> {
+public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.CustomViewHolder> {  //Адапетр для подсказок по книгам
     private List<Item> volumeInfo;
     private SelectListener listener;
 
-    public BooksAdapter(final List<Item> volumeInfo, SelectListener listener){
+    public BooksAdapter(final List<Item> volumeInfo, SelectListener listener){   //Конструктор адаптера
         this.volumeInfo = volumeInfo;
         this.listener = listener;
         notifyDataSetChanged();

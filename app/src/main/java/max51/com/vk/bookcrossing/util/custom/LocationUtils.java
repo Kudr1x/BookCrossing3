@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-public class LocationUtils {
+public class LocationUtils {                       //Вспомогательный класс определяющий местоположение по долготе и широте
     @NonNull
     public static Location getMyLocation(AppCompatActivity context) {
         Location myLocation = new Location("");
@@ -28,9 +28,6 @@ public class LocationUtils {
                 }
                 else {
                     myLocation = new Location("");
-                    // Can't getInstance location.
-                    // GPS or network is not enabled.
-                    // Ask user to enable GPS/network in settings.
                     gps.showSettingsAlert();
                 }
             }

@@ -42,21 +42,17 @@ import max51.com.vk.bookcrossing.util.elements.SelectListenerElement;
 import max51.com.vk.bookcrossing.util.User;
 import max51.com.vk.bookcrossing.util.elements.VerticalAdapter;
 
-public class Fragment2 extends Fragment implements SelectListenerElement{
+public class Fragment2 extends Fragment implements SelectListenerElement{   //Тут будут показаны чужие объявления
 
-    private final List<Bitmap> bitmapList = new ArrayList<>();
-    private final ArrayList<Elements> gridElements = new ArrayList<>();
-    private VerticalAdapter gridAdapter;
-    private String fav;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private TabView tabView;
-    private ExpandableHeightGridView grid;
-    private String city;
-    private String region;
-    private final Object lockA = new Object();
-    private final Object lockB = new Object();
-    private final Object lockC = new Object();
-    private final Object lockD = new Object();
+    private final List<Bitmap> bitmapList = new ArrayList<>();           //Массив для dashboard
+    private final ArrayList<Elements> gridElements = new ArrayList<>();  //Массив объявлений
+    private VerticalAdapter gridAdapter;                                 //Адаптер
+    private String fav;                                                  //id избранных книг
+    private SwipeRefreshLayout swipeRefreshLayout;                       //Принудительное обновление свйпом
+    private TabView tabView;                                             //Фитр поиск
+    private ExpandableHeightGridView grid;                               //Прокручиваемый список
+    private String city;                                                 //Город пользователя
+    private String region;                                               //Регион пользователя
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -86,14 +82,17 @@ public class Fragment2 extends Fragment implements SelectListenerElement{
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(viewPager);
 
+        //Принудительное обновление
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 gridAdapter.notifyDataSetChanged();
-                swipeRefreshLayout.setRefreshing(true);
+                swipeRefreshLayout.setRefreshing(false);
+
             }
         });
 
+        //Поиск по объявлениям
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -112,6 +111,7 @@ public class Fragment2 extends Fragment implements SelectListenerElement{
     }
 
 
+    //Применение филтра поиска
     private synchronized void threadSelectFiler(){
         tabView.setOnTabSelectedListener(new TabView.OnTabSelectedListener() {
             @Override
@@ -121,6 +121,7 @@ public class Fragment2 extends Fragment implements SelectListenerElement{
         });
     }
 
+    //Филтр поиск по названию
     private void filter(String newText) {
         List<Elements> filteredList = new ArrayList<>();
 
@@ -136,16 +137,19 @@ public class Fragment2 extends Fragment implements SelectListenerElement{
 
     }
 
+    //Создание адаптера
     public synchronized void createAdapter(){
         Collections.reverse(gridElements);
         gridAdapter = new VerticalAdapter(gridElements, getContext(), this, getActivity());
     }
 
+    //Переход на просмотр объявления
     @Override
     public void onItemClicked(Elements elements) {
         sendData(elements);
     }
 
+    //Переход на просмотр объявления
     private void sendData(Elements elements) {
         Intent i = new Intent(getActivity().getBaseContext(), ViewActivity.class);
 
@@ -163,6 +167,7 @@ public class Fragment2 extends Fragment implements SelectListenerElement{
         getActivity().startActivity(i);
     }
 
+    //Получение информации о пользователе
     private synchronized void threadGetUserData() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
         ref.addValueEventListener(new ValueEventListener() {
@@ -186,6 +191,7 @@ public class Fragment2 extends Fragment implements SelectListenerElement{
         });
     }
 
+    //Поиск объявлений на основе филтра
     private synchronized void threadSelectData(int filter){
         DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
         mDatabaseRef.addValueEventListener(new ValueEventListener() {

@@ -33,16 +33,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Load1 extends Fragment implements SelectListener {
+public class Load1 extends Fragment implements SelectListener {     //Ввод названия книги
 
-    private static final int MAX_RESULTS = 5;
+    private static final int MAX_RESULTS = 5;          //Количество подсказок
 
-    private String title;
-    private String author;
-    private List<Item> volumeInfoList;
-    private ApiService api;
-    private BooksAdapter adapter;
-    private RecyclerView recyclerView;
+    private String title;                              //Название книги
+    private String author;                             //Автор книги
+    private List<Item> volumeInfoList;                 //Подсказки по запросу
+    private ApiService api;                            //google books api
+    private BooksAdapter adapter;                      //Адаптер
+    private RecyclerView recyclerView;                 //Пролиствающийся список
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,7 +90,7 @@ public class Load1 extends Fragment implements SelectListener {
         });
     }
 
-
+    //Подсказки по названию
     private void doSearch(final String query) {
         Call<BookResponse> call = api.getMyJSON(query, MAX_RESULTS);
         call.enqueue(new Callback<BookResponse>() {
@@ -108,6 +108,7 @@ public class Load1 extends Fragment implements SelectListener {
         });
     }
 
+    //Выбор подсказки
     @Override
     public void onItemClicked(Item item) {
         EditText editText = getView().findViewById(R.id.autoCompleteTextEdit);
@@ -120,11 +121,13 @@ public class Load1 extends Fragment implements SelectListener {
         }
     }
 
+    //Создание адаптера
     public void setAdapters(){
         adapter = new BooksAdapter(volumeInfoList, this);
         try{ recyclerView.setAdapter(adapter); }catch (Exception ignored){ }
     }
 
+    //Поиск
     public void edit(Editable editable){
         doSearch(editable.toString());
         author = "";

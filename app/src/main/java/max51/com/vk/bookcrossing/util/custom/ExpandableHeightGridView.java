@@ -5,8 +5,8 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
-public class ExpandableHeightGridView extends GridView {
-    boolean expanded = false;
+public class ExpandableHeightGridView extends GridView {         //Кастомный gridview, который увеличивает размер в зависимости от количества элементов.
+    boolean expanded = false;                                    //Нужен для правильного отображения внутри recyclerview
 
     public ExpandableHeightGridView(Context context)
     {

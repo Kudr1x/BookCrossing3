@@ -18,7 +18,8 @@ import android.view.animation.LinearInterpolator;
 
 import max51.com.vk.bookcrossing.R;
 
-public class TabView extends View {
+public class TabView extends View {   //Кастомный tabview для фильтраии объявлений
+                                      //Взят с github https://github.com/Dsiner/TabView
     private int mWidth;
     private int mHeight;
 

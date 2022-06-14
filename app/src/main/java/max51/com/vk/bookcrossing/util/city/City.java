@@ -1,14 +1,11 @@
 package max51.com.vk.bookcrossing.util.city;
 
-public class City {
-    String city;
-    String region;
+public class City {      //Класс для подсказок при выборе города
+    private String city;        //Город
+    private String region;      //Регион
 
-    public City(){
 
-    }
-
-    public City(String city, String region) {
+    public City(String city, String region) {     //Конструктор
         this.city = city;
         this.region = region;
     }

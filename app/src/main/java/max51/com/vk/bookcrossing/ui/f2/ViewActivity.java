@@ -47,17 +47,17 @@ import max51.com.vk.bookcrossing.ui.chats.ChatActivity;
 import max51.com.vk.bookcrossing.ui.f1.EditActivity;
 import max51.com.vk.bookcrossing.util.User;
 
-public class ViewActivity extends AppCompatActivity {
-    private String name;
-    private String id;
-    private String fav;
-    private String newFav;
-    private String date;
-    private String uploadId;
-    private DatabaseReference mDatabaseRef;
-    private CheckBox favorite;
-    private Boolean flag;
-    private View view;
+public class ViewActivity extends AppCompatActivity {  //Просмотр объявления
+    private String name;             //Имя создателя объявлений
+    private String id;               //id
+    private String fav;              //id избранных объявлений текущего пользователя
+    private String newFav;           //Вспомогательная для хранения избранных id
+    private String date;             //Год издания
+    private String uploadId;         //id объявления
+    private DatabaseReference mDatabaseRef;  //База данных realtime
+    private CheckBox favorite;       //Добавление и удаление из избранного
+    private Boolean flag;            //Вспомогательная пременная
+    private View view;               //view
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +86,7 @@ public class ViewActivity extends AppCompatActivity {
         reportBt.setOnClickListener(view -> report());
     }
 
+    //Жалоба на объявление
     private void report() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -112,6 +113,7 @@ public class ViewActivity extends AppCompatActivity {
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
+    //Загрузка информации
     private void receiveData(){
         Intent i = getIntent();
         String title = i.getStringExtra("title");
@@ -135,6 +137,7 @@ public class ViewActivity extends AppCompatActivity {
 
         cityAndRegion.setText(region + ", " + city);
 
+        //Подгрузка фото пользователя
         StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("avatars/");
         StorageReference fileReference = mStorageRef.child(id + "." + "jpeg");
         fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -145,6 +148,7 @@ public class ViewActivity extends AppCompatActivity {
             }
         });
 
+        //Подгрузка имени пользователя
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -173,6 +177,7 @@ public class ViewActivity extends AppCompatActivity {
         Picasso.get().load(uri).fit().centerCrop().into(imageView);
     }
 
+    //Добавление и удаление из избранного
     private void changeFavorite(){
         if(favorite.isChecked() == flag){
             Map<String, Object> hasMap = new HashMap<>();
@@ -185,8 +190,8 @@ public class ViewActivity extends AppCompatActivity {
         }
     };
 
+    //Парсинг строки
     private void start(){
-        System.out.println(fav);
         String[] separated = fav.split("\\|");
         if(Arrays.asList(separated).contains(uploadId)){
             favorite.setChecked(true);
@@ -199,6 +204,7 @@ public class ViewActivity extends AppCompatActivity {
         }
     }
 
+    //Переход в личный чат с пользователем
     private void startChat(){
         Intent i = new Intent(ViewActivity.this, ChatActivity.class);
         i.putExtra("uid", id);

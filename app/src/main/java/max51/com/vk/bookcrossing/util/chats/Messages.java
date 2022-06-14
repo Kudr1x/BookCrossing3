@@ -1,14 +1,14 @@
 package max51.com.vk.bookcrossing.util.chats;
 
-public class Messages {
-    String message;
-    String senderId;
-    long timeStamp;
+public class Messages {       //Класс сообщений
+    private String message;   //Сообщение
+    private String senderId;  //id отправител
+    private long timeStamp;   //Время отправки
 
-    public Messages() {
+    public Messages() {  //Конструктор по умолчанию
     }
 
-    public Messages(String message, String senderId, long timeStamp) {
+    public Messages(String message, String senderId, long timeStamp) {   //Конструктор сообщений
         this.message = message;
         this.senderId = senderId;
         this.timeStamp = timeStamp;

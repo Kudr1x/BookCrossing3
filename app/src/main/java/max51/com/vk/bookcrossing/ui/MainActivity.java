@@ -14,7 +14,7 @@ import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.databinding.ActivityMainBinding;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {   //Активность для фрагментов главного интерфейса
 
     private ActivityMainBinding binding;
     public BottomNavigationView navView;

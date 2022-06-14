@@ -29,15 +29,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.util.User;
 
-public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> {
-    private List<ChatUserItem> list;
+public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> {  //Адаптер для просмотра всех диалогов
+    private List<ChatUserItem> list;                //Массив диалогов
 
-    private SelectListenerChat listener;
+    private SelectListenerChat listener;            //Слушаетль кликов
 
-    private String name;
-    private String status;
+    private String name;                            //Имя собеседника
+    private String status;                          //Статус собеседника. Онлайн или оффлайн
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {    //Конейнера
         public CardView main;
         public CircleImageView circleImageView;
         public TextView title;
@@ -57,7 +57,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
         }
     }
 
-    public ChatsAdapter(ArrayList<ChatUserItem> list, SelectListenerChat listener) {
+    public ChatsAdapter(ArrayList<ChatUserItem> list, SelectListenerChat listener) {   //Создание адаптера
         this.list = list;
         this.listener = listener;
     }
@@ -73,6 +73,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         ChatUserItem item = list.get(position);
 
+        //Получение фото из storage
         holder.title.setText(item.getName());
         StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("avatars/");
         StorageReference fileReference = mStorageRef.child(list.get(position).getId() + "." + "jpeg");
@@ -84,8 +85,8 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
             }
         });
 
+        //Получение статуса из бд
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
-
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -113,6 +114,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
 
         holder.lastMessage.setText(item.getLastMsg());
 
+        //Открытие диалога с пользователем
         holder.main.setOnClickListener(view -> {
             listener.onItemClicked(new ChatUserItem(list.get(position).id, holder.title.getText().toString()));
         });
@@ -121,8 +123,4 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
     public int getItemCount() {
         return list.size();
     }
-//    public void filteredList(List<Elements> filteredList) {
-//        mExampleList = filteredList;
-//        notifyDataSetChanged();
-//    }
 }

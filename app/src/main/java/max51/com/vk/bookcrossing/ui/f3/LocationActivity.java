@@ -35,14 +35,14 @@ import max51.com.vk.bookcrossing.util.city.City;
 import max51.com.vk.bookcrossing.util.city.CityAdapter;
 import max51.com.vk.bookcrossing.util.custom.LocationUtils;
 
-public class LocationActivity extends AppCompatActivity {
+public class LocationActivity extends AppCompatActivity {      //Смена города
 
-    private ArrayList<City> arrayList = new ArrayList<>();
-    private ArrayList<String> onlyCity = new ArrayList<>();
-    private ArrayList<String> onlyRegion = new ArrayList<>();
-    private View view;
-    private AutoCompleteTextView editText;
-    private DatabaseReference mDatabaseRef;
+    private ArrayList<City> arrayList = new ArrayList<>();     //Массив для подсказок
+    private ArrayList<String> onlyCity = new ArrayList<>();    //Массив городов
+    private ArrayList<String> onlyRegion = new ArrayList<>();  //Массив регионов
+    private View view;                                         //view
+    private AutoCompleteTextView editText;                     //Поле для подсказок
+    private DatabaseReference mDatabaseRef;                    //бд
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +66,17 @@ public class LocationActivity extends AppCompatActivity {
 
         ImageView gps = findViewById(R.id.gps);
 
+        //Сохранение города
         button.setOnClickListener(view -> saveCity(editText.getText().toString().trim()));
 
+        //Кнопочка назад
         back.setOnClickListener(view -> onBackPressed());
-        
+
+        //Поиск города по gps
         gps.setOnClickListener(view -> getCityGps());
     }
 
+    //Поиск города по gps
     private void getCityGps() {
         Location location = LocationUtils.getMyLocation(LocationActivity.this);
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
@@ -84,19 +88,18 @@ public class LocationActivity extends AppCompatActivity {
                 addresses = geocoder.getFromLocation(x, y, 1);
             }
             String city = addresses.get(0).getLocality();
-            Toast.makeText(this, (int) location.getLongitude()+"", Toast.LENGTH_SHORT).show();
             if(onlyCity.contains(city)){
                 editText.setText(city);
                 saveCity(city);
             }else {
-                System.out.println(city);
-                Snackbar.make(view, "Ошибка1", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(view, "Ошибка", Snackbar.LENGTH_LONG).show();
             }
         }catch (IOException e) {
-            Snackbar.make(view, "Ошибка2", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(view, "Ошибка", Snackbar.LENGTH_LONG).show();
         }
     }
 
+    //Провекра города и сохранение
     private void saveCity(String currentCity) {
         if(onlyCity.contains(currentCity)){
             Snackbar.make(view, "Изменения сохраненны", Snackbar.LENGTH_LONG).show();
@@ -109,6 +112,7 @@ public class LocationActivity extends AppCompatActivity {
         }
     }
 
+    //Перевод json в строку
     private String loadJSONFromAsset() {
         String json = null;
         try {
@@ -125,6 +129,7 @@ public class LocationActivity extends AppCompatActivity {
         return json;
     }
 
+    //Парсинг
     private void parser(String jsonString) {
         try {
             JSONArray obj = new JSONArray(jsonString);

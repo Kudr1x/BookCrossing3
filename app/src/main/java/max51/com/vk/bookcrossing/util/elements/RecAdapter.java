@@ -19,12 +19,12 @@ import java.util.List;
 
 import max51.com.vk.bookcrossing.R;
 
-public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ExampleViewHolder> {
-    private List<Elements> mExampleList;
-    private SelectListenerElement listener;
-    private Activity activity;
+public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ExampleViewHolder> {   //Адаптер прокручивающегося списка объявлений пользователя
+    private List<Elements> mExampleList;               //Массив объявлений
+    private SelectListenerElement listener;            //Слушатель кликов
+    private Activity activity;                         //Активность
 
-    public static class ExampleViewHolder extends RecyclerView.ViewHolder {
+    public static class ExampleViewHolder extends RecyclerView.ViewHolder {  //Контейнеры для информации
         public ImageView mImageView;
         public TextView mTextView1;
         public TextView mTextView2;
@@ -39,6 +39,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ExampleViewHolde
         }
     }
 
+    //Конструктор адаптера
     public RecAdapter(List<Elements> exampleList, SelectListenerElement listener, Activity activity) {
         mExampleList = exampleList;
         this.listener = listener;
@@ -57,6 +58,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ExampleViewHolde
         threadRec thread = new threadRec(activity, mExampleList, position, holder);
         thread.start();
 
+        //Слушатель кликов
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,12 +72,14 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.ExampleViewHolde
         return mExampleList.size();
     }
 
+    //Поиск по названию
     public void filteredList(List<Elements> filteredList) {
         mExampleList = filteredList;
         notifyDataSetChanged();
     }
 }
 
+//Загрузка информации в отдельном потоке
 class threadRec extends Thread{
 
     Activity activity;

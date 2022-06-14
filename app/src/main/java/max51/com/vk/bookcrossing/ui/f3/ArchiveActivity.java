@@ -31,15 +31,12 @@ import max51.com.vk.bookcrossing.util.elements.Elements;
 import max51.com.vk.bookcrossing.util.elements.RecAdapter;
 import max51.com.vk.bookcrossing.util.elements.SelectListenerElement;
 
+public class ArchiveActivity extends AppCompatActivity implements SelectListenerElement {    //Просмотр архивных объявлений
 
-public class ArchiveActivity extends AppCompatActivity implements SelectListenerElement {
-
-    private final ArrayList<Elements> elementsArrayList = new ArrayList<>();
-    private DatabaseReference mDatabaseRef;
-    private RecyclerView recyclerView;
-    private RecAdapter recAdapter;
-    private TextView textView;
-    private SearchView searchView;
+    private final ArrayList<Elements> elementsArrayList = new ArrayList<>();                //Массив объвлений
+    private DatabaseReference mDatabaseRef;                                                 //База данных
+    private RecyclerView recyclerView;                                                      //Прокручиваемый список
+    private RecAdapter recAdapter;                                                          //Адаптер
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +51,8 @@ public class ArchiveActivity extends AppCompatActivity implements SelectListener
         LinearLayoutManager layoutManager = new LinearLayoutManager(ArchiveActivity.this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
+        //Берём данные из бд
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
-
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -97,9 +94,11 @@ public class ArchiveActivity extends AppCompatActivity implements SelectListener
             }
         });
 
+        //Кнопочка назад
         back.setOnClickListener(view -> onBackPressed());
     }
 
+    //Поиск по названию
     private void filter(String newText) {
         List<Elements> filteredList = new ArrayList<>();
 
@@ -112,6 +111,7 @@ public class ArchiveActivity extends AppCompatActivity implements SelectListener
         recAdapter.filteredList(filteredList);
     }
 
+    //Преход в просмотр объявления
     @Override
     public void onItemClicked(Elements elements) {
         Intent i = new Intent(ArchiveActivity.this, EditActivity.class);
@@ -124,9 +124,11 @@ public class ArchiveActivity extends AppCompatActivity implements SelectListener
         i.putExtra("profileName", elements.getProfileName());
         i.putExtra("uploadId", elements.getUploadId());
         i.putExtra("archived", elements.getArchived());
+        i.putExtra("date", elements.getDate());
         this.startActivity(i);
     }
 
+    //Создание адаптера
     public void createAdapter(){
         recAdapter = new RecAdapter(elementsArrayList, this, this);
     }

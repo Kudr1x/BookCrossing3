@@ -27,18 +27,17 @@ import java.util.Calendar;
 
 import max51.com.vk.bookcrossing.R;
 
-public class Load4 extends Fragment {
+public class Load4 extends Fragment {  //Ввод даты издательства
 
-    String author;
-    String title;
-    String desk;
-    String id;
-    String y;
-    String m;
+    private String author;     //Автор
+    private String title;      //Название
+    private String desk;       //Описание
+    private String y;          //Текущий год
+    private String m;          //Текщий месяц
 
-    ImageView calendar;
-    EditText editDate;
-    Button next;
+    private ImageView calendar; //Картинка календаря
+    private EditText editDate;  //Ввод даты через клавиатуру
+    private Button next;        //Кнопоска дальше
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,6 +75,7 @@ public class Load4 extends Fragment {
             }
         };
 
+        //Добавить дату
         next.setOnClickListener(view1 -> {
             try {
                 String date = editDate.getText().toString();
@@ -97,8 +97,10 @@ public class Load4 extends Fragment {
 
         monthDatePickerDialog.setTitle("Выберите дату");
 
+        //Выбрать дату прокручиванием календаря
         calendar.setOnClickListener(view1 -> monthDatePickerDialog.show());
 
+        //Ввод даты через клавиатуру
         TextWatcher tw = new TextWatcher() {
             private String current = "";
             private String mmyyyy = "MMГГГГ";

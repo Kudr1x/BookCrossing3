@@ -15,10 +15,10 @@ import android.widget.EditText;
 
 import max51.com.vk.bookcrossing.R;
 
-public class Load2 extends Fragment {
+public class Load2 extends Fragment {   //Ввод автора
 
-    String author;
-    String title;
+    private String author;        //Автор
+    private String title;         //Название книги
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,6 +35,7 @@ public class Load2 extends Fragment {
         title = getArguments().getString("title");
         if(!author.isEmpty()) ed.setText(author);
 
+        //Ввод автора
         bt.setOnClickListener(view1 -> {
             author = ed.getText().toString();
             Bundle bundle = new Bundle();

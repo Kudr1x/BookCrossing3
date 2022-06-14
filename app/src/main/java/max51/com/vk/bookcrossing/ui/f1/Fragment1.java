@@ -31,14 +31,12 @@ import max51.com.vk.bookcrossing.util.elements.Elements;
 import max51.com.vk.bookcrossing.util.elements.RecAdapter;
 import max51.com.vk.bookcrossing.util.elements.SelectListenerElement;
 
-public class Fragment1 extends Fragment implements SelectListenerElement {
+public class Fragment1 extends Fragment implements SelectListenerElement {  //Просмотр собственных объявлений
 
-    private final ArrayList<Elements> elementsArrayList = new ArrayList<>();
-    private DatabaseReference mDatabaseRef;
-    private RecyclerView recyclerView;
-    private RecAdapter recAdapter;
-    private TextView textView;
-    private SearchView searchView;
+    private final ArrayList<Elements> elementsArrayList = new ArrayList<>();  //Массив объявлений
+    private DatabaseReference mDatabaseRef;                                   //База данных realtime
+    private RecyclerView recyclerView;                                        //Прокручиваемый список
+    private RecAdapter recAdapter;                                            //Адаптер
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,8 +55,8 @@ public class Fragment1 extends Fragment implements SelectListenerElement {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
+        //Находим все наши объявления
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
-
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -87,6 +85,7 @@ public class Fragment1 extends Fragment implements SelectListenerElement {
             }
         });
 
+        //Скрываем кнопочку при прокрутке
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
@@ -103,8 +102,10 @@ public class Fragment1 extends Fragment implements SelectListenerElement {
             }
         });
 
+        //Переход в создание объявления
         btLoad.setOnClickListener(view1 -> Navigation.findNavController(view).navigate(R.id.action_navigation_home_to_loadActivity));
 
+        //Поиск объвлений
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -119,6 +120,7 @@ public class Fragment1 extends Fragment implements SelectListenerElement {
         });
     }
 
+    //Фильтрация объявлений по названию
     private void filter(String newText) {
         List<Elements> filteredList = new ArrayList<>();
 
@@ -131,6 +133,7 @@ public class Fragment1 extends Fragment implements SelectListenerElement {
         recAdapter.filteredList(filteredList);
     }
 
+    //Переход в активность редактирования
     @Override
     public void onItemClicked(Elements elements) {
         Intent i = new Intent(getActivity().getBaseContext(), EditActivity.class);
@@ -145,6 +148,7 @@ public class Fragment1 extends Fragment implements SelectListenerElement {
         getActivity().startActivity(i);
     }
 
+    //Создание адаптера
     public void createAdapter(){
         recAdapter = new RecAdapter(elementsArrayList, this, getActivity());
     }

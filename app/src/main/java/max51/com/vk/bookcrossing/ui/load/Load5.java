@@ -41,25 +41,25 @@ import max51.com.vk.bookcrossing.util.User;
 import max51.com.vk.bookcrossing.util.elements.Elements;
 import max51.com.vk.bookcrossing.R;
 
-public class Load5 extends Fragment {
+public class Load5 extends Fragment {  //Загрузка фото
 
-    private Uri image;
-    private String title;
-    private String author;
-    private String desk;
-    private String id;
-    private String date;
-    private String city;
-    private String region;
+    private Uri image;         //Фото
+    private String title;      //Название
+    private String author;     //Автор
+    private String desk;       //Описание
+    private String id;         //id текущего пользователя
+    private String date;       //Датв издательсва
+    private String city;       //Город
+    private String region;     //Регион
 
-    private ImageView imageView;
-    private Button chose;
-    private Button next;
+    private ImageView imageView;   //Контейнер картинки
+    private Button chose;          //Кночка выбора источника
+    private Button next;           //Кнопка создать объвления
 
-    private StorageReference mStorageRef;
-    private DatabaseReference mDatabaseRef;
+    private StorageReference mStorageRef;   //stoage
+    private DatabaseReference mDatabaseRef;  //бд
 
-    private ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;  //Диалог загрузки
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -93,6 +93,7 @@ public class Load5 extends Fragment {
         next.setOnClickListener(view1 -> createPost());
     }
 
+    //Получение данных о пользователе
     private void getUserData() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
         ref.addValueEventListener(new ValueEventListener() {
@@ -112,15 +113,20 @@ public class Load5 extends Fragment {
         });
     }
 
+    //Получение фото
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         image = data.getData();
         Picasso.get().load(image).into(imageView);
 
-
+        //Тут должна была быть проверка фото с помощью mlKit. По фото мы получаем ярлыки с темами.
+        //Если изображение не проходит модерацию, то блокируется.
+        //Но google platfrom не принимает российскую карту для добавлений этой библиотеки
+        //Из за санкций. Добавлю как только можно будет
     }
 
+    //Выбор источника фото
     private void showChoicesDialog() {
         final Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -129,11 +135,13 @@ public class Load5 extends Fragment {
         Button btGall = dialog.findViewById(R.id.gallery);
         Button btCam = dialog.findViewById(R.id.cam);
 
+        //Фото из галереии
         btGall.setOnClickListener(view -> {
             ImagePicker.with(this).galleryOnly().crop().start();
             dialog.cancel();
         });
 
+        //Фото с камеры
         btCam.setOnClickListener(view -> {
             ImagePicker.with(this).cameraOnly().crop().start();
             dialog.cancel();
@@ -146,6 +154,7 @@ public class Load5 extends Fragment {
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
+    //Создание объявления
     private void createPost(){
         if(image != null){
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + "jpeg");

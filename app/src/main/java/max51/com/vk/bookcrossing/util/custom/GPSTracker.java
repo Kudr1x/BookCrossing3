@@ -19,8 +19,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-public class GPSTracker extends Service implements LocationListener {
-    // The minimum distance to change Updates in meters
+public class GPSTracker extends Service implements LocationListener {               //Класс определяющий местоположение. Запрашивает разрешение
+    // The minimum distance to change Updates in meters                             //найден в интернете
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
     // The minimum time between updates in milliseconds
     private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute

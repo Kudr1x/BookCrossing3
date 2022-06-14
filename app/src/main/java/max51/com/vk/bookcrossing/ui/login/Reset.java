@@ -18,9 +18,9 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import max51.com.vk.bookcrossing.R;
 
-public class Reset extends Fragment {
+public class Reset extends Fragment {   //Сброс пароля
 
-    FirebaseAuth auth;
+    FirebaseAuth auth;        //Firebase авторизация
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,8 +33,10 @@ public class Reset extends Fragment {
         Button button = view.findViewById(R.id.resetButton);
         ImageView back = view.findViewById(R.id.back);
 
+        //Кнопочка назад
         back.setOnClickListener(view1 -> getActivity().onBackPressed());
 
+        //Сброс пароля после проверки данных
         button.setOnClickListener(view1 -> {
 
             auth = FirebaseAuth.getInstance();

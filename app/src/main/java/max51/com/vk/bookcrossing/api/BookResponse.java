@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-public class BookResponse implements Serializable {
+public class BookResponse implements Serializable {    //Класс для получени информации
 
     @SerializedName("items")
     @Expose

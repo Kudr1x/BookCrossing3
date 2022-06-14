@@ -62,7 +62,7 @@
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -72,6 +72,5 @@
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="ica" />
-
     </application>
 </manifest>

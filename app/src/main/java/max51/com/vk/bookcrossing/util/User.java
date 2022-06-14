@@ -1,16 +1,17 @@
 package max51.com.vk.bookcrossing.util;
 
-public class User {
+public class User {      //Класс пользователя
 
-    public String name;
-    public String id;
-    public String favorite;
-    public String city;
-    public String region;
-    public String status;
+    public String name;         //Имя
+    public String id;           //id
+    public String favorite;     //Любимые объявления
+    public String city;         //Город
+    public String region;       //Регион
+    public String status;       //Статус онлайн или оффлайн
 
-    public User(){ }
+    public User(){ }             //Конструктор по умолчанию
 
+    //Конструктор
     public User(String name, String id, String favorite, String city, String region, String status) {
         this.name = name;
         this.id = id;

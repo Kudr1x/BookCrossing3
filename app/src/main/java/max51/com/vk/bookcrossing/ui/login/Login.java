@@ -3,6 +3,7 @@ package max51.com.vk.bookcrossing.ui.login;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,22 +11,31 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.annotations.Nullable;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import max51.com.vk.bookcrossing.R;
 
-public class Login extends Fragment{
+public class Login extends Fragment{  //Вход в аккаунт по почте и паролю
 
-    private FirebaseAuth mAuth;
-    private SharedPreferences sPref;
+    private FirebaseAuth mAuth;         //firebase авторизация
+    private SharedPreferences sPref;    //Сохранение данных
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,7 +43,7 @@ public class Login extends Fragment{
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();
         sPref = getContext().getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sPref.edit();
@@ -58,14 +68,16 @@ public class Login extends Fragment{
         EditText passwordEditText = getView().findViewById(R.id.editTextTextPassword);
         Button btLog = getView().findViewById(R.id.buttonLogin);
 
-
         TextView regText = getView().findViewById(R.id.reg);
         TextView restText = getView().findViewById(R.id.reset);
 
+        //Переход к востановлению пароля
         restText.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_login_to_reset));
 
+        //Переход к регистрации
         regText.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_login_to_register));
 
+        //Проверка вданных
         btLog.setOnClickListener(view12 -> {
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
@@ -94,6 +106,7 @@ public class Login extends Fragment{
                 return;
             }
 
+            //Вход
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if(task.isSuccessful()){
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -110,5 +123,6 @@ public class Login extends Fragment{
                 }
             });
         });
+
     }
 }

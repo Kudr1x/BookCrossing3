@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -38,16 +39,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.util.User;
 
-public class Fragment3 extends Fragment {
-
-    private Uri image;
-    private CircleImageView imageProfile;
-    private TextView tvName;
-    private TextView tvEmail;
-    private Button btOut;
-    private FirebaseUser user;
-    private StorageReference mStorageRef;
-    private String fav;
+public class Fragment3 extends Fragment {     //Профиль
+    private Uri image;                        //Фото пользователя
+    private CircleImageView imageProfile;     //Контейнер фото
+    private TextView tvName;                  //Поле для имя
+    private TextView tvEmail;                 //Поле для почты
+    private Button btOut;                     //Кнопка выхода
+    private FirebaseUser user;                //Пользователь
+    private StorageReference mStorageRef;     //fireabse storage
+    private String fav;                       //id любимых объявлений
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -76,28 +76,37 @@ public class Fragment3 extends Fragment {
         tvEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
         tvName.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
 
-        Uri userImage = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
-        if(userImage != null) Picasso.get().load(userImage).into(imageProfile);
+        getImage();
 
+        //Просмотр архивных объявлений
         archived.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_navigation_notifications_to_archiveActivity));
 
+        //Просмотр любимых объявлений
         favoriteActivity.setOnClickListener(view1 -> runFavoriteActivity());
 
+        //Загрузка нового фото
         imageProfile.setOnClickListener(view1 -> showChoicesDialog());
 
+        //Просмотр всех чатов
         info.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_navigation_notifications_to_allChatsActivity));
 
+        //Смена пароля
         changePassword.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_navigation_notifications_to_changePasswordActivity));
 
+        //Смена имени
         changeName.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_navigation_notifications_to_changeNameActivity));
 
+        //Смена фото
         changePhoto.setOnClickListener(view1 -> showChoicesDialog());
 
+        //Смена города
         city.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_navigation_notifications_to_locationActivity));
 
+        //Выход из аккаунта
         btOut.setOnClickListener(view1 -> showOutDialog());
     }
 
+    //СОхранение фото
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -112,6 +121,7 @@ public class Fragment3 extends Fragment {
         Picasso.get().load(image).into(imageProfile);
     }
 
+    //Выбор источника фото
     private void showChoicesDialog() {
         final Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -120,11 +130,13 @@ public class Fragment3 extends Fragment {
         Button btGall = dialog.findViewById(R.id.gallery);
         Button btCam = dialog.findViewById(R.id.cam);
 
+        //Фото из галереии
         btGall.setOnClickListener(view -> {
             ImagePicker.with(this).galleryOnly().crop().start();
             dialog.cancel();
         });
 
+        //Фото с камеры
         btCam.setOnClickListener(view -> {
             ImagePicker.with(this).cameraOnly().crop().start();
             dialog.cancel();
@@ -137,6 +149,7 @@ public class Fragment3 extends Fragment {
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
+    //Диалог выхода
     private void showOutDialog() {
         final Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -163,6 +176,7 @@ public class Fragment3 extends Fragment {
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
+    //Просмотр избранных объявлений
     private void runFavoriteActivity() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
 
@@ -188,9 +202,23 @@ public class Fragment3 extends Fragment {
         });
     }
 
+    //Выход из аккаунта
     private void exit(){
         FirebaseAuth.getInstance().signOut();
         Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_regActivity);
         getActivity().finish();
+    }
+
+    //Загрузка фото пользователя
+    private void getImage(){
+        StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("avatars/");
+        StorageReference fileReference = mStorageRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid() + "." + "jpeg");
+        fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                String urlProf = uri.toString();
+                Picasso.get().load(urlProf).fit().centerCrop().into(imageProfile);
+            }
+        });
     }
 }

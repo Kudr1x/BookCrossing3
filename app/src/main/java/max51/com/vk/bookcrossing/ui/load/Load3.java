@@ -14,11 +14,11 @@ import android.widget.EditText;
 
 import max51.com.vk.bookcrossing.R;
 
-public class Load3 extends Fragment {
+public class Load3 extends Fragment {  //Добавление описания
 
-    private String title;
-    private String author;
-    private String desk;
+    private String title;      //Название
+    private String author;     //Автор
+    private String desk;       //Описание
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,6 +34,7 @@ public class Load3 extends Fragment {
         author = getArguments().getString("author");
         title = getArguments().getString("title");
 
+        //Добавление описания
         next.setOnClickListener(view1 -> {
 
             desk = editText.getText().toString();

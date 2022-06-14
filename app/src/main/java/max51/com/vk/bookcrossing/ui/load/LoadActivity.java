@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import max51.com.vk.bookcrossing.R;
 
-public class LoadActivity extends AppCompatActivity {
+public class LoadActivity extends AppCompatActivity {  //Активность для фрагментов создания объявления
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

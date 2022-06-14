@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import max51.com.vk.bookcrossing.R;
 
-public class RegActivity extends AppCompatActivity {
+public class RegActivity extends AppCompatActivity {  //Активность для фрагментов регистрации, входа, сброса пароля
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -15,13 +15,14 @@ import java.util.List;
 
 import max51.com.vk.bookcrossing.R;
 
-public class VerticalAdapter extends BaseAdapter{
-    List<Elements>  element;
-    Context context;
-    Activity activity;
+public class VerticalAdapter extends BaseAdapter{           //Адаптер для gridview для просмотра остальных объявлений
+    private List<Elements>  element;         //Массив элементов
+    private Context context;                 //Контекст
+    private Activity activity;               //Активность
 
-    private SelectListenerElement listener;
+    private SelectListenerElement listener;  //Слушаетель кликов
 
+    //Конструктор
     public VerticalAdapter(List<Elements> element, Context context, SelectListenerElement listener, Activity activity) {
         this.element = element;
         this.context = context;
@@ -54,6 +55,7 @@ public class VerticalAdapter extends BaseAdapter{
         TextView author = view.findViewById(R.id.author);
         LinearLayout main = view.findViewById(R.id.main_linear);
 
+        //Слушатель кликов
         main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,12 +69,14 @@ public class VerticalAdapter extends BaseAdapter{
         return view;
     }
 
+    //Поиск по названию
     public void filteredList(List<Elements> filteredList){
         element = filteredList;
         notifyDataSetChanged();
     }
 }
 
+//Отдельный поток для загрузки информации
 class thread extends Thread{
 
     List<Elements> element;

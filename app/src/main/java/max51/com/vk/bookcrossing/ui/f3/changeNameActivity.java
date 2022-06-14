@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.ui.MainActivity;
 
-public class changeNameActivity extends AppCompatActivity {
+public class changeNameActivity extends AppCompatActivity {  //Имзенение имени пользователя
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,8 @@ public class changeNameActivity extends AppCompatActivity {
         EditText newName = findViewById(R.id.newName);
         ImageView back = findViewById(R.id.back);
         Button bt = findViewById(R.id.changeNm);
+
+
 
         bt.setOnClickListener(view -> {
             if(checkPsw.getText().toString().isEmpty()){
@@ -50,6 +52,7 @@ public class changeNameActivity extends AppCompatActivity {
 
             String psw = checkPsw.getText().toString();
 
+            //Проверка пароля и смена имени
             AuthCredential authCredential = EmailAuthProvider.getCredential(FirebaseAuth.getInstance().getCurrentUser().getEmail(), psw);
             FirebaseAuth.getInstance().getCurrentUser().reauthenticate(authCredential).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
@@ -79,6 +82,7 @@ public class changeNameActivity extends AppCompatActivity {
             });
         });
 
+        //Кнопочка назад
         back.setOnClickListener(view -> onBackPressed());
     }
 }

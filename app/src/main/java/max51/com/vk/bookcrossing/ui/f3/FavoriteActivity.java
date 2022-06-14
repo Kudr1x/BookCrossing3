@@ -30,15 +30,13 @@ import max51.com.vk.bookcrossing.util.elements.Elements;
 import max51.com.vk.bookcrossing.util.elements.RecAdapter;
 import max51.com.vk.bookcrossing.util.elements.SelectListenerElement;
 
-public class FavoriteActivity extends AppCompatActivity implements SelectListenerElement {
+public class FavoriteActivity extends AppCompatActivity implements SelectListenerElement {   //Просмотр избранных объявлений
 
-    private final ArrayList<Elements> elementsArrayList = new ArrayList<>();
-    private DatabaseReference mDatabaseRef;
-    private RecyclerView recyclerView;
-    private RecAdapter recAdapter;
-    private TextView textView;
-    private SearchView searchView;
-    private String fav;
+    private final ArrayList<Elements> elementsArrayList = new ArrayList<>();       //Массив объявлений
+    private DatabaseReference mDatabaseRef;                                        //бд
+    private RecyclerView recyclerView;                                             //Прокручиваемый список
+    private RecAdapter recAdapter;                                                 //Адаптер
+    private String fav;                                                            //id избраннных объявлений
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +59,7 @@ public class FavoriteActivity extends AppCompatActivity implements SelectListene
         System.out.println(fav);
         String[] separated = fav.split("\\|");
 
+        //Берём избранные объявления из бд
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -89,6 +88,7 @@ public class FavoriteActivity extends AppCompatActivity implements SelectListene
             }
         });
 
+        //Поиск по названию
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -102,9 +102,11 @@ public class FavoriteActivity extends AppCompatActivity implements SelectListene
             }
         });
 
+        //Кнопочка назад
         back.setOnClickListener(view -> onBackPressed());
     }
 
+    //Поиск по названию
     private void filter(String newText) {
         List<Elements> filteredList = new ArrayList<>();
 
@@ -117,6 +119,7 @@ public class FavoriteActivity extends AppCompatActivity implements SelectListene
         recAdapter.filteredList(filteredList);
     }
 
+    //переход в просмотр и редактирование
     @Override
     public void onItemClicked(Elements elements) {
         Intent i = new Intent(FavoriteActivity.this, ViewActivity.class);
@@ -131,6 +134,7 @@ public class FavoriteActivity extends AppCompatActivity implements SelectListene
         this.startActivity(i);
     }
 
+    //Создание адаптера
     public void createAdapter(){
         recAdapter = new RecAdapter(elementsArrayList, this, this);
     }

@@ -43,17 +43,17 @@ import max51.com.vk.bookcrossing.util.city.City;
 import max51.com.vk.bookcrossing.util.city.CityAdapter;
 import max51.com.vk.bookcrossing.util.custom.LocationUtils;
 
-public class Register extends Fragment {
+public class Register extends Fragment {      //Фрагмент регистрации
 
-    private ArrayList<City> arrayList = new ArrayList<>();
-    private ArrayList<String> onlyCity = new ArrayList<>();
-    private ArrayList<String> onlyRegion = new ArrayList<>();
-    private AutoCompleteTextView editText;
-    private String city;
-    private String region;
-    private EditText emailEditText;
-    private EditText passwordEditText;
-    private EditText nameEditText;
+    private ArrayList<City> arrayList = new ArrayList<>();       //Массив для подсказок
+    private ArrayList<String> onlyCity = new ArrayList<>();      //Массив городов
+    private ArrayList<String> onlyRegion = new ArrayList<>();    //Массив регионов
+    private AutoCompleteTextView editText;                       //Подсказки
+    private String city;                                         //Город
+    private String region;                                       //Регион
+    private EditText emailEditText;                              //Ввод почты
+    private EditText passwordEditText;                           //Ввод пароля
+    private EditText nameEditText;                               //Ввод имени
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,6 +85,7 @@ public class Register extends Fragment {
         btReg.setOnClickListener(view1 -> getRegData());
     }
 
+    //Поиск города по gps
     private void getCityGps() {
         Location location = LocationUtils.getMyLocation((AppCompatActivity) getContext());
         Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
@@ -99,7 +100,6 @@ public class Register extends Fragment {
             if(onlyCity.contains(city)){
                 editText.setText(city);
             }else {
-                System.out.println(city);
                 Snackbar.make(getView(), "Ошибка", Snackbar.LENGTH_LONG).show();
             }
         }catch (IOException e) {
@@ -107,6 +107,7 @@ public class Register extends Fragment {
         }
     }
 
+    //Преобразование json
     private String loadJSONFromAsset() {
         String json = null;
         try {
@@ -123,6 +124,7 @@ public class Register extends Fragment {
         return json;
     }
 
+    //парсинг json
     private void parser(String jsonString) {
         try {
             JSONArray obj = new JSONArray(jsonString);
@@ -137,6 +139,7 @@ public class Register extends Fragment {
         }
     }
 
+    //Проверка введёных данных
     private void getRegData(){
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
@@ -185,6 +188,7 @@ public class Register extends Fragment {
         createUser(email, password, name);
     }
 
+    //Создание пользователя
     private void createUser(String email, String password, String name){
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {

@@ -25,21 +25,18 @@ import max51.com.vk.bookcrossing.util.chats.ChatUserItem;
 import max51.com.vk.bookcrossing.util.chats.ChatsAdapter;
 import max51.com.vk.bookcrossing.util.chats.SelectListenerChat;
 
-public class AllChatsActivity extends AppCompatActivity implements SelectListenerChat {
+public class AllChatsActivity extends AppCompatActivity implements SelectListenerChat {  //Все чаты
 
-    String yourId;
-    String otherId;
-    String lastMsg;
-
-    FirebaseDatabase database;
-    RecyclerView recyclerView;
-    ImageView back;
-    ArrayList<ChatUserItem> chats = new ArrayList<>();
-    ArrayList<String> chats1 = new ArrayList<>();
-
-    SelectListenerChat selectListenerChat;
-
-    ChatsAdapter chatsAdapter;
+    private String yourId;                                          //Свой id
+    private String otherId;                                         //Чужой id
+    private String lastMsg;                                         //Последнее сообщение
+    private FirebaseDatabase database;                              //бд
+    private RecyclerView recyclerView;                              //Пролистывающийся список
+    private ImageView back;                                         //Кнопка назад
+    private ArrayList<ChatUserItem> chats = new ArrayList<>();      //Массив чатов
+    private ArrayList<String> chats1 = new ArrayList<>();           //Массив id пользователей
+    private SelectListenerChat selectListenerChat;                  //Слушатель кликов
+    private ChatsAdapter chatsAdapter;                              //Адаптер
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +54,7 @@ public class AllChatsActivity extends AppCompatActivity implements SelectListene
 
         database = FirebaseDatabase.getInstance();
 
+        //Поиск всех чатов текущего пользователя
         DatabaseReference ChatReference = database.getReference().child("chats");
         ChatReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -89,9 +87,11 @@ public class AllChatsActivity extends AppCompatActivity implements SelectListene
             public void onCancelled(@NonNull DatabaseError error) {}
         });
 
+        //Кнопочка назад
         back.setOnClickListener(view -> onBackPressed());
     }
 
+    //Открытие диалога
     @Override
     public void onItemClicked(ChatUserItem item) {
         Intent i = new Intent(AllChatsActivity.this, ChatActivity.class);
@@ -100,6 +100,7 @@ public class AllChatsActivity extends AppCompatActivity implements SelectListene
         startActivity(i);
     }
 
+    //меняет статус в сети пользователь или нет
     private void setStatus(String status){
         Map<String, Object> hasMap = new HashMap<>();
         hasMap.put("status", status);
@@ -107,24 +108,28 @@ public class AllChatsActivity extends AppCompatActivity implements SelectListene
         mDatabaseRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(hasMap);
     }
 
+    //Смена статуса
     @Override
     protected void onResume() {
         super.onResume();
         setStatus("online");
     }
 
+    //Смена статуса
     @Override
     protected void onPause() {
         super.onPause();
         setStatus("offline");
     }
 
+    //Смена статуса
     @Override
     protected void onDestroy() {
         super.onDestroy();
         setStatus("offline");
     }
 
+    //Смена статуса
     @Override
     protected void onStop() {
         super.onStop();

@@ -43,28 +43,27 @@ import java.util.Map;
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.ui.MainActivity;
 
-public class EditActivity extends AppCompatActivity {
+public class EditActivity extends AppCompatActivity {    //Изменение собственных объявлений
 
-    private String title;
-    private String author;
-    private String desk;
-    private String urif;
-    private String id;
-    private String date;
-    private String uploadId;
-    private String uri;
-    private String y;
-    private String m;
-    private Uri image;
-    private Boolean arch;
+    private String title;                   //Заголовок
+    private String author;                  //Автор
+    private String desk;                    //Описание
+    private String urif;                    //Фото из объявления
+    private String id;                      //id Пользователя
+    private String date;                    //Год издания
+    private String uploadId;                //id
+    private String y;                       //Текущий год
+    private String m;                       //Текущий месяц
+    private Uri image;                      //Фото
+    private Boolean arch;                   //Проверка на архивность
 
-    private EditText titleText;
-    private EditText authorText;
-    private EditText dateText;
-    private TextView deskText;
-    private ImageView imageView;
-    private DatabaseReference mDatabaseRef;
-    private StorageReference mStorageRef;
+    private EditText titleText;             //Контейнер заголовка
+    private EditText authorText;            //Контейнер автора
+    private EditText dateText;              //Контейнер даты
+    private TextView deskText;              //Контейнер описания
+    private ImageView imageView;            //Контейнер фото
+    private DatabaseReference mDatabaseRef; //База данных Realtime
+    private StorageReference mStorageRef;   //Storage
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,18 +80,19 @@ public class EditActivity extends AppCompatActivity {
         ImageView btArch = findViewById(R.id.archive);
         ImageView calendar = findViewById(R.id.calendarEdit);
 
-        getData();
-
         Drawable drawable = getResources().getDrawable(R.drawable.unarchive);
 
+        getData();
+
+        //Проверя на архивность
         if(arch) btArch.setImageDrawable(drawable);
 
+        //Берём теущий текущую дату
         String timeStamp = new SimpleDateFormat("yyyyMM").format(Calendar.getInstance().getTime());
         y = timeStamp.substring(0,4);
         m = timeStamp.substring(4,6);
 
-        uri = urif;
-
+        //Заполняем все поля и фото
         titleText.setText(title);
         authorText.setText(author);
         deskText.setText(desk);
@@ -101,21 +101,28 @@ public class EditActivity extends AppCompatActivity {
 
         dateText.setText(date.substring(0,2) + date.substring(3,7));
 
+        //Смена фотографии
         imageView.setOnClickListener(view1 -> showChoicesDialog());
 
+        //Применить сохранение
         btSave.setOnClickListener(view1 -> {
             save();
             if(checkDate()) Snackbar.make(view1, "Изменения сохраненны", Snackbar.LENGTH_LONG).show();
             else Snackbar.make(view1, "Не верные данные", Snackbar.LENGTH_LONG).show();
         });
 
+
+        //Удалить объявление
         btDel.setOnClickListener(view1 -> showDelDialog());
 
+        //Убрать изобъявление из общего доступа (перенести в архив)
         btArch.setOnClickListener(view -> showArhDialog());
 
+        //Изменение даты
         calendar.setOnClickListener(view -> calendar());
     }
 
+    //Получить информацию из активности
     private void getData() {
         Intent i = getIntent();
         author = i.getStringExtra("author");
@@ -128,6 +135,8 @@ public class EditActivity extends AppCompatActivity {
         arch = i.getBooleanExtra("archived", false);
     }
 
+
+    //Проверка правильности ввода даты
     private void textWatcher(){
         TextWatcher tw = new TextWatcher() {
             private String current = "";
@@ -183,6 +192,7 @@ public class EditActivity extends AppCompatActivity {
         dateText.addTextChangedListener(tw);
     }
 
+    //Подтверждение переноса объявления в архив
     private void showArhDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -215,6 +225,7 @@ public class EditActivity extends AppCompatActivity {
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
+    //Сохранение изменений
     private void save() {
         if(checkDate()){
             mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
@@ -228,6 +239,7 @@ public class EditActivity extends AppCompatActivity {
         }
     }
 
+    //Сохраняем новое фото
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -253,6 +265,7 @@ public class EditActivity extends AppCompatActivity {
         });
     }
 
+    //Выбор откуда брать новую фотографию
     private void showChoicesDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -261,11 +274,13 @@ public class EditActivity extends AppCompatActivity {
         Button btGall = dialog.findViewById(R.id.gallery);
         Button btCam = dialog.findViewById(R.id.cam);
 
+        //Из галереии
         btGall.setOnClickListener(view -> {
             ImagePicker.with(this).galleryOnly().crop().start();
             dialog.cancel();
         });
 
+        //С камеры
         btCam.setOnClickListener(view -> {
             ImagePicker.with(this).cameraOnly().crop().start();
             dialog.cancel();
@@ -278,6 +293,7 @@ public class EditActivity extends AppCompatActivity {
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
+    //Подтверждение удаления
     private void showDelDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -323,6 +339,7 @@ public class EditActivity extends AppCompatActivity {
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
+    //Выбор даты через прокрутку календаря
     private void calendar(){
         DatePickerDialog monthDatePickerDialog = new DatePickerDialog(EditActivity.this,
                 AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
@@ -343,6 +360,7 @@ public class EditActivity extends AppCompatActivity {
         monthDatePickerDialog.show();
     }
 
+    //Проверка даты
     private boolean checkDate(){
         try {
             String date = dateText.getText().toString();

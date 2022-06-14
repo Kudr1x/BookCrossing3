@@ -1,17 +1,17 @@
 package max51.com.vk.bookcrossing.util.elements;
 
-public class Elements {
-    public String title;
-    public String author;
-    public String desk;
-    public String uri;
-    public String id;
-    public String date;
-    public String uploadId;
-    public String profileName;
-    public Boolean archived;
-    private String city;
-    private String region;
+public class Elements {                   //Класс объявлений
+    public String title;                  //Название
+    public String author;                 //Автор
+    public String desk;                   //Описание
+    public String uri;                    //Фото
+    public String id;                     //id создателя
+    public String date;                   //Дата издетельства
+    public String uploadId;               //id объявения
+    public String profileName;            //Имя создателя
+    public Boolean archived;              //Проверка на архивность
+    private String city;                  //Город
+    private String region;                //Регион
 
     public String getUploadId() {
         return uploadId;
@@ -61,10 +61,6 @@ public class Elements {
         this.id = id;
     }
 
-    public Elements(){
-
-    }
-
     public String getProfileName() {
         return profileName;
     }
@@ -109,6 +105,11 @@ public class Elements {
         this.region = region;
     }
 
+    public Elements(){        //Конструктор по умолчанию
+
+    }
+
+    //Конструктор
     public Elements(String title, String author, String desk, String uri, String id, String uploadId, String profileName, Boolean archived, String date, String city, String region) {
         this.title = title;
         this.author = author;

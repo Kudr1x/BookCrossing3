@@ -21,7 +21,7 @@ import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.ui.MainActivity;
 import max51.com.vk.bookcrossing.ui.f1.Fragment1;
 
-public class changePasswordActivity extends AppCompatActivity {
+public class changePasswordActivity extends AppCompatActivity {  //Смена пароля
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,7 @@ public class changePasswordActivity extends AppCompatActivity {
 
             String oldPsw = ed1.getText().toString();
 
+            //Проверка пароля и его смена
             AuthCredential authCredential = EmailAuthProvider.getCredential(FirebaseAuth.getInstance().getCurrentUser().getEmail(), oldPsw);
             FirebaseAuth.getInstance().getCurrentUser().reauthenticate(authCredential).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
@@ -83,6 +84,7 @@ public class changePasswordActivity extends AppCompatActivity {
             });
         });
 
+        //Кнопочка назад
         im.setOnClickListener(view -> onBackPressed());
     }
 }
