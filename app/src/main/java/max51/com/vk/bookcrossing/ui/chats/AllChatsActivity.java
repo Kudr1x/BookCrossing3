@@ -114,25 +114,4 @@ public class AllChatsActivity extends AppCompatActivity implements SelectListene
         super.onResume();
         setStatus("online");
     }
-
-    //Смена статуса
-    @Override
-    protected void onPause() {
-        super.onPause();
-        setStatus("offline");
-    }
-
-    //Смена статуса
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        setStatus("offline");
-    }
-
-    //Смена статуса
-    @Override
-    protected void onStop() {
-        super.onStop();
-        setStatus("offline");
-    }
 }

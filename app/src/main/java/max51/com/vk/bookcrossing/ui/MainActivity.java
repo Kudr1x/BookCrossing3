@@ -10,6 +10,13 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.databinding.ActivityMainBinding;
 
@@ -40,5 +47,19 @@ public class MainActivity extends AppCompatActivity {   //Активность �
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
 
         NavigationUI.setupWithNavController(binding.navView, navController);
+    }
+
+    private void setStatus(String status){
+        Map<String, Object> hasMap = new HashMap<>();
+        hasMap.put("status", status);
+        DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference("Users");
+        mDatabaseRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(hasMap);
+    }
+
+    //Смена статуса
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setStatus("offline");
     }
 }
