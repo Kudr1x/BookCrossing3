@@ -56,7 +56,6 @@ public class FavoriteActivity extends AppCompatActivity implements SelectListene
 
         Intent i = getIntent();
         fav = i.getStringExtra("fav");
-        System.out.println(fav);
         String[] separated = fav.split("\\|");
 
         //Берём избранные объявления из бд

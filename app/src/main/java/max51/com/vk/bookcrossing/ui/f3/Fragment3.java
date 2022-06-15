@@ -187,7 +187,6 @@ public class Fragment3 extends Fragment {     //Профиль
                     User user = postSnapshot.getValue(User.class);
                     if(user.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
                         fav = user.getFavorite();
-                        System.out.println(fav);
                         try {
                             Intent i = new Intent(getActivity().getBaseContext(), FavoriteActivity.class);
                             i.putExtra("fav", fav);

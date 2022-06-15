@@ -78,8 +78,6 @@ public class Register extends Fragment {      //Фрагмент регистр�
         CityAdapter adapter = new CityAdapter(getContext(), arrayList);
         editText.setAdapter(adapter);
 
-        System.out.println(arrayList.size());
-
         gps.setOnClickListener(view1 -> getCityGps());
 
         btReg.setOnClickListener(view1 -> getRegData());
@@ -102,8 +100,8 @@ public class Register extends Fragment {      //Фрагмент регистр�
             }else {
                 Snackbar.make(getView(), "Ошибка", Snackbar.LENGTH_LONG).show();
             }
-        }catch (IOException e) {
-            Snackbar.make(getView(), "Ошибка", Snackbar.LENGTH_LONG).show();
+        }catch (Exception e) {
+            Snackbar.make(getView(), "Разрешите приложению определять местоположение", Snackbar.LENGTH_LONG).show();
         }
     }
 

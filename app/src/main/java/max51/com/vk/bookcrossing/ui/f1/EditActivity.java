@@ -322,8 +322,8 @@ public class EditActivity extends AppCompatActivity {    //Изменение с
                 }
 
                 @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    System.out.println(databaseError.toString());
+                public void onCancelled(DatabaseError e) {
+
                 }
             });
 

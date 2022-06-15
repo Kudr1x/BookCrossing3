@@ -94,8 +94,8 @@ public class LocationActivity extends AppCompatActivity {      //Смена го
             }else {
                 Snackbar.make(view, "Ошибка", Snackbar.LENGTH_LONG).show();
             }
-        }catch (IOException e) {
-            Snackbar.make(view, "Ошибка", Snackbar.LENGTH_LONG).show();
+        }catch (Exception e) {
+            Snackbar.make(view, "Разрешите приложению определять местоположение", Snackbar.LENGTH_LONG).show();
         }
     }
 

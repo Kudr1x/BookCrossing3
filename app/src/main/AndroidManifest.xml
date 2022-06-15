@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
+        android:screenOrientation="portrait"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
@@ -18,36 +19,46 @@
         android:theme="@style/Theme.BookCrossing"
         android:usesCleartextTraffic="true">
         <activity
+            android:noHistory="true"
             android:name=".ui.f3.LocationActivity"
             android:exported="false" />
         <activity
+            android:noHistory="true"
             android:name=".ui.chats.AllChatsActivity"
             android:exported="false" />
         <activity
+            android:noHistory="true"
             android:name=".ui.f3.ArchiveActivity"
             android:exported="false" />
         <activity
+            android:noHistory="true"
             android:name=".ui.chats.ChatActivity"
             android:exported="false" />
         <activity
+            android:noHistory="true"
             android:name=".ui.f1.EditActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
+            android:noHistory="true"
             android:name=".ui.f3.FavoriteActivity"
             android:exported="false" />
         <activity
+            android:noHistory="true"
             android:name=".ui.f2.ViewActivity"
             android:exported="false" />
         <activity
+            android:noHistory="true"
             android:name=".ui.f3.changeNameActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
+            android:noHistory="true"
             android:name=".ui.f3.changePasswordActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
         <activity
+            android:noHistory="true"
             android:name=".ui.load.LoadActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
