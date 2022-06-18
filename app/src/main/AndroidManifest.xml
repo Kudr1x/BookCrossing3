@@ -58,7 +58,6 @@
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:noHistory="true"
             android:name=".ui.load.LoadActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
