@@ -1,5 +1,11 @@
 package max51.com.vk.bookcrossing.ui.login;
 
+import static max51.com.vk.bookcrossing.util.encription.ECC.getKeyPair;
+import static max51.com.vk.bookcrossing.util.encription.ECC.getPrivateKey;
+import static max51.com.vk.bookcrossing.util.encription.ECC.getPublicKey;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -30,6 +36,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.KeyPair;
+import java.security.interfaces.ECPrivateKey;
+import java.security.interfaces.ECPublicKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +46,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import max51.com.vk.bookcrossing.R;
-import max51.com.vk.bookcrossing.ui.f3.LocationActivity;
 import max51.com.vk.bookcrossing.util.User;
 import max51.com.vk.bookcrossing.util.city.City;
 import max51.com.vk.bookcrossing.util.city.CityAdapter;
@@ -54,6 +62,10 @@ public class Register extends Fragment {      //Фрагмент регистр�
     private EditText emailEditText;                              //Ввод почты
     private EditText passwordEditText;                           //Ввод пароля
     private EditText nameEditText;                               //Ввод имени
+    private String publicKey;
+    private String privetKey;
+    private SharedPreferences sPref;    //Сохранение данных
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,6 +85,9 @@ public class Register extends Fragment {      //Фрагмент регистр�
         back.setOnClickListener(view1 -> getActivity().onBackPressed());
 
         parser(loadJSONFromAsset());
+
+        keyGeneration();
+        keySave();
 
         editText = getView().findViewById(R.id.autoComp);
         CityAdapter adapter = new CityAdapter(getContext(), arrayList);
@@ -191,7 +206,7 @@ public class Register extends Fragment {      //Фрагмент регистр�
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
-                User user = new User(name, FirebaseAuth.getInstance().getCurrentUser().getUid(), "start", city, region, "offline");
+                User user = new User(name, FirebaseAuth.getInstance().getCurrentUser().getUid(), "start", city, region, "offline", publicKey);
                 FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnCompleteListener(task1 -> {
                     if(task1.isSuccessful()){
                         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -207,5 +222,23 @@ public class Register extends Fragment {      //Фрагмент регистр�
                 Snackbar.make(getView(), "Ошибка", Snackbar.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void keyGeneration(){
+        try {
+            KeyPair keyPair=getKeyPair();
+            publicKey = getPublicKey(keyPair);
+            privetKey = getPrivateKey(keyPair);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void keySave(){
+        sPref = getContext().getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sPref.edit();
+        editor.putString("publicKey", publicKey);
+        editor.putString("privateKey", privetKey);
+        editor.apply();
     }
 }

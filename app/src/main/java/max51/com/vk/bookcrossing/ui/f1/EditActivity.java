@@ -24,7 +24,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +39,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.shubh.superiortoastlibrary.SuperiorToast;
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.ui.MainActivity;
 
@@ -107,8 +107,20 @@ public class EditActivity extends AppCompatActivity {    //Изменение с
         //Применить сохранение
         btSave.setOnClickListener(view1 -> {
             save();
-            if(checkDate()) Snackbar.make(view1, "Изменения сохраненны", Snackbar.LENGTH_LONG).show();
-            else Snackbar.make(view1, "Не верные данные", Snackbar.LENGTH_LONG).show();
+            if(checkDate()) {
+                SuperiorToast.makeSuperiorToast(getApplicationContext(),
+                                "Изменения сохраненны")
+                        .setToastIcon(getResources().getDrawable(R.drawable.save_color))
+                        .setColorToLeftVerticleStrip("#219BCC")
+                        .showWithSimpleAnimation((ViewGroup) getWindow().getDecorView().getRootView() , SuperiorToast.ANIMATION_SLIDE_BOTTOM_ENTRY_EXIT);
+            }
+            else {
+                SuperiorToast.makeSuperiorToast(getApplicationContext(),
+                                "Не верные данные")
+                        .setToastIcon(getResources().getDrawable(R.drawable.warning))
+                        .setColorToLeftVerticleStrip("#219BCC")
+                        .showWithSimpleAnimation((ViewGroup) getWindow().getDecorView().getRootView() , SuperiorToast.ANIMATION_SLIDE_BOTTOM_ENTRY_EXIT);
+            }
         });
 
 
@@ -370,7 +382,11 @@ public class EditActivity extends AppCompatActivity {    //Изменение с
             temp = Integer.parseInt(testYear);
             return true;
         }catch (Exception e){
-            Snackbar.make(getWindow().getDecorView().findViewById(android.R.id.content), "Введите корректную дату", Snackbar.LENGTH_LONG).show();
+            SuperiorToast.makeSuperiorToast(getApplicationContext(),
+                            "Введите корректную дату")
+                    .setToastIcon(getResources().getDrawable(R.drawable.warning))
+                    .setColorToLeftVerticleStrip("#219BCC")
+                    .showWithSimpleAnimation((ViewGroup) getWindow().getDecorView().getRootView() , SuperiorToast.ANIMATION_SLIDE_BOTTOM_ENTRY_EXIT);
             return false;
         }
     }

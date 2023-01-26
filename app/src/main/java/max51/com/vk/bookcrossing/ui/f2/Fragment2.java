@@ -152,7 +152,7 @@ public class Fragment2 extends Fragment implements SelectListenerElement{   //Т
     //Переход на просмотр объявления
     private void sendData(Elements elements) {
         Intent i = new Intent(getActivity().getBaseContext(), ViewActivity.class);
-
+        i.putExtra("key", elements.getKey());
         i.putExtra("fav", fav);
         i.putExtra("city", elements.getCity());
         i.putExtra("region", elements.getRegion());
@@ -217,7 +217,7 @@ public class Fragment2 extends Fragment implements SelectListenerElement{   //Т
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                System.out.println(error.getMessage());
             }
         });
     }

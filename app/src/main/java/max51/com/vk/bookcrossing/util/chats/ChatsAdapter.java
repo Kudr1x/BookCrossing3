@@ -35,7 +35,6 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
     private SelectListenerChat listener;            //Слушаетль кликов
 
     private String name;                            //Имя собеседника
-    private String status;                          //Статус собеседника. Онлайн или оффлайн
 
     public static class ViewHolder extends RecyclerView.ViewHolder {    //Конейнера
         public CardView main;
@@ -43,17 +42,12 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
         public TextView title;
         public TextView lastMessage;
 
-        public CircleImageView online;
-        public CircleImageView offline;
-
         public ViewHolder(View itemView) {
             super(itemView);
             main = itemView.findViewById(R.id.main);
             circleImageView = itemView.findViewById(R.id.chatImage);
             title = itemView.findViewById(R.id.titleChat);
             lastMessage = itemView.findViewById(R.id.lastMessage);
-            online = itemView.findViewById(R.id.statusOnline);
-            offline = itemView.findViewById(R.id.statusOffline);
         }
     }
 
@@ -74,36 +68,35 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
         ChatUserItem item = list.get(position);
 
         //Получение фото из storage
-        holder.title.setText(item.getName());
-        StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("avatars/");
-        StorageReference fileReference = mStorageRef.child(list.get(position).getId() + "." + "jpeg");
-        fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                String urlProf = uri.toString();
-                Picasso.get().load(urlProf).fit().centerCrop().into(holder.circleImageView);
-            }
-        });
+        try {
+            holder.title.setText(item.getName());
+            StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("avatars/");
+            StorageReference fileReference = mStorageRef.child(list.get(position).getId() + ".jpeg");
+            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    String urlProf = uri.toString();
+                    Picasso.get().load(urlProf).fit().centerCrop().into(holder.circleImageView);
+                }
+            });
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
 
-        //Получение статуса из бд
+        //Получение данных из бд
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
                     User user = postSnapshot.getValue(User.class);
-                    if(user.getId().equals(list.get(position).getId())){
-                        name = user.getName();
-                        holder.title.setText(name);
-
-                        status = user.getStatus();
-
-                        System.out.println(status);
-                        if(Objects.equals(status, "online")){
-                            holder.online.setVisibility(View.VISIBLE);
-                        }else{
-                            holder.offline.setVisibility(View.VISIBLE);
+                    try {
+                        if(Objects.equals(user.getId(), list.get(position).getId())){
+                            name = user.getName();
+                            holder.title.setText(name);
                         }
+                    }catch (Exception ignore){
+
                     }
                 }
             }

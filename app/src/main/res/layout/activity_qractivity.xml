@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.f3.QRActivity">
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/info"
+        android:id="@+id/info"/>
+
+    <ImageView
+        android:id="@+id/keyImage"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.194" />
+
+    <com.prush.bndrsntchtimer.BndrsntchTimer
+        android:id="@+id/timer"
+        android:layout_width="200dp"
+        android:layout_height="8dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/keyImage" />
+
+    <TextView
+        android:id="@+id/keyTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timer" />
+
+    <Button
+        android:id="@+id/setKey"
+        android:layout_width="120dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="36dp"
+        android:text="Считать  ключ"
+        app:layout_constraintEnd_toStartOf="@+id/newKey"
+        app:layout_constraintStart_toEndOf="@+id/showKey"
+        app:layout_constraintTop_toBottomOf="@+id/keyTxt" />
+
+    <Button
+        android:text="Показать ключ"
+        android:id="@+id/showKey"
+        android:layout_width="120dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/keyTxt" />
+
+    <Button
+        android:text="Создать новый ключ"
+        android:id="@+id/newKey"
+        android:layout_width="120dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/keyTxt" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

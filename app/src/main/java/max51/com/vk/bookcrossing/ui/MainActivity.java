@@ -1,9 +1,16 @@
 package max51.com.vk.bookcrossing.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -17,24 +24,35 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.shubh.superiortoastlibrary.SuperiorToast;
+import io.shubh.superiortoastlibrary.SuperiorToastWithHeadersPreDesigned;
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.databinding.ActivityMainBinding;
-
+import max51.com.vk.bookcrossing.ui.f3.Fragment3;
 
 public class MainActivity extends AppCompatActivity {   //Активность для фрагментов главного интерфейса
 
     private ActivityMainBinding binding;
     public BottomNavigationView navView;
+    private SharedPreferences sPref;    //Сохранение данных
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        View view = findViewById(android.R.id.content).getRootView();
+        sPref = this.getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
+
         Intent i = getIntent();
         boolean flag = i.getBooleanExtra("flag", false);
+        View view = findViewById(android.R.id.content).getRootView();
+
         if(flag){
-            Snackbar.make(view, "Изменения сохранены", Snackbar.LENGTH_LONG).show();
+            SuperiorToast.makeSuperiorToast(getApplicationContext(), "Изменения сохраненны")
+                    .setToastIcon(getResources().getDrawable(R.drawable.done))
+                    .setColorToLeftVerticleStrip("#219BCC")
+                    .showWithSimpleAnimation((ViewGroup) view, SuperiorToast.ANIMATION_SLIDE_LEFT_RIGHT_ENTRY_EXIT)
+                    .show();
         }
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -47,19 +65,5 @@ public class MainActivity extends AppCompatActivity {   //Активность �
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
 
         NavigationUI.setupWithNavController(binding.navView, navController);
-    }
-
-    private void setStatus(String status){
-        Map<String, Object> hasMap = new HashMap<>();
-        hasMap.put("status", status);
-        DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference("Users");
-        mDatabaseRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).updateChildren(hasMap);
-    }
-
-    //Смена статуса
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setStatus("offline");
     }
 }

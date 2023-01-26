@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="max51.com.vk.bookcrossing">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="max51.com.vk.bookcrossing"
+    tools:ignore="ExtraText">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,53 +11,60 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:screenOrientation="portrait"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/logo"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.BookCrossing"
         android:usesCleartextTraffic="true">
         <activity
-            android:noHistory="true"
+            android:name=".ui.f3.QRActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ui.f3.LocationActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:noHistory="true" />
         <activity
-            android:noHistory="true"
             android:name=".ui.chats.AllChatsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:noHistory="true" />
         <activity
-            android:noHistory="true"
             android:name=".ui.f3.ArchiveActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:noHistory="true" />
         <activity
-            android:noHistory="true"
             android:name=".ui.chats.ChatActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:noHistory="true" />
         <activity
-            android:noHistory="true"
             android:name=".ui.f1.EditActivity"
             android:exported="false"
+            android:noHistory="true"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:noHistory="true"
             android:name=".ui.f3.FavoriteActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:noHistory="true" />
         <activity
-            android:noHistory="true"
             android:name=".ui.f2.ViewActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:noHistory="true" />
         <activity
-            android:noHistory="true"
             android:name=".ui.f3.changeNameActivity"
             android:exported="false"
+            android:noHistory="true"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:noHistory="true"
             android:name=".ui.f3.changePasswordActivity"
             android:exported="true"
+            android:noHistory="true"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.load.LoadActivity"
@@ -72,10 +81,12 @@
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
             android:value="label" />
@@ -83,4 +94,5 @@
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="ica" />
     </application>
+
 </manifest>

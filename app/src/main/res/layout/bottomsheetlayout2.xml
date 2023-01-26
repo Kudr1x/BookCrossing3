@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_bg">
+
+    <ImageView
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:src="@drawable/key_color"
+        android:layout_gravity="center"/>
+
+    <ImageView
+        android:layout_gravity="right"
+        android:id="@+id/close"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:justificationMode="inter_word"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        app:layout_constraintTop_toBottomOf="@+id/close"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="15dp"
+        android:text="      В данном приложение используется шифрования с публичным ключом curve25519 для осуществления полной безопасности ваших переписок внутри приложения."
+        android:textSize="18sp"/>
+
+</LinearLayout>

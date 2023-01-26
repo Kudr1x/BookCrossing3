@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -77,7 +76,7 @@ public class ArchiveActivity extends AppCompatActivity implements SelectListener
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ArchiveActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                System.out.println(error.getMessage());
             }
         });
 

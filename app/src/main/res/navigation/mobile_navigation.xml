@@ -43,9 +43,6 @@
             android:id="@+id/action_navigation_notifications_to_changeNameActivity"
             app:destination="@id/changeNameActivity" />
         <action
-            android:id="@+id/action_navigation_notifications_to_infoActivity"
-            app:destination="@id/infoActivity" />
-        <action
             android:id="@+id/action_navigation_notifications_to_favoriteActivity"
             app:destination="@id/favoriteActivity" />
         <action
@@ -57,6 +54,9 @@
         <action
             android:id="@+id/action_navigation_notifications_to_locationActivity"
             app:destination="@id/locationActivity" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_QRActivity"
+            app:destination="@id/QRActivity" />
     </fragment>
     <activity
         android:id="@+id/loadActivity"
@@ -93,11 +93,6 @@
         android:label="activity_change_name"
         tools:layout="@layout/activity_change_name" />
     <activity
-        android:id="@+id/infoActivity"
-        android:name="max51.com.vk.bookcrossing.ui.f3.InfoActivity"
-        android:label="activity_info"
-        tools:layout="@layout/activity_info" />
-    <activity
         android:id="@+id/favoriteActivity"
         android:name="max51.com.vk.bookcrossing.ui.f3.FavoriteActivity"
         android:label="activity_favorite"
@@ -117,5 +112,10 @@
         android:name="max51.com.vk.bookcrossing.ui.f3.LocationActivity"
         android:label="activity_location"
         tools:layout="@layout/activity_location" />
+    <activity
+        android:id="@+id/QRActivity"
+        android:name="max51.com.vk.bookcrossing.ui.f3.QRActivity"
+        android:label="activity_qractivity"
+        tools:layout="@layout/activity_qractivity" />
 
 </navigation>

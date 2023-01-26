@@ -12,6 +12,15 @@ public class Elements {                   //Класс объявлений
     public Boolean archived;              //Проверка на архивность
     private String city;                  //Город
     private String region;                //Регион
+    private String key;
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public String getUploadId() {
         return uploadId;
@@ -110,7 +119,7 @@ public class Elements {                   //Класс объявлений
     }
 
     //Конструктор
-    public Elements(String title, String author, String desk, String uri, String id, String uploadId, String profileName, Boolean archived, String date, String city, String region) {
+    public Elements(String title, String author, String desk, String uri, String id, String uploadId, String profileName, Boolean archived, String date, String city, String region, String key) {
         this.title = title;
         this.author = author;
         this.desk = desk;
@@ -122,5 +131,6 @@ public class Elements {                   //Класс объявлений
         this.date = date;
         this.city = city;
         this.region = region;
+        this.key = key;
     }
 }

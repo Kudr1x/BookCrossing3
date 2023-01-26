@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.concurrent.TimeUnit;
 
+import io.shubh.superiortoastlibrary.SuperiorToast;
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.ui.MainActivity;
 
@@ -70,7 +72,11 @@ public class changeNameActivity extends AppCompatActivity {  //Имзенени�
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Snackbar.make(view, "Ошибка", Snackbar.LENGTH_LONG).show();
+                            SuperiorToast.makeSuperiorToast(getApplicationContext(),
+                                            "Ошибка")
+                                    .setToastIcon(getResources().getDrawable(R.drawable.warning))
+                                    .setColorToLeftVerticleStrip("#219BCC")
+                                    .showWithSimpleAnimation((ViewGroup) getWindow().getDecorView().getRootView() , SuperiorToast.ANIMATION_SLIDE_BOTTOM_ENTRY_EXIT);
                         }
                     });
                 }

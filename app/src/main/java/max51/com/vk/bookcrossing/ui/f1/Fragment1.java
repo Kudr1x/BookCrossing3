@@ -1,6 +1,15 @@
 package max51.com.vk.bookcrossing.ui.f1;
 
+import static android.content.Intent.getIntent;
+
+import static max51.com.vk.bookcrossing.util.encription.ECC.sign;
+import static max51.com.vk.bookcrossing.util.encription.ECC.string2PrivateKey;
+import static max51.com.vk.bookcrossing.util.encription.ECC.string2PublicKey;
+import static max51.com.vk.bookcrossing.util.encription.ECC.verify;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +21,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,11 +37,15 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import max51.com.vk.bookcrossing.R;
+import max51.com.vk.bookcrossing.ui.f3.Fragment3;
+import max51.com.vk.bookcrossing.util.User;
 import max51.com.vk.bookcrossing.util.elements.Elements;
 import max51.com.vk.bookcrossing.util.elements.RecAdapter;
 import max51.com.vk.bookcrossing.util.elements.SelectListenerElement;
+import max51.com.vk.bookcrossing.util.encription.ECC;
 
 public class Fragment1 extends Fragment implements SelectListenerElement {  //Просмотр собственных объявлений
 
@@ -37,6 +53,8 @@ public class Fragment1 extends Fragment implements SelectListenerElement {  //П
     private DatabaseReference mDatabaseRef;                                   //База данных realtime
     private RecyclerView recyclerView;                                        //Прокручиваемый список
     private RecAdapter recAdapter;                                            //Адаптер
+    private SharedPreferences sPref;    //Сохранение данных
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,6 +72,12 @@ public class Fragment1 extends Fragment implements SelectListenerElement {  //П
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
+
+        sPref = getContext().getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
+
+        getKey();
+
+        clearKey();
 
         //Находим все наши объявления
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
@@ -130,7 +154,9 @@ public class Fragment1 extends Fragment implements SelectListenerElement {  //П
             }
         }
 
-        recAdapter.filteredList(filteredList);
+        if(!filteredList.isEmpty()){
+            recAdapter.filteredList(filteredList);
+        }
     }
 
     //Переход в активность редактирования
@@ -151,5 +177,48 @@ public class Fragment1 extends Fragment implements SelectListenerElement {  //П
     //Создание адаптера
     public void createAdapter(){
         recAdapter = new RecAdapter(elementsArrayList, this, getActivity());
+    }
+
+    private void getKey() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        ref.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
+                    User user = postSnapshot.getValue(User.class);
+                    if(user.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                        SharedPreferences.Editor editor = sPref.edit();
+                        editor.putString("publicKey", user.getPublicKey());
+                        editor.apply();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
+
+    private boolean checkKey(){
+        if(!sPref.getString("privateKey", "").equals("")){
+            try {
+                byte[] arr = sign("testKey", string2PrivateKey(sPref.getString("privateKey", "")));
+                return verify("testKey", arr, string2PublicKey(sPref.getString("publicKey", "")));
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+                return false;
+            }
+        }
+        return false;
+    }
+
+    private void clearKey(){
+        if(!checkKey()){
+            SharedPreferences.Editor editor = sPref.edit();
+            editor.putString("privateKey", "");
+            editor.apply();
+        }
     }
 }

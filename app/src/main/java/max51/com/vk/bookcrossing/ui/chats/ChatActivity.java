@@ -1,5 +1,11 @@
 package max51.com.vk.bookcrossing.ui.chats;
 
+import static max51.com.vk.bookcrossing.util.encription.ECC.decrypt;
+import static max51.com.vk.bookcrossing.util.encription.ECC.encrypt;
+import static max51.com.vk.bookcrossing.util.encription.ECC.string2PrivateKey;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,11 +28,15 @@ import com.google.firebase.database.ValueEventListener;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.util.chats.Messages;
 import max51.com.vk.bookcrossing.util.chats.MessagesAdapter;
+import max51.com.vk.bookcrossing.util.encription.ECC;
 
 public class ChatActivity extends AppCompatActivity {  //Чат с пользователем
 
@@ -49,10 +59,21 @@ public class ChatActivity extends AppCompatActivity {  //Чат с пользо�
 
     private MessagesAdapter adapter;                  //Адаптер
 
+    private SharedPreferences sPref;    //Сохранение данных
+    private String publicKey;
+    private String privateKey;
+    private String key;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        sPref = this.getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
+
+        publicKey = sPref.getString("publicKey", "");
+        privateKey = sPref.getString("privateKey", "");
 
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -65,6 +86,7 @@ public class ChatActivity extends AppCompatActivity {  //Чат с пользо�
 
         name = getIntent().getStringExtra("name");
         reciverId = getIntent().getStringExtra("uid");
+        key = getIntent().getStringExtra("key");
 
         txtName.setText(name);
 
@@ -81,6 +103,7 @@ public class ChatActivity extends AppCompatActivity {  //Чат с пользо�
         senderRoom = senderId + reciverId;
         reciverRoom = reciverId + senderId;
 
+
         //Поиск сообщений
         DatabaseReference ChatReference = database.getReference().child("chats").child(senderRoom).child("messages");
         ChatReference.addValueEventListener(new ValueEventListener() {
@@ -89,7 +112,12 @@ public class ChatActivity extends AppCompatActivity {  //Чат с пользо�
                 messagesArrayList.clear();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Messages messages = dataSnapshot.getValue(Messages.class);
-                    messagesArrayList.add(messages);
+                    try {
+                        messagesArrayList.add(new Messages(new String(decrypt(messages.getMessage(), string2PrivateKey(privateKey))), messages.getSenderId(), messages.getTimeStamp()));
+                        messageAdapter.scrollToPosition(messagesArrayList.size() - 1);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -111,25 +139,34 @@ public class ChatActivity extends AppCompatActivity {  //Чат с пользо�
             editMessage.setText("");
             Date date = new Date();
 
-            Messages messages = new Messages(message, senderId, date.getTime());
+            Messages messagesSender = new Messages(getSenderText(message), senderId, date.getTime());
+            Messages messagesReciver = new Messages(getReciverText(message), senderId, date.getTime());
 
             database = FirebaseDatabase.getInstance();
             database.getReference().child("chats")
                     .child(senderRoom)
                     .child("messages")
                     .push()
-                    .setValue(messages)
+                    .setValue(messagesSender)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             database.getReference().child("chats")
                                     .child(reciverRoom)
                                     .child("messages")
-                                    .push().setValue(messages).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    .push()
+                                    .setValue(messagesReciver)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            database.getReference().child("chats").child(senderRoom).child("LastMessage").setValue(message);
-                                            database.getReference().child("chats").child(reciverRoom).child("LastMessage").setValue(message);
+                                            Map<String, Object> hasMap = new HashMap<>();
+                                            hasMap.put("LastMessage", messagesSender);
+                                            database.getReference().child("chats").child(senderRoom).updateChildren(hasMap);
+                                            hasMap.clear();
+                                            hasMap.put("LastMessage", messagesReciver);
+                                            database.getReference().child("chats").child(reciverRoom).updateChildren(hasMap);
+//                                            database.getReference().child("chats").child(senderRoom).child("LastMessage").setValue(messagesSender);
+//                                            database.getReference().child("chats").child(reciverRoom).child("LastMessage").setValue(messagesReciver);
                                         }
                                     });
                         }
@@ -139,4 +176,23 @@ public class ChatActivity extends AppCompatActivity {  //Чат с пользо�
         //Кнопочка назад
         back.setOnClickListener(view -> onBackPressed());
     }
+
+    private String getSenderText(String message){
+        try {
+            byte[] cipherTxt = encrypt(message.getBytes(), ECC.string2PublicKey(publicKey));
+            return Base64.getEncoder().encodeToString(cipherTxt);
+        }catch (Exception e){
+            return e.getMessage();
+        }
+    }
+
+    private String getReciverText(String message){
+        try {
+            byte[] cipherTxt = encrypt(message.getBytes(), ECC.string2PublicKey(key));
+            return Base64.getEncoder().encodeToString(cipherTxt);
+        }catch (Exception e){
+            return e.getMessage();
+        }
+    }
+
 }

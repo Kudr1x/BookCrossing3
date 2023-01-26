@@ -37,6 +37,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 import max51.com.vk.bookcrossing.util.User;
 import max51.com.vk.bookcrossing.util.elements.Elements;
 import max51.com.vk.bookcrossing.R;
@@ -51,6 +53,7 @@ public class Load5 extends Fragment {  //Загрузка фото
     private String date;       //Датв издательсва
     private String city;       //Город
     private String region;     //Регион
+    private String key;
 
     private ImageView imageView;   //Контейнер картинки
     private Button chose;          //Кночка выбора источника
@@ -101,9 +104,10 @@ public class Load5 extends Fragment {  //Загрузка фото
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
                     User user = postSnapshot.getValue(User.class);
-                    if(user.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                    if(Objects.equals(user.getId(), FirebaseAuth.getInstance().getCurrentUser().getUid())){
                         city = user.getCity();
                         region = user.getRegion();
+                        key = user.getPublicKey();
                     }
                 }
             }
@@ -167,7 +171,7 @@ public class Load5 extends Fragment {  //Загрузка фото
                         public void onSuccess(Uri uri) {
                             String url = uri.toString();
                             String uploadId = mDatabaseRef.push().getKey();
-                            Elements elements = new Elements(title, author, desk, url, id, uploadId, FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), false, date, city, region);
+                            Elements elements = new Elements(title, author, desk, url, id, uploadId, FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), false, date, city, region, key);
                             mDatabaseRef.child(uploadId).setValue(elements);
                             //todo
                         }

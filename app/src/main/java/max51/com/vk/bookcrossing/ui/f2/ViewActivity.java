@@ -4,13 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
@@ -21,7 +22,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,22 +32,19 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.shubh.superiortoastlibrary.SuperiorToast;
 import max51.com.vk.bookcrossing.R;
-import max51.com.vk.bookcrossing.ui.MainActivity;
 import max51.com.vk.bookcrossing.ui.chats.ChatActivity;
-import max51.com.vk.bookcrossing.ui.f1.EditActivity;
 import max51.com.vk.bookcrossing.util.User;
 
 public class ViewActivity extends AppCompatActivity {  //Просмотр объявления
+    private String key;
     private String name;             //Имя создателя объявлений
     private String id;               //id
     private String fav;              //id избранных объявлений текущего пользователя
@@ -57,7 +54,7 @@ public class ViewActivity extends AppCompatActivity {  //Просмотр объ
     private DatabaseReference mDatabaseRef;  //База данных realtime
     private CheckBox favorite;       //Добавление и удаление из избранного
     private Boolean flag;            //Вспомогательная пременная
-    private View view;               //view
+    private SharedPreferences sPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +62,12 @@ public class ViewActivity extends AppCompatActivity {  //Просмотр объ
         setContentView(R.layout.activity_view);
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Users");
+        sPref = getApplicationContext().getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
 
         ImageView openInfo = findViewById(R.id.openInfo);
         ImageView back = findViewById(R.id.backBlack);
         Button reportBt = findViewById(R.id.report);
         favorite = findViewById(R.id.favorite);
-
-        view = getWindow().getDecorView().findViewById(android.R.id.content);
 
         receiveData();
 
@@ -126,6 +122,7 @@ public class ViewActivity extends AppCompatActivity {  //Просмотр объ
         id = i.getStringExtra("id");
         uploadId = i.getStringExtra("uploadId");
         date = i.getStringExtra("date");
+        key = i.getStringExtra("key");
 
         TextView cityAndRegion = findViewById(R.id.cityAndRegion);
         TextView titleText = findViewById(R.id.viewTitle);
@@ -155,7 +152,8 @@ public class ViewActivity extends AppCompatActivity {  //Просмотр объ
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
                     User user = postSnapshot.getValue(User.class);
-                    if(user.id.equals(id)){
+                    assert user != null;
+                    if(Objects.equals(user.id, id)){
                         name = user.getName();
                         nameView.setText(name);
                     }
@@ -167,7 +165,6 @@ public class ViewActivity extends AppCompatActivity {  //Просмотр объ
                 Toast.makeText(getBaseContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
 
         titleText.setText(title + ", " + date);
         authorText.setText(author);
@@ -206,9 +203,22 @@ public class ViewActivity extends AppCompatActivity {  //Просмотр объ
 
     //Переход в личный чат с пользователем
     private void startChat(){
-        Intent i = new Intent(ViewActivity.this, ChatActivity.class);
-        i.putExtra("uid", id);
-        i.putExtra("name", name);
-        startActivity(i);
+        if(sPref.getString("privateKey", "").equals("")){
+            viewToast();
+        }else{
+            Intent i = new Intent(ViewActivity.this, ChatActivity.class);
+            i.putExtra("uid", id);
+            i.putExtra("name", name);
+            i.putExtra("key", key);
+            startActivity(i);
+        }
+    }
+
+    private void viewToast() {
+        SuperiorToast.makeSuperiorToast(getApplicationContext(),
+                        "Нет ключа шфирования")
+                .setToastIcon(getResources().getDrawable(R.drawable.warning))
+                .setColorToLeftVerticleStrip("#219BCC")
+                .showWithSimpleAnimation((ViewGroup) getWindow().getDecorView().getRootView() ,SuperiorToast.ANIMATION_SLIDE_BOTTOM_ENTRY_EXIT);
     }
 }

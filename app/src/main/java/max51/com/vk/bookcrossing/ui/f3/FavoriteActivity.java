@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import io.shubh.superiortoastlibrary.SuperiorToast;
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.ui.f2.ViewActivity;
 import max51.com.vk.bookcrossing.util.elements.Elements;
@@ -83,7 +85,12 @@ public class FavoriteActivity extends AppCompatActivity implements SelectListene
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(FavoriteActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                SuperiorToast.makeSuperiorToast(getApplicationContext(),
+                                error.getMessage())
+                        .setToastIcon(getResources().getDrawable(R.drawable.warning))
+                        .setColorToLeftVerticleStrip("#219BCC")
+                        .showWithSimpleAnimation((ViewGroup) getWindow().getDecorView().getRootView() , SuperiorToast.ANIMATION_SLIDE_BOTTOM_ENTRY_EXIT);
+
             }
         });
 

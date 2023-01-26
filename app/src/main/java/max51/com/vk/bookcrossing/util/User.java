@@ -8,17 +8,27 @@ public class User {      //Класс пользователя
     public String city;         //Город
     public String region;       //Регион
     public String status;       //Статус онлайн или оффлайн
+    public String publicKey;       //Статус онлайн или оффлайн
 
     public User(){ }             //Конструктор по умолчанию
 
     //Конструктор
-    public User(String name, String id, String favorite, String city, String region, String status) {
+    public User(String name, String id, String favorite, String city, String region, String status, String publicKey) {
         this.name = name;
         this.id = id;
         this.favorite = favorite;
         this.city = city;
         this.region = region;
         this.status = "offline";
+        this.publicKey = publicKey;
+    }
+
+    public String getPublicKey() {
+        return publicKey;
+    }
+
+    public void setPublicKey(String publicKey) {
+        this.publicKey = publicKey;
     }
 
     public String getStatus() {

@@ -1,7 +1,9 @@
 package max51.com.vk.bookcrossing.ui.f3;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -14,15 +16,18 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -35,7 +40,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+import java.util.concurrent.Executor;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.shubh.superiortoastlibrary.SuperiorToast;
 import max51.com.vk.bookcrossing.R;
 import max51.com.vk.bookcrossing.util.User;
 
@@ -48,6 +57,8 @@ public class Fragment3 extends Fragment {     //Профиль
     private FirebaseUser user;                //Пользователь
     private StorageReference mStorageRef;     //fireabse storage
     private String fav;                       //id любимых объявлений
+    private SharedPreferences sPref;
+    private BiometricManager biometricManager;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,6 +73,8 @@ public class Fragment3 extends Fragment {     //Профиль
         tvName = view.findViewById(R.id.textName);
         imageProfile = view.findViewById(R.id.imageProfile);
 
+        biometricManager = BiometricManager.from(getContext());
+
         ConstraintLayout changePassword = view.findViewById(R.id.changePassword);
         ConstraintLayout changeName = view.findViewById(R.id.changeName);
         ConstraintLayout changePhoto = view.findViewById(R.id.changePhoto);
@@ -69,6 +82,9 @@ public class Fragment3 extends Fragment {     //Профиль
         ConstraintLayout info = view.findViewById(R.id.info);
         ConstraintLayout archived = view.findViewById(R.id.archived);
         ConstraintLayout city = view.findViewById(R.id.changeCity);
+        ConstraintLayout keyImport = view.findViewById(R.id.keyImport);
+
+        sPref = getContext().getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("avatars/");
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -88,7 +104,7 @@ public class Fragment3 extends Fragment {     //Профиль
         imageProfile.setOnClickListener(view1 -> showChoicesDialog());
 
         //Просмотр всех чатов
-        info.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_navigation_notifications_to_allChatsActivity));
+        info.setOnClickListener(view1 -> openDialogs());
 
         //Смена пароля
         changePassword.setOnClickListener(view1 -> Navigation.findNavController(view1).navigate(R.id.action_navigation_notifications_to_changePasswordActivity));
@@ -104,6 +120,70 @@ public class Fragment3 extends Fragment {     //Профиль
 
         //Выход из аккаунта
         btOut.setOnClickListener(view1 -> showOutDialog());
+
+        keyImport.setOnClickListener(view1 -> check());
+    }
+
+    private void openDialogs(){
+        if(sPref.getString("privateKey", "").equals("")){
+            viewToast();
+        }else{
+            Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_allChatsActivity);
+        }
+    }
+
+    private void viewToast() {
+        SuperiorToast.makeSuperiorToast(getContext(),
+                        "Нет ключа шфирования")
+                .setToastIcon(getResources().getDrawable(R.drawable.warning))
+                .setColorToLeftVerticleStrip("#219BCC")
+                .showWithSimpleAnimation((ViewGroup) getActivity().getWindow().getDecorView().getRootView() ,SuperiorToast.ANIMATION_SLIDE_BOTTOM_ENTRY_EXIT);
+    }
+
+    private void check() {
+        if (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG) == BiometricManager.BIOMETRIC_SUCCESS) {
+            attemptBiometricAuth();
+        } else {
+            Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_QRActivity);
+        }
+    }
+
+    private void attemptBiometricAuth() {
+        Executor executor = ContextCompat.getMainExecutor(getContext());
+        BiometricPrompt.AuthenticationCallback callback = getAuthenticationCallback();
+        BiometricPrompt biometricPrompt = new BiometricPrompt(this, executor, callback);
+        BiometricPrompt.PromptInfo promptInfo = getPromptInfo("Аутенфикация", "Пожалуйста, подтвердите свою личность", "", true);
+        biometricPrompt.authenticate(promptInfo);
+    }
+
+    private BiometricPrompt.AuthenticationCallback getAuthenticationCallback() {
+        return new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                Snackbar.make(getView(), "Доступ получен", Snackbar.LENGTH_SHORT).show();
+                Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_QRActivity);
+                super.onAuthenticationSucceeded(result);
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+            }
+        };
+    }
+
+    private BiometricPrompt.PromptInfo getPromptInfo(String title, String subtitle, String description, boolean isDeviceCredentialAllowed) {
+        return new BiometricPrompt.PromptInfo.Builder()
+                .setTitle(title)
+                .setSubtitle(subtitle)
+                .setDescription(description)
+                .setDeviceCredentialAllowed(isDeviceCredentialAllowed)
+                .build();
     }
 
     //СОхранение фото
@@ -206,6 +286,9 @@ public class Fragment3 extends Fragment {     //Профиль
         FirebaseAuth.getInstance().signOut();
         Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_regActivity);
         getActivity().finish();
+        SharedPreferences.Editor editor = sPref.edit();
+        editor.clear();
+        editor.apply();
     }
 
     //Загрузка фото пользователя

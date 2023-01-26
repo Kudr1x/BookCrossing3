@@ -1,6 +1,7 @@
 package max51.com.vk.bookcrossing.ui.login;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -21,16 +25,15 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.Nullable;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.RemoteMessage;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import max51.com.vk.bookcrossing.R;
+import max51.com.vk.bookcrossing.ui.f3.FavoriteActivity;
+import max51.com.vk.bookcrossing.util.User;
 
 public class Login extends Fragment{  //Вход в аккаунт по почте и паролю
 
@@ -123,6 +126,29 @@ public class Login extends Fragment{  //Вход в аккаунт по почт
                 }
             });
         });
-
     }
+
+    private void getKey() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        ref.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
+                    User user = postSnapshot.getValue(User.class);
+                    if(user.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                        SharedPreferences.Editor editor = sPref.edit();
+                        editor.putString("publicKey", user.getPublicKey());
+                        Toast.makeText(getContext(), user.getPublicKey(), Toast.LENGTH_SHORT).show();
+                        editor.apply();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
+
 }

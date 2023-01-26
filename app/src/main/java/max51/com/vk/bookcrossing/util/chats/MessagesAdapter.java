@@ -1,6 +1,10 @@
 package max51.com.vk.bookcrossing.util.chats;
 
+import static max51.com.vk.bookcrossing.util.encription.ECC.decrypt;
+import static max51.com.vk.bookcrossing.util.encription.ECC.string2PrivateKey;
+
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,30 +54,39 @@ public class MessagesAdapter extends RecyclerView.Adapter {   //Адаптер �
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Messages messages = messagesArrayList.get(position);
 
-        if(holder.getClass() == SenderViewHolder.class){
-            SenderViewHolder viewHolder = (SenderViewHolder) holder;
-            viewHolder.textView.setText(messages.getMessage());
-            StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("avatars/");
-            StorageReference fileReference = mStorageRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid() + "." + "jpeg");
-            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    String urlProf = uri.toString();
-                    Picasso.get().load(urlProf).fit().centerCrop().into(viewHolder.imageView);
-                }
-            });
-        }else {
-            ReciverViewHolder viewHolder = (ReciverViewHolder) holder;
-            viewHolder.textView.setText(messages.getMessage());
-            StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("avatars/");
-            StorageReference fileReference = mStorageRef.child(messages.getSenderId() + "." + "jpeg");
-            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    String urlProf = uri.toString();
-                    Picasso.get().load(urlProf).fit().centerCrop().into(viewHolder.imageView);
-                }
-            });
+        try {
+            if(holder.getClass() == SenderViewHolder.class){
+                SenderViewHolder viewHolder = (SenderViewHolder) holder;
+//            try {
+//                viewHolder.textView.setText(new String(decrypt(messages.getMessage(), string2PrivateKey(privateKey))));
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+                viewHolder.textView.setText(messages.getMessage());
+                StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("avatars/");
+                StorageReference fileReference = mStorageRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid() + "." + "jpeg");
+                fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        String urlProf = uri.toString();
+                        Picasso.get().load(urlProf).fit().centerCrop().into(viewHolder.imageView);
+                    }
+                });
+            }else {
+                ReciverViewHolder viewHolder = (ReciverViewHolder) holder;
+                viewHolder.textView.setText(messages.getMessage());
+                StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("avatars/");
+                StorageReference fileReference = mStorageRef.child(messages.getSenderId() + "." + "jpeg");
+                fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        String urlProf = uri.toString();
+                        Picasso.get().load(urlProf).fit().centerCrop().into(viewHolder.imageView);
+                    }
+                });
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
 
